@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Gridea</title>
-    <updated>2021-01-13T07:13:45.903Z</updated>
+    <updated>2021-01-18T02:38:00.419Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,4 +10,306 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[【2021学习计划】]]></title>
+        <id>https://jgduan.github.io/post/2021-xue-xi-ji-hua/</id>
+        <link href="https://jgduan.github.io/post/2021-xue-xi-ji-hua/">
+        </link>
+        <updated>2021-01-18T02:30:11.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="时间安排">时间安排</h1>
+<ul>
+<li><strong>上午</strong>
+<ul>
+<li>工作安排</li>
+<li>技术提升课程</li>
+</ul>
+</li>
+<li><strong>下午</strong>
+<ul>
+<li>数学</li>
+<li>英语</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="一-技术方面">一、技术方面</h1>
+<ol>
+<li><strong>完成Kotlin语言的基础学习</strong></li>
+<li><strong>基于Kotlin做起码一个小项目</strong></li>
+<li><strong>Jetpack组件全家桶学习</strong></li>
+<li><strong>MVVM架构学习及实际使用</strong></li>
+<li><strong>RxJava、Retrofit、Glide框架深入学习、使用</strong></li>
+</ol>
+<hr>
+<h1 id="二-合工大非全日制研备战">二、合工大非全日制研备战</h1>
+<ol>
+<li><strong>完成数学部分预习</strong>
+<ol>
+<li>初中数学</li>
+<li>高中数学</li>
+<li>高数、离散数学</li>
+<li>微积分</li>
+<li>统计学</li>
+</ol>
+</li>
+<li><strong>完成英语部分预习</strong>
+<ol>
+<li>初中英语</li>
+<li>高中英语</li>
+<li>大学英语</li>
+</ol>
+</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【初中数学】五、绝对值]]></title>
+        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-wu-jue-dui-zhi/</id>
+        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-wu-jue-dui-zhi/">
+        </link>
+        <updated>2021-01-14T09:01:59.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="学习目标">学习目标</h1>
+<ol>
+<li><strong>理解绝对值的概念及其几何意义；</strong></li>
+<li><strong>会求一个数的绝对值；</strong></li>
+<li><strong>了解绝对值的非负性，并能用其非负性解决相关问题；</strong></li>
+<li><strong>进一步理解绝对值的代数意义和几何意义；</strong></li>
+<li><strong>会用数轴或绝对值比较两个有理数的大小。</strong></li>
+</ol>
+<hr>
+<h1 id="一-绝对值">一、绝对值</h1>
+<ul>
+<li><strong>绝对值的定义</strong><br>
+一般地，数轴上表示数a的点与原点的距离叫做数a的绝对值。<br>
+其中a可以是负数、正数和0。
+<ul>
+<li>正数的绝对值是其本身；</li>
+<li>负数的绝对值是其相反数；</li>
+<li>0的绝对值还是0.</li>
+</ul>
+</li>
+<li><strong>绝对值的表示</strong><br>
+数a的绝对值，记作：| a |.<br>
+例如：-8的绝对值是8，记作：| -8 | = 8.</li>
+<li><strong>互为相反数的两个数，它们的绝对值有什么关系？</strong><br>
+互为相反数的的两个数，它们的绝对值是相等的。</li>
+</ul>
+<blockquote>
+<p>两个正数，绝对值大的大；<br>
+两个负数，绝对值大的反而小。</p>
+</blockquote>
+<hr>
+<h1 id="二-有理数大小的比较">二、有理数大小的比较</h1>
+<ol>
+<li><strong>一个数与0比较，要考虑这个数的正负</strong><br>
+一个数与0比较，正数大于0，负数小于0。</li>
+<li><strong>异号两数比较，要考虑这两个数的正负</strong><br>
+正数大于负数。</li>
+<li><strong>同好两个数比较，要考虑这两个数的绝对值</strong><br>
+两个正数，绝对值大的大；两个负数，绝对值大的反而小。</li>
+<li><strong>多个有理数比较，适合用数轴</strong><br>
+数轴上的点表示的数左边的小，右边的大。<br>
+注意：需要简化时，要先简化再比较。</li>
+</ol>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【初中数学】四、相反数]]></title>
+        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-si-xiang-fan-shu/</id>
+        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-si-xiang-fan-shu/">
+        </link>
+        <updated>2021-01-14T08:42:14.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="学习目标">学习目标</h1>
+<ol>
+<li><strong>借助数轴了解相反数的概念；</strong></li>
+<li><strong>知道互为相反数的两个数在数轴上的位置，能求一个数的相反数；</strong></li>
+<li><strong>根据相反数的定义解决相关问题。</strong></li>
+</ol>
+<hr>
+<h1 id="一-新课讲解">一、新课讲解</h1>
+<ol>
+<li>
+<p><strong>观察这两个数，有什么相同和不同？</strong><br>
+<strong>+5     -5</strong></p>
+<ul>
+<li>相同点<br>
+数字相同</li>
+<li>不同点<br>
+符号不同</li>
+</ul>
+<p>归纳：一般地，设a是一个正整数，数轴上与原点的距离是a的点有两个，它们分别在原点左右，表示-a和a，我们就说这两点关于原点对称。</p>
+</li>
+</ol>
+<hr>
+<h1 id="二-相反数">二、相反数</h1>
+<ol>
+<li><strong>什么叫相反数？</strong><br>
+像2和-2，5和-5这样，只有符号不同的两个数叫做互为<strong>相反数</strong>。<br>
+一般地，a与-a互为相反数；特别地，0的相反数是0。
+<blockquote>
+<p>我们通常在一个数字前面添上“-”号，表示这个数的相反数。<br>
+例如：-(-4) = 4，-(+5.5) = -5.5，-0 = 0。</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【初中数学】三、数轴]]></title>
+        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-san-shu-zhou/</id>
+        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-san-shu-zhou/">
+        </link>
+        <updated>2021-01-13T09:57:29.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="学习目标">学习目标</h1>
+<ol>
+<li><strong>掌握数轴的三要素，能够熟练画出数轴；</strong></li>
+<li><strong>能够将已知的数在数轴上表示出来，能说出数轴上已知的点所表示的数。</strong></li>
+</ol>
+<hr>
+<h1 id="一-什么是数轴">一、什么是数轴？</h1>
+<blockquote>
+<p>数轴，为一种特定几何图形。直线是由无数个点组成的集合，实数包括正实数、零、负实数也有无数个。正因为它们的这个共性，所以用直线上无数个点来表示实数。这时就用一条规定了原点、正方向和单位长度的直线来表示实数。规定右边为正方向时，在这条直线上的两个数，右边上点表示的数总大于左边上点表示的数，正数大于零，零大于负数。</p>
+</blockquote>
+<p><strong>数轴：人们通常用一条直线上的点表示数，这条直线叫做数轴。这条直线需要满足：</strong></p>
+<ol>
+<li><strong>在直线上任取一点表示数0，这个点叫做原点；</strong></li>
+<li><strong>通常规定从直线上从原点向右（或向上）为正方向，从原点向左（或向下）为负方向；</strong></li>
+<li><strong>选取适当的长度为<em>单位长度</em>，直线上从原点向右，每隔一个单位长度取一个点，以此表示1，2，3，4，5....；从原点向左，用类似方法依次表示-1，-2，-3...。</strong></li>
+</ol>
+<hr>
+<h1 id="二-数轴的要素">二、数轴的要素</h1>
+<p><strong>数轴包含以下三要素：</strong></p>
+<ol>
+<li><strong>原点</strong></li>
+<li><strong>正方向</strong></li>
+<li><strong>单位长度</strong></li>
+</ol>
+<hr>
+<h1 id="三-画数轴的四个步骤">三、画数轴的四个步骤</h1>
+<ol>
+<li><strong>画直线；</strong></li>
+<li><strong>在直线上取一点作为原点；</strong></li>
+<li><strong>确定正方向，并用箭头表示；</strong></li>
+<li><strong>根据需要，选取适当的单位长度。</strong></li>
+</ol>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【初中数学】二、有理数]]></title>
+        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-er-you-li-shu/</id>
+        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-er-you-li-shu/">
+        </link>
+        <updated>2021-01-13T09:45:21.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>本文目的：</p>
+<ol>
+<li><strong>理解有理数的含义；</strong></li>
+<li><strong>能够把给出的有理数正确分类；</strong></li>
+<li><strong>了解0在有理数分类中的作用。</strong></li>
+</ol>
+<hr>
+<h1 id="一-学过的数">一、学过的数</h1>
+<p>我们学过的数有：</p>
+<ul>
+<li><strong>正整数</strong><br>
+例如：1，2，3，4，5...</li>
+<li><strong>零</strong><br>
+0</li>
+<li><strong>负整数</strong><br>
+例如：-1，-2，-3，-4，-5...</li>
+<li><strong>正分数</strong><br>
+例如：1.1，12.91，5/2，3又3/4，17/3...</li>
+<li><strong>负分数</strong><br>
+例如：-7.5，-2/5，-3.25...</li>
+</ul>
+<hr>
+<h1 id="二-有理数">二、有理数</h1>
+<p><strong>什么是有理数？</strong></p>
+<blockquote>
+<p>有理数是整数（正整数、0、负整数）和分数的统称，是整数和分数的集合。</p>
+</blockquote>
+<p><strong>有理数的分类如下：</strong></p>
+<ul>
+<li>整数
+<ul>
+<li>正整数</li>
+<li>零</li>
+<li>负整数</li>
+</ul>
+</li>
+<li>分数
+<ul>
+<li>正分数</li>
+<li>负分数</li>
+</ul>
+</li>
+</ul>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【初中数学】一、正数、负数]]></title>
+        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-yi-zheng-shu-fu-shu/</id>
+        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-yi-zheng-shu-fu-shu/">
+        </link>
+        <updated>2021-01-13T02:33:38.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>由计数、排序，产生了数1，2，3，4....；<br>
+由表示“没有”、“空位”，产生数0；<br>
+由分物、测量产生分数1/2、1/3，...；<br>
+在实际生活中，以温度计算为例，我们还需要通过一个特别的数——负数来表示正数所不能表述的数字。</p>
+<hr>
+<h1 id="一-正数">一、正数</h1>
+<p>大于0的数，我们称之为负数。<br>
+如：2.7%，3，5都是正数。</p>
+<hr>
+<h1 id="二-负数">二、负数</h1>
+<p>小于0的数，我们称之为负数。<br>
+如：-2.8%，-10，-1都是负数。</p>
+<hr>
+<h1 id="三-注意">三、注意</h1>
+<p>** 0既不是正数，也不是负数。**<br>
+<strong>在同一个问题中，分别用正数与负数来表示具有相反意义的量。</strong></p>
+<hr>
+<h1 id="四-例子">四、例子</h1>
+<ul>
+<li>
+<p><strong>例子1：</strong><br>
+一个月内，小明的体重增加了2kg，小华的体重减少了1kg，小强的体重没有变化，写出他们这个月的体重增长值。</p>
+<blockquote>
+<p>小明的体重增长了2kg；<br>
+小华的体重增长了-1kg；<br>
+小强的体重增长了0kg。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>例子2：</strong><br>
+读下列各数，并指出其中哪些是正数，哪些是负数：<br>
+-1，2.5，0，+3/4，-2/7，-3.14，120，-1.732.</p>
+<blockquote>
+<p>正数：2.5，+3/4，120；<br>
+负数：-1，-2/7，-3.14，-1.732.</p>
+</blockquote>
+</li>
+<li>
+<p><strong>例子3：</strong><br>
+如果把一个物体向后移动5m记作-5m，那么这个物体又移动了+5m是什么意思？这时物体离它两次移动的前位置有多远？</p>
+<blockquote>
+<p>向后移动5m记作-5m，那么移动+5m应该是指<strong>向前移动了5m</strong>；<br>
+这时物体离它两次移动前的位置距离为：<strong>-5m+5m=0m，表示物体又回到了原来的位置。</strong></p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1 id="五-小结">五、小结</h1>
+<ol>
+<li><strong>了解了数的扩充——源于生活需要引入负数；</strong></li>
+<li><strong>理解正数、负数表示的意义；</strong></li>
+<li><strong>会用正、负数表示具有相反意义的量。</strong></li>
+</ol>
+]]></content>
+    </entry>
 </feed>

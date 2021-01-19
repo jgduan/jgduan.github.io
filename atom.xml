@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Gridea</title>
-    <updated>2021-01-18T10:01:24.177Z</updated>
+    <updated>2021-01-19T08:28:51.464Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -11,7 +11,80 @@
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
-        <title type="html"><![CDATA[有理数]]></title>
+        <title type="html"><![CDATA[【初中数学】七、有理数的减法]]></title>
+        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-qi-you-li-shu-de-jian-fa/</id>
+        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-qi-you-li-shu-de-jian-fa/">
+        </link>
+        <updated>2021-01-19T03:17:05.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="学习目标">学习目标</h1>
+<ol>
+<li><strong>理解掌握有理数的减法法则；</strong></li>
+<li><strong>会进行有理数的减法运算；</strong></li>
+<li><strong>能够把有理数的减法运算转化为加法运算，进而写成省略括号和加号的和的形式。</strong></li>
+</ol>
+<hr>
+<h1 id="一-样例计算">一、样例计算</h1>
+<ol>
+<li>4 - 2 = 2; 4 + (-2) = 2;</li>
+<li>4 -1 = 3; 4 + (-1) = 3;</li>
+<li>4 - 5 = -1; 4 + (-5) = -1.</li>
+<li>4 - 0 = 4; 4 + 0 = 4;</li>
+<li>4 - (-1) = 5; 4 + 1 = 5;</li>
+<li>4 - (-2) = 6; 4 + 2 = 6.</li>
+</ol>
+<p><strong>通过以上运算，得出结论：减去一个数，等于加上这个数的相反数，也可以表示为：a - b = a + (-b)。</strong></p>
+<blockquote>
+<p>注意：减法在运算时<strong>有2个要素要发生变化。</strong><br>
+1.减号变成加号；<br>
+2.减数变成相反数；<br>
+如：a - b = a + (-b)。</p>
+</blockquote>
+<hr>
+<h1 id="二-例题">二、例题</h1>
+<ol>
+<li>计算 (-20) + (+3) - (-5) - (+7)<br>
+解： (-20) + (+3) - (-5) - (+7)<br>
+= (-20) + (+3) + (+5) + (-7)<br>
+= [(+3) + (+5)] + [(-20) + (-7)]<br>
+= (+8) + (-27)<br>
+= -19</li>
+<li>计算(-72) - (-37) - (-22) - 17<br>
+解：(-72) - (-37) - (-22) - 17<br>
+= (-72) + (+37) + (+22) + (-17)<br>
+= [(-72) + (-17)] + [(+37) + (+22)]<br>
+= -89 + (+59)<br>
+= -30</li>
+</ol>
+<hr>
+<h1 id="三-有理数的减法省略括号和加号">三、有理数的减法——省略括号和加号</h1>
+<p>例子：一架飞机在进行特技表演，起飞后的高度变化如下：</p>
+<ol>
+<li>上升4.5千米，记作+4.5千米；</li>
+<li>下降3.2千米，记作-3.2千米；</li>
+<li>上升1.1千米，记作+1.1千米；</li>
+<li>下降1.4千米，记作-1.4千米。<br>
+问，此时飞机比起飞点高了多少千米？</li>
+</ol>
+<p>解法1：<br>
++4.5 + (-3.2) + (+1.1) + (-1.4)<br>
+= [(+4.5) + (+1.1)] + [(-3.2) + (-1.4)]<br>
+= +5.6 + (-4.6)<br>
+= 1</p>
+<p>解法2：<br>
+4.5 - 3.2 + 1.1 -1.4<br>
+= 1.3 + 1.1 - 1.4<br>
+= 2.4 - 1.4<br>
+= 1</p>
+<p><strong>解法2对比解法1，省略了加号和括号，两者的计算结果是一致的，但解法2看起来更简单明了一点。</strong><br>
+在这里，我们把4.5 - 3.2 + 1.1 - 1.4看作为4.5，-3.2，1.1，-1.4的和，也叫<strong>代数和</strong>。</p>
+<blockquote>
+<p><strong>代数和</strong>是指两个或更多的数或量按照代数加法规律取符号(如 +或-)的总和。</p>
+</blockquote>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【初中数学】六、有理数的加法]]></title>
         <id>https://jgduan.github.io/post/you-li-shu/</id>
         <link href="https://jgduan.github.io/post/you-li-shu/">
         </link>
@@ -54,11 +127,12 @@
 例如：a + b = b + a。</li>
 <li><strong>加法结合律</strong><br>
 三个数相加，先把前两个数相加，或者先把后两个数相加，和不变。<br>
-例如：a + b + c = a + (b + c)。</li>
+例如：(a + b) + c = a + (b + c)。</li>
 </ul>
 <blockquote>
 <p>一般的，任意若干个数相加，无论各数相加的先后次序如何，其和不变。</p>
 </blockquote>
+<hr>
 ]]></content>
     </entry>
     <entry>

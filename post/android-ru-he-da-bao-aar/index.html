@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】如何打包aar | Gridea</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1613704062395">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="注意事项
+
+主项目需要依赖aar中所依赖的远程项目，否则会报错，如果依赖的某个库的版本有冲突，需要协调解决；
+资源命名要遵守统一规范，最好是添加 项目名 / Module名 为前缀做区分，以免与主项目的资源重复，避免资源名称重复引发不必要的..." />
+    <meta name="keywords" content="Android,aar" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1613704062395" class="site-logo">
+        <h1 class="site-title">Gridea</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】如何打包aar</h2>
+            <div class="post-date">2021-02-19</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-ru-he-da-bao-aar.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="注意事项">注意事项</h1>
+<ol>
+<li><strong>主项目需要依赖aar中所依赖的远程项目，否则会报错，如果依赖的某个库的版本有冲突，需要协调解决；</strong></li>
+<li><strong>资源命名要遵守统一规范，最好是添加 项目名 / Module名 为前缀做区分，以免与主项目的资源重复，避免资源名称重复引发不必要的异常；</strong></li>
+<li><strong>如果aar包中使用了分享、统计分析、支付等第三方SDK，在主项目中需要使用的话，我们需要以主项目的ApplicationId去申请对应的appKey与appId。如果需要在aar项目中独立调试的话，那就需要修改包名与ApplicationId后才能正常使用。</strong></li>
+</ol>
+<hr>
+<h1 id="一-原项目打包aar">一、原项目打包aar</h1>
+<ol>
+<li>
+<p><strong>先修改项目为Library</strong><br>
+需要把<code>Module</code>下的<code>build.gradle</code>中的<code>apply plugin: 'com.android.application'</code>修改为<code>apply plugin: 'com.android.library'</code></p>
+</li>
+<li>
+<p><strong>注释build.gradle文件中的applicationId</strong><br>
+把<code>Module</code>下的<code>build.gradle-defaultConfig</code>中的<code>applicationId</code>给注释掉.</p>
+<pre><code class="language-java">    defaultConfig {
+     // applicationId &quot;com.dohenes.login&quot;
+     ...
+    }
+</code></pre>
+</li>
+<li>
+<p><strong>修改<code>AndroidManifest.xml</code></strong></p>
+<ul>
+<li>注释<code>AndroidManifest.xml</code>中的<code>applicationId</code>(如果没有请忽略）</li>
+<li>修改<code>application</code>标签为：<pre><code class="language-java">&lt;application
+    android:allowBackup=&quot;true&quot;
+    android:supportsRtl=&quot;true&quot;&gt;
+</code></pre>
+</li>
+<li>注释配置的启动action<pre><code class="language-java">    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>如果自定义了Application，需要去除，aar中是没有Application的</strong></p>
+</li>
+<li>
+<p><strong>如果aar中有需要在Application中初始化的代码该怎么办？</strong><br>
+可以写一个<code>init</code>方法或者单独写一个类，对外开放一个<code>init</code>方法让使用者传入<code>Application</code>过来即可。<br>
+示例：</p>
+<pre><code class="language-java">public void init(Application application) {
+    // 在这里写在Application中需要初始化的代码
+}
+</code></pre>
+</li>
+<li>
+<p><strong>修改完毕后直接Build-&gt;Make Module app就可以正常生产aar了，也可以点击AndroidStudio右侧的Gradle-&gt;app-&gt;Tasks-&gt;Build-&gt;assemble，生成的aar文件在app的build-&gt;outputs-&gt;aar目录下</strong><br>
+<code>Build-&gt;Make Module app</code>方式生成的<code>aar</code>文件是根据配置的编译环境打包对应的<code>aar</code>包，可以通过<code>Build Variants</code> -&gt;修改<code>Module</code>的<code>active build variant</code>来切换。<br>
+<img src="https://jgduan.github.io//post-images/1613703647523.png" alt="" loading="lazy"></p>
+</li>
+</ol>
+<hr>
+<h1 id="二-新建module打包aar">二、新建Module打包aar</h1>
+<ol>
+<li><strong>在Project下新建一个Library Module</strong><br>
+<img src="https://jgduan.github.io//post-images/1613703576824.png" alt="" loading="lazy"></li>
+<li><strong>在Module中添加需要打包的资源</strong></li>
+<li><strong>选中Module，点击Build-&gt;Make Module 'xxx'（xxx是你的Module名）就可以正常生产aar了，生成的aar文件在module的build-&gt;outputs-&gt;aar目录下</strong><br>
+<img src="https://jgduan.github.io//post-images/1613703532599.png" alt="" loading="lazy"></li>
+</ol>
+<hr>
+<h1 id="三-如何引用aar">三、如何引用aar</h1>
+<ol>
+<li>
+<p><strong>将aar文件复制到目标项目的app/libs目录下</strong><br>
+<img src="https://jgduan.github.io//post-images/1613703751689.png" alt="" loading="lazy"></p>
+</li>
+<li>
+<p><strong>在目标项目的app/build.gradle文件中，添加如下内容：</strong></p>
+<pre><code class="language-java">repositories {
+ flatDir {
+     dirs 'libs' //this way we can find the .aar file in libs folder
+ }
+}
+</code></pre>
+</li>
+<li>
+<p><strong>在dependencies中添加对应的依赖引用即可</strong></p>
+<pre><code class="language-java">implementation(name: 'xxx', ext: 'aar')// xxx为lib名
+</code></pre>
+</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/0DsizyeusH/" class="tag">
+                    aar
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/chu-zhong-shu-xue-ba-you-li-shu-de-cheng-fa/">
+                  <h3 class="post-title">
+                    【初中数学】八、有理数的乘法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-02-26T03:12:34.398Z</updated>
+    <updated>2021-02-26T03:43:04.290Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,418 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【JJQ】Android开发规范（注释、命名、打包）]]></title>
+        <id>https://jgduan.github.io/post/jjq-android-kai-fa-gui-fan-zhu-shi-ming-ming-da-bao/</id>
+        <link href="https://jgduan.github.io/post/jjq-android-kai-fa-gui-fan-zhu-shi-ming-ming-da-bao/">
+        </link>
+        <updated>2021-02-26T03:15:52.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p><strong>统一、规范的命名有助于提升项目协作效率，也让代码的可读性、可维护性变得更加友好。</strong><br>
+这里根据<a href="http://www.360sdn.com/2013/android_0517/144.html?ckvcbc=yz6j13">Google Android编程规范</a>来对公司客户端研发输出一份相对全面、清晰的Android代码命名规范，如有异议，欢迎批评指正。</p>
+<hr>
+<h1 id="关于注释">关于注释</h1>
+<p>在开发过程中，类、生僻对象命名、方法原则上都要加上相关注释，说明含义、用途。</p>
+<hr>
+<h1 id="各对象暂定的命名规范">各对象暂定的命名规范</h1>
+<ul>
+<li><strong>项目名称(Project name)</strong>
+<ul>
+<li>命名规则：大驼峰式命名，单词间连续无间隔；</li>
+<li>示例：如新建一个名为BaiYaoWanJia的项目。</li>
+</ul>
+</li>
+<li><strong>模块命名(Module-Library name)</strong>
+<ul>
+<li>命名规则：Library name采用大驼峰式命名，单词间连续无间隔，Module name会自动生成，不需修改；</li>
+<li>示例：<br>
+<img src="https://jgduan.github.io//post-images/1614309587721.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li><strong>包</strong>
+<ul>
+<li>命名规则：小写、单词间连续无间隔，3级包名一般为applicationId或Module的根目录，4级包名对应不同的细分模块。</li>
+<li>示例：
+<ul>
+<li>3级包名applicationId：一般为com.公司名.项目名，如com.dohenes.bywanjia 或 com.公司名.Module name，如com.dohenes.shop；</li>
+<li>4级包名：com.公司名.项目名/Module name.xxx，具体可参考下图<br>
+<img src="https://jgduan.github.io//post-images/1614309652905.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>类</strong>
+<ul>
+<li>命名规则：大驼峰式命名，可使用单词或者单词简写，在具体命名类时，会根据该类的类型不同而附加额外的命名规则；</li>
+<li>示例：  <table>
+  	  <tr>
+  		  <th>类目</th>
+  		  <th>类型</th>
+  		  <th>命名规则描述</th>
+  		  <th>命名示例</th>
+  	  </tr>
+  	  <tr>
+  		  <th>普通java类</th>
+  		  <th>java类</th>
+  		  <th>大驼峰式命名法</th>
+  		  <th>GetTime</th>
+  	  </tr>
+  	  <tr>
+  		  <th rowspan="15">Android相关</th>
+  		  <th>基类</th>
+  		  <th>Base + 类别 / 功能</th>
+  		  <th>BaseActivity / BaseFragment / BaseAdapter</th>
+  	  </tr>
+  	  <tr>
+  		  <th>Activity</th>
+  		  <th>模块名 + Activity</th>
+  		  <th>LoginActivity</th>
+  	  </tr>
+  	  <tr>
+  		  <th>Fragment</th>
+  		  <th>模块名 + Fragment</th>
+  		  <th>LoginFragment</th>
+  	  </tr>
+  	  <tr>
+  		  <th>BroadcastReceiver</th>
+  		  <th>功能名 + Receiver</th>
+  		  <th>BootBroadcastReceiver</th>
+  	  </tr>
+  	  <tr>
+  		  <th>Service</th>
+  		  <th>模块名 / 功能名 + Service</th>
+  		  <th>LoginService / BLEService</th>
+  	  </tr>
+  	  <tr>
+  		  <th>自定义对话框Dialog</th>
+  		  <th>功能名 + Dialog</th>
+  		  <th>TipsDialog</th>
+  	  </tr>
+  	  <tr>
+  		  <th>自定义View</th>
+  		  <th>Custom + 功能名 + 组件名称(继承的组件名)</th>
+  		  <th>CustomToast / CustomLayout</th>
+  	  </tr>
+  	  <tr>
+  		  <th>自定义Widget</th>
+  		  <th>功能名 + Widget</th>
+  		  <th>LoginWidget</th>
+  	  </tr>  
+  	  <tr>
+  		  <th>数据适配器类</th>
+  		  <th>功能名 + Adapter</th>
+  		  <th>WeatherAdapter</th>
+  	  </tr>  
+  	  <tr>
+  		  <th>工具类</th>
+  		  <th>功能名 + Util/Manager</th>
+  		  <th>StringUtil / DatabaseManager</th>
+  	  </tr>  
+  	  <tr>
+  		  <th>帮助类</th>
+  		  <th>功能名 + Helper</th>
+  		  <th>DBHelper</th>
+  	  </tr>  
+  	  <tr>
+  		  <th>解析类</th>
+  		  <th>功能名 + Parse</th>
+  		  <th>GsonParse</th>
+  	  </tr>   
+  	  <tr>
+  		  <th>异常类</th>
+  		  <th>以Exception结尾</th>
+  		  <th>LoginException</th>
+  	  </tr>   
+  	  <tr>
+  		  <th>接口</th>
+  		  <th>多以able或ible结尾，也可在类名前加I标明</th>
+  		  <th>Runnable / Accessible / ILogin</th>
+  	  </tr>   
+  	  <tr>
+  		  <th>回调</th>
+  		  <th>功能名 + Callback</th>
+  		  <th>LoginCallback</th>
+  	  </tr>   
+     </table>
+</li>
+</ul>
+</li>
+<li><strong>变量</strong>
+<ul>
+<li>命名规则：小驼峰式命名，在具体命名变量时，会根据该变量的类型不同而附加额外的命名规则；</li>
+<li>示例：  <table>
+  	  <tr>
+  		  <th>类型</th>
+  		  <th>命名规则描述</th>
+  		  <th>命名示例</th>
+  	  </tr>
+  	  <tr>
+  		  <th>变量</th>
+  		  <th>m + 单词名</th>
+  		  <th>private int mCount</th>
+  	  </tr>
+  	  <tr>
+  		  <th>静态变量</th>
+  		  <th>前缀添加s</th>
+  		  <th>private static int sCount</th>
+  	  </tr>
+  	  <tr>
+  		  <th>临时变量(代码块内的)</th>
+  		  <th>小驼峰式命名</th>
+  		  <th>int count</th>
+  	  </tr>
+  	  <tr>
+  		  <th>常量</th>
+  		  <th>CONSTANT_作用名</th>
+  		  <th>CONSTANT_KEY_NAME</th>
+  	  </tr>
+  	  <tr>
+  		  <th>Android UI控件</th>
+  		  <th>m + 控件缩写 + 功能描述</th>
+  		  <th>mTvTitle / mBtnLogin</th>
+  	  </tr>
+  </table>
+</li>
+</ul>
+</li>
+<li><strong>方法</strong>
+<ul>
+<li>命名规则：小驼峰式命名,在具体命名方法名时，会根据该方法名的作用不同而附加额外的命名规则；</li>
+<li>示例：  <table>
+  	  <tr>
+  		  <th>功能</th>
+  		  <th>命名规则描述</th>
+  		  <th>命名示例</th>
+  	  </tr>
+  	  <tr>
+  		  <th>初始化</th>
+  		  <th>init + 单词</th>
+  		  <th>初始化布局：initView()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>判断 / 校验，返回至为boolean</th>
+  		  <th>is + 单词 / check + 单词</th>
+  		  <th>可见性：isVisible() / checkKey()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>显示/弹出提示框</th>
+  		  <th>show + 单词</th>
+  		  <th>显示提示信息：showTips()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>重置数据</th>
+  		  <th>reset + 单词</th>
+  		  <th>重置用户数据：resetUserData()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>保存数据</th>
+  		  <th>save + 单词</th>
+  		  <th>保存用户名：saveUserName()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>获取数据</th>
+  		  <th>get + 单词</th>
+  		  <th>获取用户名：getUserName()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>清除数据</th>
+  		  <th>clear + 单词</th>
+  		  <th>清除用户名:clearUserName()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>移除数据</th>
+  		  <th>remove + 单词</th>
+  		  <th>移除用户数据:removeUserData()</th>
+  	  </tr>
+  	  <tr>
+  		  <th>绘制相关</th>
+  		  <th>draw + 单词</th>
+  		  <th>绘制线条:drawLine()</th>
+  	  </tr>
+  </table>
+</li>
+</ul>
+</li>
+<li><strong>参数</strong>
+<ul>
+<li>命名规则：小驼峰式命名；</li>
+<li>示例：如userName,phoneNumber等。</li>
+</ul>
+</li>
+<li><strong>资源</strong>
+<ul>
+<li>布局资源(布局文件单词都要小写，中间用下划线_隔开)  <table>
+      <tr>
+          <th>类型</th>
+          <th>命名规则描述</th>
+          <th>命名示例</th>
+      </tr>
+      <tr>
+          <th>activity布局</th>
+          <th>activity_单词</th>
+          <th>activity_main</th>
+      </tr>
+      <tr>
+          <th>fragment布局</th>
+          <th>fragment_单词</th>
+          <th>fragment_main</th>
+      </tr>
+      <tr>
+          <th>dialog布局</th>
+          <th>dialog_单词</th>
+          <th>dialog_tips</th>
+      </tr>
+      <tr>
+          <th>popupwindow布局</th>
+          <th>pw_单词</th>
+          <th>pw_net_error</th>
+      </tr>
+      <tr>
+          <th>列表子项布局</th>
+          <th>item_单词</th>
+          <th>item_message</th>
+      </tr>
+  </table>
+</li>
+<li>控件ID  <table>
+      <tr>
+          <th>类型</th>
+          <th>命名规则描述</th>
+          <th>命名示例</th>
+      </tr>
+      <tr>
+          <th>TextView</th>
+          <th rowspan="11">模块名_控件缩写_功能单词名</th>
+          <th>login_tv_title</th>
+      </tr>
+      <tr>
+          <th>EditTextView</th>
+          <th>login_et_userName</th>
+      </tr>
+      <tr>
+          <th>ImageView</th>
+          <th>login_iv_userHead</th>
+      </tr>
+      <tr>
+          <th>Button</th>
+          <th>login_btn</th>
+      </tr>
+      <tr>
+          <th>CheckBox</th>
+          <th>login_cb_status</th>
+      </tr>
+      <tr>
+          <th>RadioButton</th>
+          <th>login_rb_gender</th>
+      </tr>
+      <tr>
+          <th>ListView</th>
+          <th>main_lv_message</th>
+      </tr>
+      <tr>
+          <th>GridView</th>
+          <th>main_gv_cards</th>
+      </tr>
+      <tr>
+          <th>LinearLayout</th>
+          <th>login_lt_header</th>
+      </tr>
+      <tr>
+          <th>RelativeLayout</th>
+          <th>login_rl_header</th>
+      </tr>
+      <tr>
+          <th>FragmentLayout / TableLayout / ConstraintLayout</th>
+          <th>简写对应 fl / tl / cl</th>
+      </tr>
+  </table>
+</li>
+<li>图片资源  <table>
+      <tr>
+          <th>类目</th>
+          <th>类型</th>
+          <th>命名规则描述</th>
+          <th>命名示例</th>
+      </tr>
+      <tr>
+          <th rowspan = "10">Drawable / mipmap资源</th>
+          <th>普通图标</th>
+          <th>ic_具体模块_功能</th>
+          <th>R.drawable.ic_user_login / R.drawable.ic_launcher</th>
+      </tr>
+      <tr>
+          <th>背景资源</th>
+          <th>bg_具体模块_功能</th>
+          <th>R.drawable.bg_login</th>
+      </tr>
+      <tr>
+          <th>样式选择器(selector)</th>
+          <th>selector_具体模块_适用范围</th>
+          <th>R.drawable.selector_login_btn</th>
+      </tr>
+      <tr>
+          <th>样式形状(shape)</th>
+          <th>shape_具体模块_适用范围</th>
+          <th>R.drawable.shape_login_btn</th>
+      </tr>
+  </table>
+</li>
+<li>动画资源  <table>
+      <tr>
+          <th>类型</th>
+          <th>命名规则描述</th>
+          <th>命名示例</th>
+      </tr>
+      <tr>
+          <th>补间动画</th>
+          <th>动画类型_方向</th>
+          <th>淡入：fade_int；淡出：fade_out</th>
+      </tr>
+      <tr>
+          <th>其余动画</th>
+          <th>模块名_动画名</th>
+          <th>login_jump</th>
+      </tr>
+  </table>
+</li>
+<li>Values资源  <table>
+      <tr>
+          <th>类型</th>
+          <th>命名规则描述</th>
+          <th>命名示例</th>
+      </tr>
+      <tr>
+          <th>color</th>
+          <th>模块名_color</th>
+          <th>login_color</th>
+      </tr>
+      <tr>
+          <th>style</th>
+          <th>模块名_style</th>
+          <th>login_style</th>
+      </tr>
+      <tr>
+          <th>theme</th>
+          <th>模块名_theme</th>
+          <th>login_theme</th>
+      </tr>
+      <tr>
+          <th>string</th>
+          <th>模块名_作用名</th>
+          <th>user_name</th>
+      </tr>
+  </table>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="关于app打包命名">关于App打包命名</h1>
+<p>release版本在项目混淆、加固(目前采用360加固)的基础上，按照以下规范命名，其它情况不考虑：<br>
+<a href="https://www.jianshu.com/p/d7dc4624a122"><strong>【Android】apk打包命名规则交流篇</strong></a></p>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Android】如何打包aar]]></title>
         <id>https://jgduan.github.io/post/android-ru-he-da-bao-aar/</id>

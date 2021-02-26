@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【2021学习计划】 | Zihao&#39;s blog</title>
+<title>【Error】Android打包debug版本apk后无法正常安装 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,30 +18,10 @@
 
 
 
-    <meta name="description" content="时间安排
-
-上午
-
-工作安排
-技术提升课程
-
-
-下午
-
-数学
-英语
-
-
-
-
-一、技术方面
-
-完成Kotlin语言的基础学习
-基于Kotlin做起码一个小项目
-Jetpack组件全家桶学习
-MVVM架构学习及实际使用
-RxJava、Retro..." />
-    <meta name="keywords" content="" />
+    <meta name="description" content="打包后的debug版本apk无法正常安装，提示安装失败
+IDE：AndroidStudio 4.0.1版本
+通过Build-&gt;Generate Singed Bundle or APK生成debug版本的apk，不能够在其它手机上正常..." />
+    <meta name="keywords" content="ERROR" />
   </head>
   <body>
     <div id="app" class="main">
@@ -112,56 +92,39 @@ RxJava、Retro..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【2021学习计划】</h2>
-            <div class="post-date">2021-01-18</div>
+            <h2 class="post-title">【Error】Android打包debug版本apk后无法正常安装</h2>
+            <div class="post-date">2020-09-28</div>
             
             <div class="post-content" v-pre>
-              <h1 id="时间安排">时间安排</h1>
-<ul>
-<li><strong>上午</strong>
-<ul>
-<li>工作安排</li>
-<li>技术提升课程</li>
-</ul>
-</li>
-<li><strong>下午</strong>
-<ul>
-<li>数学</li>
-<li>英语</li>
-</ul>
-</li>
-</ul>
+              <h1 id="打包后的debug版本apk无法正常安装提示安装失败">打包后的debug版本apk无法正常安装，提示安装失败</h1>
+<p><code>IDE：AndroidStudio 4.0.1</code>版本<br>
+通过<code>Build-&gt;Generate Singed Bundle or APK</code>生成<code>debug</code>版本的<code>apk</code>，不能够在其它手机上正常安装（亲测在华为、VIVO上出现），具体如图：<br>
+<img src="https://jgduan.github.io//post-images/1614319587877.jpg" alt="" loading="lazy"></p>
 <hr>
-<h1 id="一-技术方面">一、技术方面</h1>
-<ol>
-<li><strong>完成Kotlin语言的基础学习</strong></li>
-<li><strong>基于Kotlin做起码一个小项目</strong></li>
-<li><strong>Jetpack组件全家桶学习</strong></li>
-<li><strong>MVVM架构学习及实际使用</strong></li>
-<li><strong>RxJava、Retrofit、Glide框架深入学习、使用</strong></li>
-</ol>
+<h1 id="错误分析">错误分析</h1>
+<p>经查证是因为<code>Android Studio 3.0.0</code>以后的版本默认会在<code>debug apk</code>的<code>Manifest</code>文件的<code>Application</code>的标签里自动添加<code>andorid:testOnly=&quot;true&quot;</code>属性，导致IDE中跑出来的、打包的<code>APK</code>只能用<code>adb install -t &lt;apk&gt;</code>来安装了。</p>
+<blockquote>
+<p>什么是<code>android:testOnly？</code><br>
+它是用于判断应用是否是用于测试用途的一个标识。当值为<code>true</code>时，代表它时测试用途，一般情况下时不能够安装到其它设备上的，需要通过特殊的方式去安装（只能通过<code>USB</code>调试安装或<code>adb</code>安装——安装时需要加上<code>-t</code>这个标记）。</p>
+</blockquote>
 <hr>
-<h1 id="二-合工大非全日制研备战">二、合工大非全日制研备战</h1>
-<ol>
-<li><strong>完成数学部分预习</strong>
-<ol>
-<li>初中数学</li>
-<li>高中数学</li>
-<li>高数、离散数学</li>
-<li>微积分</li>
-<li>统计学</li>
-</ol>
-</li>
-<li><strong>完成英语部分预习</strong>
-<ol>
-<li>初中英语</li>
-<li>高中英语</li>
-<li>大学英语</li>
-</ol>
-</li>
-</ol>
+<h1 id="解决办法">解决办法</h1>
+<p>在项目根目录的<code>gradle.properties</code>中添加<code>andorid:testOnly=&quot;false&quot;</code>即可。</p>
+<hr>
+<h1 id="相关文章">相关文章</h1>
+<p><strong><a href="https://commonsware.com/blog/2017/10/31/android-studio-3p0-flag-test-only.html">Android Studio 3.0 and FLAG_TEST_ONLY</a></strong><br>
+<strong><a href="https://stackoverflow.com/questions/25274296/adb-install-fails-with-install-failed-test-only">ADB Install Fails With INSTALL_FAILED_TEST_ONLY</a></strong></p>
+<hr>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/RYJcRsiJH/" class="tag">
+                    ERROR
+                  </a>
+                
+              </div>
             
             
 

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【BLE】低功耗蓝牙之连接数据包、数据包大小（MTU）概述 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614317838247">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、蓝牙连接数据包
+BLE 连接过程中有三个重要的数据包：SCAN_REQ, SCAN_RSP 和 CONNECT_REQ。
+
+SCAN_REQ：
+扫描请求，由主设备（MASTER DEVICE）向从设备（SLAVE DEVICE）发出，目..." />
+    <meta name="keywords" content="BLE" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614317838247" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【BLE】低功耗蓝牙之连接数据包、数据包大小（MTU）概述</h2>
+            <div class="post-date">2020-10-15</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/ble-di-gong-hao-lan-ya-zhi-lian-jie-shu-ju-bao-shu-ju-bao-da-xiao-mtugai-shu.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-蓝牙连接数据包">一、蓝牙连接数据包</h1>
+<p><strong>BLE 连接过程中有三个重要的数据包：SCAN_REQ, SCAN_RSP 和 CONNECT_REQ。</strong></p>
+<ul>
+<li><strong>SCAN_REQ：</strong><br>
+扫描请求，由主设备（MASTER DEVICE）向从设备（SLAVE DEVICE）发出，目的是为了获得从设备的响应以得到更多的从设备广播数据信息（包括设备名字，或者服务UUID，及其它如厂家特定格式的信息（如硬件版本，软件版本号，设备系列号等等）。</li>
+<li><strong>SCAN_RSP:</strong><br>
+从设备对就主设备发起的SCAN_REQ的响应，作为广播包的补充，从设备可以给主设备更多的广播数据，比如说，有些设备在广播包里面没有设备名字，这个时候就可以把设备名字放在这个包里面发给主设备。</li>
+<li><strong>CONNECT_REQ：</strong><br>
+主设备向从设备发出连接请求。至此连接建立完成（从设备不会响应这个请求），如果从设备没有连接上面的问题的话，以后主从双方会开始相互交换有效数据（基于GAP,GATT及SMP协议）或者交换空包。</li>
+</ul>
+<blockquote>
+<p>更多内容参见<a href="http://www.viewtool.com/bbs/forum.php?mod=viewthread&amp;tid=63206"><strong>一分钟读懂低功耗蓝牙（BLE)连接数据包</strong></a></p>
+</blockquote>
+<hr>
+<h1 id="二-什么是mtu">二、什么是MTU</h1>
+<p><strong>MTU</strong>（<code>MAXIMUM TRANSMISSION UNIT</code>）最大传输单元，指在一个<strong>PDU</strong>（<code>Protocol Data Unit：</code>协议数据单元，在一个单元中的有效传输数据）<strong>能够传输的最大数据量</strong>（多少字节可以一次传输给对方）。</p>
+<hr>
+<h1 id="三-mtu交换的意义设置reqeustmtu的意义">三、MTU交换的意义（设置reqeustMtu的意义）</h1>
+<p><code>MTU</code>交换是<strong>为了在主从双方设置一个PDU中最大能够交换的数据量</strong>，通过<code>MTU</code>的交换和双方确认（注意这个<code>MTU</code>是不可以协商的，只是通知对方，<strong>双方在知道对方的极限后会选择一个较小的值作为以后的MTU</strong>。</p>
+<p>比如说，主设备发出一个<code>150个字节</code>的<code>MTU</code>请求，但是从设备回应<code>MTU</code>是<code>23字节</code>，那么今后双方要以较小的值<code>23字节</code>作为以后的<code>MTU</code>），主从双方约定每次在做数据传输时不超过这个最大数据单元，<code>MTU</code>交换通常发生在主从双方建立连接关系后。</p>
+<blockquote>
+<p>更多内容移步<a href="https://blog.csdn.net/viewtoolsz/article/details/76177465"><strong>一分钟读懂低功耗蓝牙(BLE)MTU交换数据包</strong></a></p>
+</blockquote>
+<hr>
+<h1 id="四-如何妥善处理数据包大小mtu限制">四、如何妥善处理数据包大小（MTU）限制</h1>
+<p><code>Android</code>系统从<code>4.3(API 18)</code>开始支持<code>BLE</code>，且从<code>5.1(API 21)</code>才开始支持<code>MTU</code>修改(<strong>默认<code>MTU</code>仅为<code>23字节</code>，而且传输本身用掉<code>3字节</code></strong>)。</p>
+<p><strong>1.为什么BLE默认限制数据传输长度为20个字节？</strong><br>
+<code>core spec</code>里面定义了<code>ATT</code>的<strong>默认<code>MTU</code>为<code>23个bytes</code></strong>，除去<code>ATT</code>的<code>opcode</code>一个字节以及<code>ATT</code>的<code>handle 2个字节</code>之后，<strong>剩下的<code>20个字节</code>便是留给<code>GATT</code>的了</strong>。</p>
+<p>考虑到有些<code>Bluetooth smart</code>设备功能弱小，不敢太奢侈的使用内存空间，因此<code>core spec</code>规定每一个设备都必须支持<code>MTU</code>为<code>23</code>。</p>
+<p>在两个设备连接初期，大家都像新交的朋友一样，不知对方底细，因此严格的按照套路来走，即最多一次发<code>20个字节</code>，是最保险的。</p>
+<p>由于<code>ATT</code>的最大长度为<code>512byte</code>，因此一般认为<code>MTU</code>的最大长度为<code>512个byte</code>就够了，再大也没什么意义，你不可能发一个超过<code>512的ATT</code>的数据，就像是孙猴子跑不过五行山一样。</p>
+<p>所以<code>ATT</code>的<code>MTU</code>的最大长度可视为<code>512个bytes</code>。</p>
+<p><strong>2.如何突破MTU 20字节的限制？</strong><br>
+当我们需要传输 / 接收超过20字节长度的数据时，就需要在连接设备成功后通过<code>BluetoothGatt#requestMtu(int mtu)</code>方法进行对应的请求设置，示例代码如下：</p>
+<pre><code class="language-java">private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                LogUtil.e(TAG, &quot;request mtu success.约定后的MTU值为：&quot; + mtu);
+            } else {
+                LogUtil.e(TAG, &quot;request mtu failed.&quot;);
+            }
+        }
+
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (status == BluetoothGatt.GATT_SUCCESS &amp;&amp; newState == BluetoothProfile.STATE_CONNECTED) {//蓝牙连接成功
+                gatt.requestMtu(39);
+            }
+        }
+}
+</code></pre>
+<p>注意：上述代码的<code>onMtuChanged</code>可以发挥关键作用。<code>MTU</code>默认取的是<code>23</code>，当收到<code>onMtuChanged</code>后，会根据传递的值修改<code>MTU</code>，注意由于传输用掉<code>3个字节</code>，因此传递的值需要减3。</p>
+<p><strong>3.为什么专门记录MTU</strong><br>
+记录<code>MTU</code>主要是用于传输过程中判断数据是否需要分包发送。按照<code>MTU</code>的大小严格约束每次发送的数据包大小，如果不这么做，很可能远端接收就会出错。除非你的数据包大小本身就很小。</p>
+<p><strong>4.设置完MTU后无法在BluetoothGattCallback#onConnectionStateChange方法中立即发现设备服务列表</strong><br>
+当我们设置完<code>MTU</code>后，发现在<code>BluetoothGattCallback#onConnectionStateChange</code>方法中调用<code>BluetoothGatt.discoverServices()</code>无法立即触发<code>BluetoothGattCallback#onServicesDiscovered</code>回调。<br>
+我之前尝试过通过延迟调用<code>BluetoothGatt#discoverServices()</code>方法（经测大概需要延迟<code>1000ms-1200ms</code>）后才能够正常的获取到服务列表及发现相关特征，后来发现<strong>正确的解决方法应该是在<code>BluetoothGattCallback#onMtuChanged</code>回调中调用<code>BluetoothGatt#discoverServices()</code>方法即可解决问题。</strong></p>
+<hr>
+<h1 id="本内内容参考自以下文章侵删">【本内内容参考自以下文章，侵删】</h1>
+<ul>
+<li><strong><a href="https://docs.microsoft.com/zh-cn/dotnet/api/android.bluetooth.bluetoothgatt.requestmtu?view=xamarin-android-sdk-9">BluetoothGatt.RequestMtu(Int32) Method</a></strong></li>
+<li><strong><a href="https://blog.csdn.net/qiandaxiong/article/details/78903969?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">低功耗蓝牙（BLE）开发——如何妥善处理包大小（MTU）限制</a></strong></li>
+<li><strong><a href="https://blog.csdn.net/sinat_19628093/article/details/51890827">Android BLE中传输数据的最大长度怎么破</a></strong></li>
+<li><strong><a href="https://blog.csdn.net/beautifulyuan/article/details/93902693">BLE设备发送超过20个字节</a></strong></li>
+<li><strong><a href="https://www.it1352.com/1808552.html">BLE：使用Android / iOS读取长特征值(BLE: Read Long Characteristics Value using Android / iOS)</a></strong></li>
+<li><strong><a href="https://blog.csdn.net/e_inch_photo/article/details/77278378">ble连接之后onServicesDiscovered 不被调用</a></strong></li>
+<li><strong><a href="https://www.jianshu.com/p/e297c085c4cd">Android BLE开发设置MTU</a></strong></li>
+</ul>
+<hr>
+<h1 id="写在最后">【写在最后】</h1>
+<blockquote>
+<p>经测，<code>iOS</code>在<code>9.0</code>以后能够正常的处理数据包过长的问题，<code>CoreBluetooth</code>针对长数据已经内部做出了处理，不需要额外的多次调用<code>getValue</code>方法，详见**<a href="https://www.it1352.com/1808552.html">BLE：使用Android / iOS读取长特征值(BLE: Read Long Characteristics Value using Android / iOS)</a>**。</p>
+</blockquote>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/Xg_n15zE4/" class="tag">
+                    BLE
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

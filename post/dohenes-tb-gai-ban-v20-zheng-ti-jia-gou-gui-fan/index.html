@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【DOHENES】TB改版v2.0整体架构规范 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614319336993">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、架构模式-MVP
+当前项目采用的是MVP（Model-View-Presenter）架构模式，改善了原版本简易MVP的架构方式（原MVP架构其实是VP架构——Presenter层承担了Model的工作）。
+
+二、Project-模块化
+..." />
+    <meta name="keywords" content="开发规范,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614319336993" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【DOHENES】TB改版v2.0整体架构规范</h2>
+            <div class="post-date">2020-09-29</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/dohenes-tb-gai-ban-v20-zheng-ti-jia-gou-gui-fan.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-架构模式-mvp">一、架构模式-MVP</h1>
+<p>当前项目采用的是<code>MVP（Model-View-Presenter）</code>架构模式，改善了原版本简易<code>MVP</code>的架构方式（原<code>MVP</code>架构其实是<code>VP</code>架构——<code>Presenter</code>层承担了<code>Model</code>的工作）。</p>
+<hr>
+<h1 id="二-project-模块化">二、Project-模块化</h1>
+<p>为了各个功能模块之间解耦、便于团队协作开发及后期维护，本次新版将原有的双<code>Module</code>架构升级为更加细致的多<code>Module</code>架构，各<code>Module</code>命名及释义如下：</p>
+<ul>
+<li><strong>app</strong><br>
+<code>App</code>入口，一般只包含<code>Application、SplashActivity和MainActivity</code>。</li>
+<li><strong>base</strong><br>
+标准基础库，新项目可以直接使用进行开发，<strong>不涉及项目中的相关业务，一般只包含能够在各个项目中直接通用的基础类。</strong><br>
+如：相关的<code>Base</code>类、基础的<code>Log</code>类等。</li>
+<li><strong>common</strong><br>
+公共资源库，<code>base</code>库的补充。<strong>部分工具类、UI组件等根据项目需求抽取集成，但不会涉及到具体的业务逻辑。</strong><br>
+如：公用的Util类、自定义的各种控件、常量类等。</li>
+<li><strong>component-xxx</strong><br>
+部件/成分库（也叫<code>Project</code>组成部分），<strong>提供基础的功能实现，但不涉及具体的业务。</strong><br>
+如：网络请求（<code>component-net</code>）、视频播放（<code>component-video</code>）等等。</li>
+<li><strong>module-xxx</strong><br>
+业务功能库，<strong>提供完整的业务功能实现及对应的UI效果展示。</strong><br>
+如：我的（<code>module-mine</code>）、推拿（<code>module-mass</code>）等。<br>
+<img src="https://jgduan.github.io//post-images/1614318521196.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<h1 id="三-屏幕分辨率适配">三、屏幕（分辨率适配）</h1>
+<p>依据实际的<code>UI</code>设计图，我们以<code>sw-375dp</code>为基准进行屏幕的适配工作，相应适配文件存放于<code>base-&gt;res/values、values-swxxxdp/measure.xml</code>内。<br>
+在实际开发中根据<code>UI</code>设计图尺寸直接设置对应控件的尺寸即可（<code>@dimen/common_measure_xxxdp</code>），具体使用示例如下：</p>
+<pre><code class="language-java">// 在需要使用地方添加对应的尺寸
+android:layout_height=&quot;@dimen/common_measure_xxxdp&quot;
+</code></pre>
+<hr>
+<h1 id="四-项目中三方库使用规范及示例">四、项目中三方库使用规范及示例</h1>
+<ul>
+<li>
+<p><strong>Java 8</strong><br>
+项目原则上是基于<code>Java 8</code>，我们使用到的部分库（<code>ButterKnife、Retrofit、ARouter</code>等）中也使用了<code>Java 8</code>的特性（比较常见的是<code>Lambda表达式</code>），为了确保能够正常的编译使用，我们必须在对应<code>Module/build.gradle</code>文件中手动添加<code>Java 8</code>支持，具体如下：</p>
+<pre><code class="language-java">android {
+  ...
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  ...
+}
+</code></pre>
+</li>
+<li>
+<p><strong>ButterKnife</strong></p>
+<ul>
+<li>概述<br>
+一个专注于<code>Android</code>系统的<code>View</code>依赖注入框架，省去了<code>findViewById、setOnClickListener</code>等重复代码，简化代码、提高开发效率。</li>
+<li>使用规范<br>
+这里我们使用的是<code>ButterKnife-10.2.3</code>版本，区别于<code>app</code>中使用的<code>R.id.xxx</code>映射方式，在<code>Module/Library</code>中需要通过<code>R2.id.xxx</code>去映射对应的控件。</li>
+<li>示例<pre><code class="language-java">    @BindView(R2.id.mine_iv_icon)
+    RoundImageView mIvIcon;
+</code></pre>
+</li>
+<li>注意事项<br>
+<strong>在使用该库的每个类的build.gradle文件中要添加如下配置：</strong><pre><code class="language-java">apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+    dependencies {
+        ...
+        annotationProcessor rootProject.ext.dependencies['butterknife-compiler']
+        ...
+    }
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>ARouter</strong></p>
+<ul>
+<li>概述<br>
+一款阿里开源的路由框架，是一个帮助<code>Android</code>进行模块化、组件化开发的开源库。它支持模块间的路由、通信、解耦。</li>
+<li>使用规范<br>
+在开发过程中，当我们对要进行跳转的页面上添加支持路由的注解时，我们需要遵循以下规则：<br>
+<strong>路径需要注意的是至少需要有两级，/xx/xx，我们以/moduleName/className为基准进行对应的命名。</strong></li>
+<li>使用示例<pre><code class="language-java">    @Route(path = &quot;/mine/mineActivity&quot;)
+    public class MineActivity{
+     ...
+    }
+</code></pre>
+</li>
+<li>注意事项<br>
+<strong>在使用该库的每个类的build.gradle文件中要添加如下配置：</strong><pre><code class="language-java">android {
+    ...
+    defaultConfig {
+        ...
+        // ARouter--每个使用到路由的Module必须加
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        ...
+    }
+    ...
+}
+dependencies {
+    // ARouter--每个使用到路由的Module必须加
+    annotationProcessor rootProject.ext.dependencies['arouter-compiler']
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="五-数据存储">五、数据存储</h1>
+<ul>
+<li><strong>SQLite</strong><br>
+一个轻量级的数据库。数据库操作<code>Helper</code>类，放置在<code>common</code>中，相关的常量<code>Key</code>类也可以放置在<code>common</code>，其它具体的表操作由各个<code>Module</code>自行维护。</li>
+<li><strong>SharedPreferences</strong><br>
+一个轻量级的存储类，解决在开发过程中我们需要保存一些简单的、轻量的数据。如：用户设置、一些开关/判断的标记等，这些需要保存的数据往往可能只是一两个字符，这种数据我们使用<code>SharedPreferences</code>保存即可。<br>
+放置在<code>common</code>中，相关的常量<code>Key</code>类也可以放置在<code>common</code>.</li>
+<li><strong>Native Files</strong><br>
+当我们在开发过程涉及到一些需要缓存的文件时，很多应用采取的策略是到<code>SD卡</code>的根目录上创建自己的文件夹然后保存到对应的文件路径下（之前的泰邦设计也是这样做的），虽然达到了缓存文件的目的，但它并不被<code>Android</code>所推荐——当应用卸载后，这些被创建的文件夹仍然存在，造成手机内多出了不少的垃圾文件，这样是极不友好的。<br>
+<code>Android</code>建议我们在缓存文件时使用应用专属（这里又分内部存储与外部存储，建议是尽可能使用外部存储进行缓存）的缓存路径进行文件的缓存，当应用被卸载后，这些数据也会随之而消失，从而规避了上述问题。<br>
+关于应用专属内、外部存储的更多了解，建议阅读以下文章或自行了解后再进行相关的操作：<br>
+<strong><a href="https://blog.csdn.net/s13383754499/article/details/82910704">彻底搞懂Android文件存储---内部存储，外部存储以及各种存储路径解惑</a></strong><br>
+<strong><a href="https://www.jianshu.com/p/b752b2e70b8c">Android文件缓存目录</a></strong><br>
+<strong>重点关注：getExternalCacheDir、getExternalFilesDir。</strong></li>
+</ul>
+<hr>
+<h1 id="六-other">六、Other</h1>
+<p>未完待续...</p>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/CdPU-ncMe/" class="tag">
+                    开发规范
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

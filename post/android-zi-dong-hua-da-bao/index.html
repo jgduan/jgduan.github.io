@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】自动化打包 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614320884431">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、签名配置signingConfigs
+// 自动化打包配置-签名信息
+signingConfigs {
+    release {// 线上环境
+        keyAlias 'xxx'// key别名，如taibang
+     ..." />
+    <meta name="keywords" content="Gradle,自动构建" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614320884431" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】自动化打包</h2>
+            <div class="post-date">2020-09-16</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-zi-dong-hua-da-bao.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-签名配置signingconfigs">一、签名配置signingConfigs</h1>
+<pre><code class="language-java">// 自动化打包配置-签名信息
+signingConfigs {
+    release {// 线上环境
+        keyAlias 'xxx'// key别名，如taibang
+        keyPassword 'xxxxxxxx'// key密码
+        storeFile file('/xxx.jks')// 密钥文件路径，如/taibang.jsk
+        storePassword 'xxxxxxxx'// 密钥文件密码
+        v1SigningEnabled true
+        v2SigningEnabled true
+    }
+
+    debug {// 开发环境
+        keyAlias 'xxx'
+        keyPassword 'xxxxxxxx'
+        storeFile file('/xxx.jks')
+        storePassword 'xxxxxxxx'
+        v1SigningEnabled true
+        v2SigningEnabled true
+    }
+}
+</code></pre>
+<h1 id="二-产品风味特点的defaultconfig配置">二、产品风味（特点）的DefaultConfig配置</h1>
+<pre><code class="language-java">flavorDimensions &quot;channel&quot; // 特点维度，为了让多渠道包间的纬度统一，方便productFlavors维度统一
+</code></pre>
+<p>关于<code>flavorDimensions</code>的具体解释可参考下文：<br>
+<strong><a href="https://www.freesion.com/article/7504275783/">FLAVORDIMENSIONS多维度理解(版本差异化打包)</a></strong></p>
+<hr>
+<h1 id="三-产品风味特点-多渠道配置">三、产品风味（特点）/ 多渠道配置</h1>
+<p>productFlavors</p>
+<pre><code class="language-java">// 多渠道信息配置
+productFlavors {
+    taibang {// 默认就是泰邦健康管家渠道
+        dimension &quot;channel&quot;
+    }
+
+    qfjp {
+        dimension &quot;channel&quot;
+    }
+}
+</code></pre>
+<hr>
+<h1 id="四-统一配置多渠道信息">四、 统一配置多渠道信息</h1>
+<pre><code class="language-java">// 统一配置多渠道信息
+productFlavors.all { flavor -&gt;
+    flavor.manifestPlaceholders = [XXX_CHANNEL: name] // 如BUGLY_APP_CHANNEL
+}
+</code></pre>
+<hr>
+<h1 id="五-配置自动构建后的apk文件名称">五、配置自动构建后的apk文件名称</h1>
+<pre><code class="language-java">    // 配置构建后apk的文件名称
+    applicationVariants.all { variant -&gt;
+        variant.outputs.all { output -&gt;
+            def buildName = &quot;TaiBang&quot;
+            def type = variant.buildType.name
+            def releaseApkName
+            releaseApkName = buildName + '_' + &quot;${defaultConfig.versionName}&quot; + '_' + type + &quot;_&quot; + &quot;${releaseTime()}&quot; + '.apk'
+            outputFileName = releaseApkName
+        }
+    }
+</code></pre>
+<p>在app/build.gradle内的android标签外新增releaseTime方法：</p>
+<pre><code class="language-java">android {
+    ...
+}
+
+/**
+ * 定义的打包时间
+ * @return
+ */
+static def releaseTime() {
+    return new Date().format(&quot;yyyyMMddHHmm&quot;, TimeZone.getTimeZone(&quot;GMT+08:00&quot;))
+}
+</code></pre>
+<hr>
+<h1 id="六-构建类型buildtypes配置">六、构建类型buildTypes配置</h1>
+<p><code>buildTypes</code>默认有<code>debug、release</code>两个构建类型，可以根据需要新增</p>
+<pre><code class="language-java">buildTypes {
+    release {
+        minifyEnabled false
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        signingConfig signingConfigs.release
+    }
+
+    debug {
+        minifyEnabled false
+        signingConfig signingConfigs.debug
+    }
+}
+</code></pre>
+<hr>
+<h1 id="七-自动构建对应渠道类型的apk包">七、自动构建对应渠道/类型的apk包</h1>
+<p>点开<code>Android Studio</code>右侧的<code>Gradle</code>工具栏，找到<code>ProjectName-&gt;Tasks-&gt;Build-&gt;assembleDebug/assembleRelease/assembleBuildTypes/assembleProductFlavors</code>即可构建对应渠道/类型下的<code>apk</code>包，输出路径为默认的<code>app/build/outputs/apk/</code>对应路径。</p>
+<hr>
+<h1 id="拓展阅读">拓展阅读</h1>
+<p><strong><a href="https://blog.csdn.net/stimgo/article/details/77480154?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase">AndroidStudio多渠道打包，生成不同app</a></strong><br>
+<strong><a href="https://blog.csdn.net/yujihu989/article/details/54589684">Android Studio配置Gradle（包括signingConfigs、buildTypes和productFlavors等）</a></strong></p>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/Jq4KM22Ls/" class="tag">
+                    Gradle
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/bW3nWbRNNj/" class="tag">
+                    自动构建
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

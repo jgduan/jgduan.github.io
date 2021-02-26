@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】代码混淆 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614322697788">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、App混淆配置
+
+
+基础的指令配置
+	-optimizationpasses 5 # 指定代码的压缩级别
+ -dontusemixedcaseclassnames # 混淆后类名都为小写
+ -dontskipnonpubliclibra..." />
+    <meta name="keywords" content="混淆,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614322697788" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】代码混淆</h2>
+            <div class="post-date">2020-07-01</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-dai-ma-hun-yao.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-app混淆配置">一、App混淆配置</h1>
+<ol>
+<li>
+<p><strong>基础的指令配置</strong></p>
+<pre><code class="language-java">	-optimizationpasses 5 # 指定代码的压缩级别
+ -dontusemixedcaseclassnames # 混淆后类名都为小写
+ -dontskipnonpubliclibraryclasses #指定不去忽略非公共的库的类
+ -dontskipnonpubliclibraryclassmembers #指定不去忽略非公共的库的类的成员
+ -dontpreverify # 不做预校验的操作
+ -verbose # 混淆时是否记录日志
+ -printmapping proguardMapping.txt #生成原类名和混淆后的类名的映射文件
+ -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
+ -keepattributes *Annotation*,InnerClasses #不混淆Annotation
+ -keepattributes Signature #不混淆泛型
+ -keepattributes SourceFile,LineNumberTable #抛出异常时保留代码行号
+ -ignorewarnings #抑制警告
+</code></pre>
+</li>
+<li>
+<p><strong>一些通用的必要配置</strong></p>
+<pre><code class="language-java">	#系统类不需要混淆
+ -keep public class * extends android.app.Activity
+ -keep public class * extends android.app.Application
+ -keep public class * extends android.app.Service
+ -keep public class * extends android.content.BroadcastReceiver
+ -keep public class * extends android.content.ContentProvider
+ -keep public class * extends android.app.backup.BackupAgentHelper
+ -keep public class * extends android.preference.Preference
+ -keep public class * extends android.view.View
+ -keep public class com.android.vending.licensing.ILicensingS
+ -keep class android.support.** {*;}
+ -keep public class * extends android.app.Fragment
+
+ -keepclasseswithmembernames class * {  # 保持 native 方法不被混淆
+ 	native &lt;methods&gt;;
+ }
+ -keepclassmembers class * extends android.app.Activity { # 保持自定义控件类不被混淆
+ 	public void *(android.view.View);
+ }
+ -keepclassmembers enum * {# 保持枚举 enum 类不被混淆
+ 	public static **[] values();
+ 	public static ** valueOf(java.lang.String);
+ }
+ -keep public class * extends android.view.View{# 保持View类不被混淆
+ 	*** get*();
+ 	void set*(***);
+ 	public &lt;init&gt;(android.content.Context);
+ 	public &lt;init&gt;(android.content.Context, android.util.AttributeSet);
+ 	public &lt;init&gt;(android.content.Context, android.util.AttributeSet, int);
+ }
+ -keepclasseswithmembers class * {# 保持自定义控件类不被混淆
+ 	public &lt;init&gt;(android.content.Context, android.util.AttributeSet);
+ 	public &lt;init&gt;(android.content.Context, android.util.AttributeSet, int);
+ }
+ -keep class * implements android.os.Parcelable { # 保持 Parcelable 不被混淆
+ 	public static final android.os.Parcelable$Creator *;
+ }
+ -keepclassmembers class * implements java.io.Serializable {
+ 	static final long serialVersionUID;
+ 	private static final java.io.ObjectStreamField[] serialPersistentFields;
+ 	private void writeObject(java.io.ObjectOutputStream);
+ 	private void readObject(java.io.ObjectInputStream);
+ 	java.lang.Object writeReplace();
+ 	java.lang.Object readResolve();
+ }
+ -keep class **.R$* {
+  *;
+ }
+ -keepclassmembers class * {
+ 	void *(**On*Event);
+ }
+
+ #WebView相关
+ -keepclassmembers class fqcn.of.javascript.interface.for.Webview {
+    public *;
+ }
+ -keepclassmembers class * extends android.webkit.WebViewClient {
+ 	public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
+ 	public boolean *(android.webkit.WebView, java.lang.String);
+ }
+ -keepclassmembers class * extends android.webkit.WebViewClient {
+ 	public void *(android.webkit.WebView, java.lang.String);
+ }
+
+ # 其它
+ -keep class com.google.android.gms.** {*;}
+ -dontwarn com.google.android.gms.**
+ -dontwarn com.viewpagerindicator.*
+ -dontwarn com.amazonaws.**
+ -dontnote com.google.vending.licensing.ILicensingService
+ -dontnote com.android.vending.licensing.ILicensingService
+
+
+ # Androidx相关
+ -keep class com.google.android.material.** {*;}
+ -keep class androidx.** {*;}
+ -keep public class * extends androidx.**
+ -keep interface androidx.** {*;}
+ -dontwarn com.google.android.material.**
+ -dontnote com.google.android.material.**
+ -dontwarn androidx.**
+</code></pre>
+</li>
+<li>
+<p><strong>实体类</strong></p>
+<pre><code class="language-java"># 可能会存在多处，需要一一添加
+-keep class 包名.bean.** {*;}
+</code></pre>
+</li>
+<li>
+<p><strong>第三方Library</strong></p>
+<pre><code class="language-java"># 本地.so库文件声明
+-libraryjars libs/armeabi/xxx.so
+-libraryjars libs/armeabi-v7/xxx.so
+-libraryjars libs/x86/xxx.so
+
+# 常用第三方Library混淆配置
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# Alipay
+-dontwarn com.alipay.**
+-dontwarn com.ta.utdid2.**
+-dontwarn com.ut.device.**
+-dontwarn android.net.**
+-keep class com.alipay.** {*;}
+-keep class com.ta.utdid2.** {*;}
+-keep class com.ut.device.** {*;}
+-keep class android.net.SSLCertificateSocketFactory
+
+# butterknife
+-keep class butterknife.** {*;}
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder {*;}
+-keepclasseswithmembernames class * {
+    @butterknife.* &lt;fields&gt;;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* &lt;methods&gt;;
+}
+
+# eventbus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.google.common.eventbus.Subscribe &lt;methods&gt;;
+        public void onEvent*(**);
+        void onEvent*(**);
+}
+-keep enum de.greenrobot.event.ThreadMode {*;}
+-keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
+    &lt;init&gt;(java.lang.Throwable);
+}
+
+# Gson
+-dontwarn com.google.gson.**
+-keep class com.google.gson.** {*;}
+-keep class sun.misc.Unsafe {*;}
+
+# 科大讯飞相关(ifly_push_sdk &amp;&amp; Msc)
+-dontwarn com.iflytek.**
+-keep class com.iflytek.** {*;}
+
+# 腾讯相关(libammsdk &amp;&amp; open_sdk)
+-dontwarn com.tencent.**
+-keep class com.tencent.** {*;}
+
+# weibosdkcore
+-dontwarn com.sina.weibo.sdk.**
+-keep class com.sina.weibo.sdk.** {*;}
+
+# Dagger
+-dontwarn dagger.internal.codegen.**
+-dontwarn javax.inject.**
+-keepclassmembers,allowobfuscation class * {
+    @javax.inject.* *;
+    @dagger.* *;
+    &lt;init&gt;();
+}
+-keep class dagger.** {*;}
+-keep class javax.inject.** {*;}
+-keep class * extends dagger.internal.Binding
+-keep class * extends dagger.internal.ModuleAdapter
+-keep class * extends dagger.internal.StaticInjection
+</code></pre>
+<blockquote>
+<p>这里要注意的一点是，要避免重复声明<code>jar</code>包——如果在<code>build.gradle</code>中使用了<code>compile fileTree(include: ['*.jar'], dir: 'libs')</code>，就不需要在混淆文件中添加<code>-libraryjars libs/xxx.jar</code>去声明对应的<code>jar</code>了，否则会报错提示重复添加。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>反射类及其相关方法</strong></p>
+<pre><code class="language-java">-keep class java.lang.annotation.** {*;}
+</code></pre>
+</li>
+<li>
+<p><strong>JS相关交互类(方法互调)</strong></p>
+<pre><code class="language-java"></code></pre>
+</li>
+</ol>
+<hr>
+<h1 id="二-moduleaar-lib混淆配置">二、Module（aar、lib)混淆配置</h1>
+<blockquote>
+<p>我们在封装<code>aar、lib</code>提供给他人使用时，为了保证功能能够正常的被使用，往往需要告知别人针对a<code>ar、lib</code>进行免混淆配置以保证<code>aar、lib</code>中的一些关键类不被混淆以免影响正常使用。（<code>github</code>上很多<code>Library</code>的<code>README.md</code>文件中都有对应的混淆清单提示）<br>
+但是在实际的使用过程中，经常有用户会忘记在<code>App</code>中进行对应的<code>aar、lib</code>的免混淆配置，导致其功能不能正常使用（打包后关键类被混淆），这样的的操作是很不友好的。</p>
+</blockquote>
+<p><code>AndroidStudio</code>在<code>3.x</code>之后，其实已经为我们提供了新的解决办法，在新建<code>Module</code>后，我们会发现<code>Module</code>下有了<code>proguard-rules.pro、consumer-rules.pro</code>两个文件，而在<code>Module/build.gradle</code>配置文件的<code>defaultConfig</code>中，我们会发现有个<code>consumerProguardFiles</code>配置，它其实就是为了解决<code>aar、lib</code>混淆配置后<code>App</code>没有进行对应的配置导致<code>aar、lib</code>的配置未生效的问题。</p>
+<p>正确的解决方案（只需在<code>aar、lib</code>中进行对应的混淆配置，即便引用的<code>App</code>在混淆时不针对<code>aar、lib</code>进行对应的配置，打包后也不会影响<code>aar、lib</code>的正确混淆）：<br>
+在<code>Module/build.gradle</code>中配置（<code>Android 3.x</code>后会默认生成该配置）：</p>
+<pre><code class="language-java">android {
+    defaultConfig {
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}
+</code></pre>
+<p>然后在<code>Module/consumer-rules.pro</code>文件中进行具体的混淆配置。</p>
+<hr>
+<h1 id="拓展阅读">拓展阅读</h1>
+<p><strong><a href="http://blog.csdn.net/hudan2714/article/details/53191782">整理Android最全的混淆规则大全（最新的开源框架混淆）</a></strong><br>
+<strong><a href="http://blog.csdn.net/qq_15807167/article/details/52683375">Android混淆</a></strong><br>
+<strong><a href="https://blog.csdn.net/lhd201006/article/details/72913071">Android Studio的Proguard（代码混淆）</a></strong><br>
+<strong><a href="https://www.v2ex.com/t/646787">Android 配置中的 consumerProguardFiles</a></strong></p>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/PBkJf1EP6/" class="tag">
+                    混淆
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

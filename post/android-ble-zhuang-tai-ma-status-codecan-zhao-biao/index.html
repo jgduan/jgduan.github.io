@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】BLE状态码（status code）参照表 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614320187613">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="成功 / 错误 / 异常对应的状态码：
+
+    
+        常量名
+        16进制Code
+        10进制Code
+    
+    
+        GATT_SUCCESS
+        0x00
+    ..." />
+    <meta name="keywords" content="BLE" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614320187613" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】BLE状态码（status code）参照表</h2>
+            <div class="post-date">2020-09-23</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-ble-zhuang-tai-ma-status-codecan-zhao-biao.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p><strong>成功 / 错误 / 异常对应的状态码：</strong></p>
+<table>
+    <tr>
+        <th>常量名</th>
+        <th>16进制Code</th>
+        <th>10进制Code</th>
+    </tr>
+    <tr>
+        <th>GATT_SUCCESS</th>
+        <th>0x00</th>
+        <th>0</th>
+    </tr>
+    <tr>
+        <th>GATT_INVALID_HANDLE</th>
+        <th>0x01</th>
+        <th>1</th>
+    </tr>
+    <tr>
+        <th>GATT_READ_NOT_PERMIT</th>
+        <th>0x02</th>
+        <th>2</th>
+    </tr>
+    <tr>
+        <th>GATT_WRITE_NOT_PERMIT</th>
+        <th>0x03</th>
+        <th>3</th>
+    </tr>
+    <tr>
+        <th>GATT_INVALID_PDU</th>
+        <th>0x04</th>
+        <th>4</th>
+    </tr>
+    <tr>
+        <th>GATT_INSUF_AUTHENTICATION</th>
+        <th>0x05</th>
+        <th>5</th>
+    </tr>
+    <tr>
+        <th>GATT_REQ_NOT_SUPPORTED</th>
+        <th>0x06</th>
+        <th>6</th>
+    </tr>
+    <tr>
+        <th>GATT_INVALID_OFFSET</th>
+        <th>0x07</th>
+        <th>7</th>
+    </tr>
+    <tr>
+        <th>GATT_INSUF_AUTHORIZATION</th>
+        <th>0x08</th>
+        <th>8</th>
+    </tr>
+    <tr>
+        <th>GATT_PREPARE_Q_FULL</th>
+        <th>0x09</th>
+        <th>9</th>
+    </tr>
+    <tr>
+        <th>GATT_NOT_FOUND</th>
+        <th>0x0a</th>
+        <th>10</th>
+    </tr>
+    <tr>
+        <th>GATT_NOT_LONG</th>
+        <th>0x0b</th>
+        <th>11</th>
+    </tr>
+    <tr>
+        <th>GATT_INSUF_KEY_SIZE</th>
+        <th>0x0c</th>
+        <th>12</th>
+    </tr>
+    <tr>
+        <th>GATT_INVALID_ATTR_LEN</th>
+        <th>0x0d</th>
+        <th>13</th>
+    </tr>
+    <tr>
+        <th>GATT_ERR_UNLIKELY</th>
+        <th>0x0e</th>
+        <th>14</th>
+    </tr>
+    <tr>
+        <th>GATT_INSUF_ENCRYPTION</th>
+        <th>0x0f</th>
+        <th>15</th>
+    </tr>
+    <tr>
+        <th>GATT_UNSUPPORT_GRP_TYPE</th>
+        <th>0x10</th>
+        <th>16</th>
+    </tr>
+    <tr>
+        <th>GATT_INSUF_RESOURCE</th>
+        <th>0x11</th>
+        <th>17</th>
+    </tr>
+    <tr>
+        <th>GATT_NO_RESOURCES</th>
+        <th>0x80</th>
+        <th>128</th>
+    </tr>
+    <tr>
+        <th>GATT_INTERNAL_ERROR</th>
+        <th>0x81</th>
+        <th>129</th>
+    </tr>
+    <tr>
+        <th>GATT_WRONG_STATE</th>
+        <th>0x82</th>
+        <th>130</th>
+    </tr>
+    <tr>
+        <th>GATT_DB_FULL</th>
+        <th>0x83</th>
+        <th>131</th>
+    </tr>
+    <tr>
+        <th>GATT_BUSY</th>
+        <th>0x84</th>
+        <th>132</th>
+    </tr>
+    <tr>
+        <th>GATT_ERROR</th>
+        <th>0x85</th>
+        <th>133</th>
+    </tr>
+    <tr>
+        <th>GATT_CMD_STARTED</th>
+        <th>0x86</th>
+        <th>134</th>
+    </tr>
+    <tr>
+        <th>GATT_ILLEGAL_PARAMETER</th>
+        <th>0x87</th>
+        <th>135</th>
+    </tr>
+    <tr>
+        <th>GATT_PENDING</th>
+        <th>0x88</th>
+        <th>136</th>
+    </tr>
+    <tr>
+        <th>GATT_AUTH_FAIL</th>
+        <th>0x89</th>
+        <th>137</th>
+    </tr>
+    <tr>
+        <th>GATT_MORE</th>
+        <th>0x8a</th>
+        <th>138</th>
+    </tr>
+    <tr>
+        <th>GATT_INVALID_CFG</th>
+        <th>0x8b</th>
+        <th>139</th>
+    </tr>
+    <tr>
+        <th>GATT_SERVICE_STARTED</th>
+        <th>0x8c</th>
+        <th>140</th>
+    </tr>
+    <tr>
+        <th>GATT_ENCRYPED_MITM</th>
+        <th>GATT_SUCCESS</th>
+        <th>0</th>
+    </tr>
+    <tr>
+        <th>GATT_ENCRYPED_NO_MITM</th>
+        <th>0x8d</th>
+        <th>141</th>
+    </tr>
+    <tr>
+        <th>GATT_NOT_ENCRYPTED</th>
+        <th>0x8e</th>
+        <th>142</th>
+    </tr>
+    <tr>
+        <th>GATT_CONGESTED</th>
+        <th>0x8f</th>
+        <th>143</th>
+    </tr>
+    <tr>
+    </tr>
+    	 <th colspan="3">/* 0xE0 ~ 0xFC reserved for future use */</th>
+    <tr>
+        <th>GATT_CCC_CFG_ERR /* Client Characteristic Configuration Descriptor Improperly Configured */</th>
+        <th>0xFD</th>
+        <th>253</th>
+    </tr>
+    <tr>
+        <th>GATT_PRC_IN_PROGRESS /* Procedure Already in progress */</th>
+        <th>0xFE</th>
+        <th>254</th>
+    </tr>
+    <tr>
+        <th>GATT_OUT_OF_RANGE /* Attribute value out of range */</th>
+        <th>0xFF</th>
+        <th>255</th>
+    </tr>
+</table>
+<p>其它状态码参照：<br>
+<strong><a href="https://blog.csdn.net/zhoubintiantian/article/details/77193705?utm_source=blogxgwz3">Android BLE Gatt返回错误对应宏</a></strong><br>
+<strong><a href="https://blog.csdn.net/xuwenwen_2013/article/details/79413559">BLE操作成功或失败status code对应解释</a></strong></p>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/Xg_n15zE4/" class="tag">
+                    BLE
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

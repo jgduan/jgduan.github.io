@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-02-26T03:10:26.872Z</updated>
+    <updated>2021-02-26T03:12:34.398Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -334,58 +334,6 @@ a x b可以记作a·b，也可以记作ab，即 a x b = a·b = ab。</li>
 <p>一般的，任意若干个数相加，无论各数相加的先后次序如何，其和不变。</p>
 </blockquote>
 <hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【2021学习计划】]]></title>
-        <id>https://jgduan.github.io/post/2021-xue-xi-ji-hua/</id>
-        <link href="https://jgduan.github.io/post/2021-xue-xi-ji-hua/">
-        </link>
-        <updated>2021-01-18T02:30:11.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="时间安排">时间安排</h1>
-<ul>
-<li><strong>上午</strong>
-<ul>
-<li>工作安排</li>
-<li>技术提升课程</li>
-</ul>
-</li>
-<li><strong>下午</strong>
-<ul>
-<li>数学</li>
-<li>英语</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h1 id="一-技术方面">一、技术方面</h1>
-<ol>
-<li><strong>完成Kotlin语言的基础学习</strong></li>
-<li><strong>基于Kotlin做起码一个小项目</strong></li>
-<li><strong>Jetpack组件全家桶学习</strong></li>
-<li><strong>MVVM架构学习及实际使用</strong></li>
-<li><strong>RxJava、Retrofit、Glide框架深入学习、使用</strong></li>
-</ol>
-<hr>
-<h1 id="二-合工大非全日制研备战">二、合工大非全日制研备战</h1>
-<ol>
-<li><strong>完成数学部分预习</strong>
-<ol>
-<li>初中数学</li>
-<li>高中数学</li>
-<li>高数、离散数学</li>
-<li>微积分</li>
-<li>统计学</li>
-</ol>
-</li>
-<li><strong>完成英语部分预习</strong>
-<ol>
-<li>初中英语</li>
-<li>高中英语</li>
-<li>大学英语</li>
-</ol>
-</li>
-</ol>
 ]]></content>
     </entry>
     <entry>

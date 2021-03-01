@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】Gradle之多类型、类型包名后缀、源集（对应文件资源）配置 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614564975329">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+一般情况下，我们的开发环境分为debug与release两个环境，这个一般在新建Android项目时，Gradle文件中已完成了默认的配置，代码如下（debug默认存在）：
+buildTypes {
+    release {
+   ..." />
+    <meta name="keywords" content="Gradle,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614564975329" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】Gradle之多类型、类型包名后缀、源集（对应文件资源）配置</h2>
+            <div class="post-date">2020-06-10</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-gradle-zhi-duo-lei-xing-lei-xing-bao-ming-hou-zhui-yuan-ji-dui-ying-wen-jian-zi-yuan-pei-zhi.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="前言">前言</h1>
+<p>一般情况下，我们的开发环境分为<code>debug</code>与<code>release</code>两个环境，这个一般在新建<code>Android</code>项目时，<code>Gradle</code>文件中已完成了默认的配置，代码如下（<code>debug</code>默认存在）：</p>
+<pre><code class="language-java">buildTypes {
+    release {
+        minifyEnabled false
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+}
+</code></pre>
+<p>那么，如果我们在有的项目中需要配置其它环境（如<code>alpha、beta</code>等），这个时候就需要额外的配置了。</p>
+<hr>
+<h1 id="buildtypes配置构建类型">buildTypes（配置构建类型）</h1>
+<p><code>buildTypes</code>位于<code>app-build.gradle</code>文件的<code>android{}</code>代码块中，它是用来创建和配置<code>app</code>的构建类型的，新建一个项目在模块的<code>build.gradle</code>文件中会默认生成<code>debug与release</code>两个环境版本。</p>
+<hr>
+<h1 id="多类型配置与其作用">多类型配置与其作用</h1>
+<p>当我们app需要在不同的环境下生成对应的版本时，这个时候就需要在<code>buildTypes</code>内进行对应版本类型的配置工作（如：网络<code>baseUrl</code>的配置），示例代码如下：</p>
+<pre><code class="language-java">buildTypes {
+    release {
+        minifyEnabled false
+        buildConfigField 'String', 'BASE_URL', '&quot;http://xxxx-release.**/&quot;'
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+
+    alpha {
+        minifyEnabled false
+        buildConfigField 'String', 'BASE_URL', '&quot;http://xxxx-alpha.**/&quot;'
+    }
+
+    beta {
+        minifyEnabled false
+        buildConfigField 'String', 'BASE_URL', '&quot;http://xxxx-beta.**/&quot;'
+    }
+}
+</code></pre>
+<p>通过如上配置，我们可以实现针对不同的环境创建对应的版本类型。</p>
+<blockquote>
+<p>通过<code>Gradle-&gt;app-&gt;build-&gt;assemble</code>可以一键进行所有类型版本的构建，生成对应的<code>apk</code>文件。</p>
+</blockquote>
+<hr>
+<h1 id="applicationidsuffix">applicationIdSuffix</h1>
+<p>该字段表示，在不改变当前程序默认<code>ID</code>（包名）的情况下，为其添加后缀。如：当前包名是<code>com.zihao.app</code>，如果你想区分测试包与线上包的情况，这个时候在<code>buildTypes-&gt;debug</code>中将<code>applicationIdSuffix</code>设置为<code>applicationIdSuffix &quot;.debug&quot;</code>，那么对应的包名就变成了<code>com.zihao.app.debug</code>，示例代码如下：</p>
+<pre><code class="language-java">buildTypes {
+    ...
+    debug {
+        applicationIdSuffix &quot;.debug&quot;
+    }
+}
+</code></pre>
+<hr>
+<h1 id="源集source-sets构建">源集（Source Sets）构建</h1>
+<p><code>Android Studio</code>会为每个模块将源代码和资源文件组成一个逻辑上的源集。每个模块的<code>main/</code>源集包括所有构建变种都是用的源码和资源。其它源集的目录是可选的，<code>Android Studio</code>不会自动为你创建他们，当你构建新的变种的时候。但是，构建具体的app版本的时候，创建于main/类似的源集，可以帮助组织<code>Gradle</code>应该使用的文件和资源（有助于让<code>Gradle</code>只应在构建特定应用版本时使用的文件和资源井然有序）。</p>
+<blockquote>
+<p>通常源代码是放在<code>'src/main'</code>文件目录下的，但是你可以根据不同的构建类型（比如<code>debug、release、alpha</code>等）区分不同的源文件，这样对应建立的文件夹就是一个不同的构建源。打个比方，<code>debug</code>的构建源为<code>src/debug</code>，<code>release</code>的构建源为<code>src/release</code>，而在<code>src/main</code>定义的为公共资源，最后在构建时进行合并操作。</p>
+</blockquote>
+<p><strong>构建源的命名规则如下</strong></p>
+<ul>
+<li>src/main/<br>
+此源集包括所有构建变体共用的代码和资源。</li>
+<li>src/<buildTypes>/<br>
+创建这个源集来包括仅仅为一个具体的<code>buildType</code>使用的代码和资源。示例：<code>src/alpha</code>。</li>
+<li>src/<productFlavor>/<br>
+创建这个源集来包括仅仅为一个具体的<code>productFlavor</code>使用的代码和资源。示例：<code>src/baidu</code>。</li>
+<li>src/<productFlavorBuildType>/<br>
+创建此源集可加入特定构建变体专用的代码和资源。</li>
+</ul>
+<p>例如，要生成应用的<code>“baiduDebug”</code>版本，构建系统需要合并来自以下源集的代码、设置和资源：</p>
+<ul>
+<li>src/baiduDebug/（构建变种源集）</li>
+<li>src/debug/（构建类型buildType源集）</li>
+<li>src/baidu/（productFlavor源集）</li>
+<li>src/main/（main源集）</li>
+</ul>
+<blockquote>
+<p>注意：当你在<code>Android Studio</code>中创建一个新的文件或者目录时，使用<code>File-&gt;New</code>菜单项，你可以为一个具体的源集创建它。你可以选择的这些源集是基于你的构建配置的，并且<code>Android Studio</code>自动创建需要的目录，如果它们不存在的话。</p>
+</blockquote>
+<p><strong>源集的优先级</strong><br>
+如果不同的源集包含同一个文件的不同版本，当决定哪个文件使用的时候<code>Gradle</code>使用下面的优先级顺序。（在左边的源集会重写右边的源集文件和设置）：</p>
+<pre><code class="language-java">buildVariant &gt; buildType &gt; productFlavor &gt; main source set &gt; library dependencies
+</code></pre>
+<p>这可以让Gradle在构建的时候使用与具体构建变种相关的文件，当重用<code>activity</code>，应用逻辑，以及和其他版本通用的资源的时候。当**<a href="https://developer.android.com/studio/build/manifest-merge.html">merging multiple manifests</a><strong>的时候，<code>Gradle</code>使用同样的优先级顺序，因此每个构建变种可以定义不同的组件或者权限在最终的<code>manifest</code>文件中。<br>
+学习更多关于创建自定义源集，点击</strong><a href="https://developer.android.com/studio/build/build-variants.html">Create source sets for build variants</a>**。</p>
+<blockquote>
+<p>参考：<strong><a href="https://www.jianshu.com/p/89e5b0f3521e">【译】Android构建配置</a></strong><br>
+<strong><a href="https://www.jianshu.com/p/e1efbade5d93">Android 多渠道打包配置</a></strong><br>
+<strong><a href="https://www.jianshu.com/p/a8870dccda1f">Android Studio Set of source 代码源集 源集创建等操作</a></strong><br>
+<strong><a href="https://developer.android.google.cn/studio/build/build-variants">官方文档</a></strong></p>
+</blockquote>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/Jq4KM22Ls/" class="tag">
+                    Gradle
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

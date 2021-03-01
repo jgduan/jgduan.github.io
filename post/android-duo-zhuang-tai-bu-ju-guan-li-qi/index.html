@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】多状态布局管理器 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614567946781">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="适用范围
+主要适用于Acitivty/Fragment需要根据不同的状态来展示对应的状态页面。
+
+设计思路
+
+设计一个布局管理器，用于管理各个状态的布局显示/隐藏
+在布局管理器的根layout文件中，通过ViewStubCompat导入对应..." />
+    <meta name="keywords" content="Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614567946781" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】多状态布局管理器</h2>
+            <div class="post-date">2019-12-21</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-duo-zhuang-tai-bu-ju-guan-li-qi.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="适用范围">适用范围</h1>
+<p>主要适用于<code>Acitivty/Fragment</code>需要根据不同的状态来展示对应的状态页面。</p>
+<hr>
+<h1 id="设计思路">设计思路</h1>
+<ul>
+<li>设计一个布局管理器，用于管理各个状态的布局显示/隐藏</li>
+<li>在布局管理器的根layout文件中，通过ViewStubCompat导入对应状态的layout</li>
+<li>通过getViewGroup方法获取对应调用该管理类调用者的根Layout——即数据正常展示的UI</li>
+<li>根据State进行对应的Page显示/隐藏</li>
+</ul>
+<hr>
+<h1 id="实现后的statusviewcontrollerjava类">实现后的StatusViewController.java类</h1>
+<pre><code class="language-java">package com.dohenes.common.view;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ViewStubCompat;
+
+import com.dohenes.common.R;
+
+/**
+ * ClassName StatusViewController
+ * Describe TODO&lt;状态试图控制器&gt;
+ * Author jgduan
+ * Date 2019/12/16 11:09
+ * Version v1.0
+ */
+public abstract class StatusViewController extends LinearLayout {
+    private static final String TAG = StatusViewController.class.getSimpleName();
+
+    /**
+     * 状态枚举类，对应不同的状态
+     * Empty对应空数据内容提示
+     * Load对应加载中内容提示
+     * Error对应发生异常提示
+     * NoNetwork对应无网络提示
+     * Success对应的是调用者自身的初始布局页面
+     */
+    public enum State {
+        Empty, Load, Error, NoNetwork, Success
+    }
+
+    private View mEmptyView;// 空数据提示View
+    private View mErrorView;// 异常提示View
+    private View mLoadingView;// 加载中View
+    private View mNoNetworkView;// 无网络提示View
+    private ViewGroup mSuccessView;// 这个实际上是对标调用StatusViewController的Activity/Fragment根View
+    private View mTitle;// Activity设置的Title
+
+    public StatusViewController(@NonNull Context context) {
+        super(context);
+        init(context);
+    }
+
+    public StatusViewController(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    /**
+     * 一些初始化的操作
+     *
+     * @param context context
+     */
+    private void init(@NonNull Context context) {
+        setOrientation(VERTICAL);
+        inflate(context, R.layout.status_view, this);// 引入多状态布局layout
+        mSuccessView = getViewGroup();// 获取调用者自身的初始View
+        mTitle = mSuccessView.findViewWithTag(&quot;title&quot;);
+        this.addView(mSuccessView, ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);// 添加默认的初始View进来
+    }
+
+    /**
+     * 开始载入数据
+     */
+    private void loadData() {
+        showPageWithState(State.Load);
+        onLoadData();// 通知调用的Activity这里触发了载入数据操作，需要它配合做出处理
+    }
+
+    /**
+     * 自定义的点击事件，只针对重新加载按钮
+     */
+    private OnClickListener mRetryClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            loadData();
+        }
+    };
+
+    /**
+     * 获取调用该控制器Activity/Fragment的根ViewGroup
+     *
+     * @return ViewGroup
+     */
+    public abstract ViewGroup getViewGroup();
+
+    /**
+     * 载入数据回调
+     */
+    public abstract void onLoadData();
+
+    /**
+     * 根据状态类型展示对应的页面
+     *
+     * @param status State
+     */
+    @SuppressLint(&quot;RestrictedApi&quot;)
+    public void showPageWithState(State status) {
+        if (mTitle != null) {
+            String tag = (String) getChildAt(0).getTag();
+            if (!TextUtils.equals(tag, &quot;title&quot;)) {// 没有标题栏
+                mSuccessView.removeView(mTitle);
+                addView(mTitle, 0);
+            }
+        }
+        switch (status) {
+            case Success:
+                if (mLoadingView != null) {
+                    mLoadingView.setVisibility(View.GONE);
+                }
+                if (mErrorView != null) {
+                    mErrorView.setVisibility(View.GONE);
+                }
+                if (mNoNetworkView != null) {
+                    mNoNetworkView.setVisibility(View.GONE);
+                }
+                if (mEmptyView != null) {
+                    mEmptyView.setVisibility(View.GONE);
+                }
+                mSuccessView.setVisibility(View.VISIBLE);
+                break;
+            case Empty:
+                mSuccessView.setVisibility(View.GONE);
+                if (mLoadingView != null) {
+                    mLoadingView.setVisibility(View.GONE);
+                }
+                if (mErrorView != null) {
+                    mErrorView.setVisibility(View.GONE);
+                }
+                if (mNoNetworkView != null) {
+                    mNoNetworkView.setVisibility(View.GONE);
+                }
+                if (mEmptyView == null) {
+                    ViewStubCompat viewStub = findViewById(R.id.svc_stub_empty);
+                    mEmptyView = viewStub.inflate();
+                } else {
+                    mEmptyView.setVisibility(View.VISIBLE);
+                }
+                mEmptyView.findViewById(R.id.vcs_btn_empty)
+                        .setOnClickListener(mRetryClickListener);
+                break;
+            case Load:
+                mSuccessView.setVisibility(View.GONE);
+                if (mEmptyView != null) {
+                    mEmptyView.setVisibility(View.GONE);
+                }
+                if (mErrorView != null) {
+                    mErrorView.setVisibility(View.GONE);
+                }
+                if (mNoNetworkView != null) {
+                    mNoNetworkView.setVisibility(View.GONE);
+                }
+                if (mLoadingView == null) {
+                    ViewStubCompat viewStub = findViewById(R.id.svc_stub_loading);
+                    mLoadingView = viewStub.inflate();
+                } else {
+                    mLoadingView.setVisibility(View.VISIBLE);
+                }
+                break;
+            case Error:
+                mSuccessView.setVisibility(View.GONE);
+                if (mEmptyView != null) {
+                    mEmptyView.setVisibility(View.GONE);
+                }
+                if (mLoadingView != null) {
+                    mLoadingView.setVisibility(View.GONE);
+                }
+                if (mNoNetworkView != null) {
+                    mNoNetworkView.setVisibility(View.GONE);
+                }
+                if (mErrorView == null) {
+                    ViewStubCompat viewStub = findViewById(R.id.svc_stub_error);
+                    mErrorView = viewStub.inflate();
+                } else {
+                    mErrorView.setVisibility(View.VISIBLE);
+                }
+                mErrorView.findViewById(R.id.vcs_btn_error)
+                        .setOnClickListener(mRetryClickListener);
+                break;
+            case NoNetwork:
+                mSuccessView.setVisibility(View.GONE);
+                if (mEmptyView != null) {
+                    mEmptyView.setVisibility(View.GONE);
+                }
+                if (mErrorView != null) {
+                    mErrorView.setVisibility(View.GONE);
+                }
+                if (mLoadingView != null) {
+                    mLoadingView.setVisibility(View.GONE);
+                }
+                if (mNoNetworkView == null) {
+                    ViewStubCompat viewStub = findViewById(R.id.svc_stub_no_network);
+                    mNoNetworkView = viewStub.inflate();
+                } else {
+                    mNoNetworkView.setVisibility(View.VISIBLE);
+                }
+                mNoNetworkView.findViewById(R.id.vcs_btn_no_net)
+                        .setOnClickListener(mRetryClickListener);
+                break;
+            default:
+                break;
+        }
+    }
+
+}
+
+// 用法示例：修改baseActivity中的setContentView(getView());
+//    private StatusViewController statusViewController;
+//
+//    private View getView() {
+//        statusViewController = new StatusViewController(this) {
+//            @Override
+//            public ViewGroup getViewGroup() {
+//                return getLayoutInflaterViewGroup();
+//            }
+//
+//            @Override
+//            public void onLoadData() {
+//                // 这里需要在开始载入数据，暂时写个延迟模拟操作成功的效果
+//                Observable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+//                        .subscribe(new Observer&lt;Long&gt;() {
+//                            @Override
+//                            public void onCompleted() {
+//                                statusViewController.showPageWithState(State.Success);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(Long aLong) {
+//
+//                            }
+//                        });
+//            }
+//        };
+//        // 默认应该是Load状态，示例放上Empty状态，便于更直观的体验流程
+//        statusViewController.showPageWithState(StatusViewController.State.Empty);
+//        return statusViewController;
+//    }
+//
+//    private ViewGroup getLayoutInflaterViewGroup() {
+//        return (ViewGroup) View.inflate(this, getContentViewID(), null);
+//    }
+</code></pre>
+<hr>
+<h1 id="对应的布局代码">对应的布局代码</h1>
+<ul>
+<li><code>StatusViewController</code>对应的根布局<code>status_view.mxl</code><pre><code class="language-java">	&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;merge xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+
+  	&lt;androidx.appcompat.widget.ViewStubCompat
+  		android:id=&quot;@+id/svc_stub_loading&quot;
+  		android:layout_width=&quot;match_parent&quot;
+  		android:layout_height=&quot;0dp&quot;
+  		android:layout_weight=&quot;1&quot;
+  		android:layout=&quot;@layout/status_loading&quot; /&gt;
+
+  	&lt;androidx.appcompat.widget.ViewStubCompat
+  		android:id=&quot;@+id/svc_stub_empty&quot;
+  		android:layout_width=&quot;match_parent&quot;
+  		android:layout_height=&quot;0dp&quot;
+  		android:layout_weight=&quot;1&quot;
+  		android:layout=&quot;@layout/status_empty&quot; /&gt;
+
+  	&lt;androidx.appcompat.widget.ViewStubCompat
+  		android:id=&quot;@+id/svc_stub_error&quot;
+  		android:layout_width=&quot;match_parent&quot;
+  		android:layout_height=&quot;0dp&quot;
+  		android:layout_weight=&quot;1&quot;
+  		android:layout=&quot;@layout/status_error&quot; /&gt;
+
+  	&lt;androidx.appcompat.widget.ViewStubCompat
+  		android:id=&quot;@+id/svc_stub_no_network&quot;
+  		android:layout_width=&quot;match_parent&quot;
+  		android:layout_height=&quot;0dp&quot;
+  		android:layout_weight=&quot;1&quot;
+  		android:layout=&quot;@layout/status_no_network&quot; /&gt;
+  &lt;/merge&gt;
+</code></pre>
+</li>
+<li><code>status_empty.xml</code><pre><code class="language-java">	&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  	android:layout_width=&quot;match_parent&quot;
+  	android:layout_height=&quot;match_parent&quot;
+  	android:gravity=&quot;center&quot;
+  	android:orientation=&quot;vertical&quot;&gt;
+
+  	&lt;Button
+  		android:id=&quot;@+id/vcs_btn_empty&quot;
+  		android:layout_width=&quot;wrap_content&quot;
+  		android:layout_height=&quot;wrap_content&quot;
+  		android:text=&quot;@string/vsc_empty_tips&quot; /&gt;
+
+  &lt;/LinearLayout&gt;
+</code></pre>
+</li>
+<li><code>status_error.xml</code><pre><code class="language-java">  &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  	android:layout_width=&quot;match_parent&quot;
+  	android:layout_height=&quot;match_parent&quot;
+  	android:gravity=&quot;center&quot;
+  	android:orientation=&quot;vertical&quot;&gt;
+
+  	&lt;Button
+  		android:id=&quot;@+id/vcs_btn_error&quot;
+  		android:layout_width=&quot;wrap_content&quot;
+  		android:layout_height=&quot;wrap_content&quot;
+  		android:text=&quot;@string/vcs_error_tips&quot; /&gt;
+
+  &lt;/LinearLayout&gt;
+</code></pre>
+</li>
+<li><code>status_loading.xml</code><pre><code class="language-java">	&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  	android:layout_width=&quot;match_parent&quot;
+  	android:layout_height=&quot;match_parent&quot;
+  	android:background=&quot;@android:color/white&quot;
+  	android:gravity=&quot;center&quot;
+  	android:orientation=&quot;vertical&quot;&gt;
+
+  	&lt;ProgressBar
+  		android:id=&quot;@+id/vcs_pb_loading&quot;
+  		style=&quot;?android:attr/progressBarStyle&quot;
+  		android:layout_width=&quot;wrap_content&quot;
+  		android:layout_height=&quot;wrap_content&quot; /&gt;
+  &lt;/LinearLayout&gt;
+</code></pre>
+</li>
+<li><code>status_no_network.xml</code><pre><code class="language-java">	&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  	android:layout_width=&quot;match_parent&quot;
+  	android:layout_height=&quot;match_parent&quot;
+  	android:background=&quot;@android:color/white&quot;
+  	android:gravity=&quot;center&quot;
+  	android:orientation=&quot;vertical&quot;&gt;
+
+  	&lt;Button
+  		android:id=&quot;@+id/vcs_btn_no_net&quot;
+  		android:layout_width=&quot;wrap_content&quot;
+  		android:layout_height=&quot;wrap_content&quot;
+  		android:text=&quot;@string/vcs_no_net_tips&quot; /&gt;
+
+  &lt;/LinearLayout&gt;
+</code></pre>
+</li>
+<li>对应的<code>values</code>值<pre><code class="language-java">  &lt;string name=&quot;vsc_empty_tips&quot;&gt;没有加载到数据，重新加载&lt;/string&gt;
+  &lt;string name=&quot;vcs_error_tips&quot;&gt;发生错误，点击重新加载&lt;/string&gt;
+  &lt;string name=&quot;vcs_no_net_tips&quot;&gt;没有网络，点击重试&lt;/string&gt;
+</code></pre>
+</li>
+</ul>
+<hr>
+<h1 id="三方库推荐">三方库推荐</h1>
+<p><strong><a href="https://github.com/hongyangAndroid/LoadingAndRetryManager">张鸿洋_LoadingAndRetryManager</a></strong><br>
+<strong><a href="https://github.com/long216/MultiPageControl">MultiPageControl</a></strong></p>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

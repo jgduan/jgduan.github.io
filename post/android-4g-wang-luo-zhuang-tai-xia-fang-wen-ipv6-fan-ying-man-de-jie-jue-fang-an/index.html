@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】4G网络状态下访问ipv6反应慢的解决方案 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1614566825439">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+本文转自feshfans的博客 Android 在 4G 下访问 IPV6 慢的解决方案，仅用于记录解决方式，如有侵权，烦请告知。
+
+起因
+因公司iOS上架应用必须要使用ipv6协议，服务端这边新增了ipv6协议支持。
+Android..." />
+    <meta name="keywords" content="网络,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1614566825439" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】4G网络状态下访问ipv6反应慢的解决方案</h2>
+            <div class="post-date">2020-02-27</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-4g-wang-luo-zhuang-tai-xia-fang-wen-ipv6-fan-ying-man-de-jie-jue-fang-an.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="前言">前言</h1>
+<p>本文转自feshfans的博客 <strong><a href="https://www.cnblogs.com/feshfans/p/10269629.html">Android 在 4G 下访问 IPV6 慢的解决方案</a></strong>，仅用于记录解决方式，如有侵权，烦请告知。</p>
+<hr>
+<h1 id="起因">起因</h1>
+<p>因公司<code>iOS</code>上架应用必须要使用<code>ipv6</code>协议，服务端这边新增了<code>ipv6</code>协议支持。<br>
+<code>Android</code>刚开始在<code>wifi</code>网络环境下访问一切正常，后来在切换到<code>4G</code>网络状态下时，发下每次请求的时间相对之前都延长了好多，经过搜索参阅上文后，发现是每次解析都会收到两个<code>ip</code>地址（<code>ipv6、ipv4</code>），<code>ipv6</code>总是排在前面，会被优先使用<code>ipv6</code>地址访问解析，所以决定采用文中方案，使用自定义<code>DNS</code>方式将<code>ipv4</code>优先级放在第一位，杜绝此类问题的发生。<br>
+<img src="https://jgduan.github.io//post-images/1614566693157.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="验证方式">验证方式</h1>
+<p>使用下面的代码，验证DNS解析到的IP地址：</p>
+<pre><code class="language-java">try {
+    InetAddress[] inetAddresses = InetAddress.getAllByName(&quot;server.xxxx.cn&quot;);
+    for (InetAddress inetAddress : inetAddresses) {
+        Log.d(TAG, inetAddress.getHostAddress());
+    }
+} catch (UnknownHostException e) {
+    e.printStackTrace();
+}
+</code></pre>
+<hr>
+<h1 id="解决方案">解决方案</h1>
+<p>通过上面的验证，基本断定为 4G 网络下，Android 端通过 ipv6 连接的服务地址。客户端的Retrofit是基于okHttp3为核心实现的网络请求 ，在查看 javadoc 后，发现其提供了 DNS 接口，代码如下：</p>
+<pre><code class="language-java">/**
+ * A domain name service that resolves IP addresses for host names. Most applications will use the
+ * {@linkplain #SYSTEM system DNS service}, which is the default. Some applications may provide
+ * their own implementation to use a different DNS server, to prefer IPv6 addresses, to prefer IPv4
+ * addresses, or to force a specific known IP address.
+ *
+ * &lt;p&gt;Implementations of this interface must be safe for concurrent use.
+ */
+public interface Dns {
+  /**
+   * A DNS that uses {@link InetAddress#getAllByName} to ask the underlying operating system to
+   * lookup IP addresses. Most custom {@link Dns} implementations should delegate to this instance.
+   */
+  Dns SYSTEM = hostname -&gt; {
+    if (hostname == null) throw new UnknownHostException(&quot;hostname == null&quot;);
+    try {
+      return Arrays.asList(InetAddress.getAllByName(hostname));
+    } catch (NullPointerException e) {
+      UnknownHostException unknownHostException =
+          new UnknownHostException(&quot;Broken system behaviour for dns lookup of &quot; + hostname);
+      unknownHostException.initCause(e);
+      throw unknownHostException;
+    }
+  };
+
+  /**
+   * Returns the IP addresses of {@code hostname}, in the order they will be attempted by OkHttp. If
+   * a connection to an address fails, OkHttp will retry the connection with the next address until
+   * either a connection is made, the set of IP addresses is exhausted, or a limit is exceeded.
+   */
+  List&lt;InetAddress&gt; lookup(String hostname) throws UnknownHostException;
+}
+``
+
+下面我们通过实现此接口，将解析到的 ip 顺序调整一下，如果是 ipv4 则将其放到数据的第一个，其它保持不变，如下图：
+```java
+package com.dohenes.common.data.remote;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Dns;
+import retrofit2.internal.EverythingIsNonNull;
+
+/**
+ * ClassName Ipv4Dns
+ * Describe TODO&lt;ipv4访问优先的DNS--解决ipv6环境下，4G网络访问太慢的问题&gt;
+ * Author zihao
+ * Date 2020/2/27 14:59
+ * Version v1.0
+ */
+@EverythingIsNonNull
+public class Ipv4PriorityDns implements Dns {
+
+    @Override
+    public List&lt;InetAddress&gt; lookup(String hostname) throws UnknownHostException {
+        try {
+            // 获取指定主机-hostname的IP地址数组（Android解析指定域名获取到的IP）
+            List&lt;InetAddress&gt; inetAddressList = new ArrayList&lt;&gt;();
+            InetAddress[] inetAddresses = InetAddress.getAllByName(hostname);
+
+            // 遍历获取到的地址，并将得到的ip顺序调整一下，使ipv4放在第一位（即优先使用ipv4协议访问）
+            for (InetAddress inetAddress : inetAddresses) {
+                if (inetAddress instanceof Inet4Address) {
+                    inetAddressList.add(0, inetAddress);
+                } else {
+                    inetAddressList.add(inetAddress);
+                }
+            }
+
+            return inetAddressList;
+        } catch (NullPointerException exception) {
+            UnknownHostException unknownHostException = new
+                    UnknownHostException(&quot;Broken system behavior&quot;);
+            unknownHostException.initCause(exception);
+            throw unknownHostException;
+        }
+    }
+}
+</code></pre>
+<p>然后设置Retrofit的OkHttpClient，修改其DNS解析类：</p>
+<pre><code class="language-java">OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
+okHttpClientBuilder.dns(new MyDns());
+OkHttpClient okHttpClient = okHttpClientBuilder.build();
+</code></pre>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/u5BDX3cCv/" class="tag">
+                    网络
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

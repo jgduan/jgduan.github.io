@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1615799380983">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1617180401712">
 <link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
 
 
@@ -31,7 +31,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://jgduan.github.io/">
-        <img src="https://jgduan.github.io//images/avatar.png?v=1615799380983" class="site-logo">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1617180401712" class="site-logo">
         <h1 class="site-title">Zihao&#39;s blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -103,7 +103,11 @@
               <h1 id="注意事项">注意事项</h1>
 <ol>
 <li><strong>主项目需要依赖aar中所依赖的远程项目，否则会报错，如果依赖的某个库的版本有冲突，需要协调解决；</strong></li>
-<li><strong>资源命名要遵守统一规范，最好是添加 项目名 / Module名 为前缀做区分，以免与主项目的资源重复，避免资源名称重复引发不必要的异常；</strong></li>
+<li><strong>资源命名要遵守统一规范，最好是添加 项目名 / Module名 为前缀做区分，以免与主项目的资源重复，避免资源名称重复引发不必要的异常；</strong>
+<blockquote>
+<p>关于资源前缀可以参考<a href="https://blog.csdn.net/github_37610197/article/details/89157432">编程中限定资源前缀resourcePrefix</a></p>
+</blockquote>
+</li>
 <li><strong>如果aar包中使用了分享、统计分析、支付等第三方SDK，在主项目中需要使用的话，我们需要以主项目的ApplicationId去申请对应的appKey与appId。如果需要在aar项目中独立调试的话，那就需要修改包名与ApplicationId后才能正常使用。</strong></li>
 </ol>
 <hr>

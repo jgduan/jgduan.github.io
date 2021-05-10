@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-04-07T05:30:06.375Z</updated>
+    <updated>2021-05-10T14:46:53.088Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,142 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【蓝牙】经典蓝牙与BLE低功耗蓝牙]]></title>
+        <id>https://jgduan.github.io/post/lan-ya-jing-dian-lan-ya-yu-ble-di-gong-hao-lan-ya/</id>
+        <link href="https://jgduan.github.io/post/lan-ya-jing-dian-lan-ya-yu-ble-di-gong-hao-lan-ya/">
+        </link>
+        <updated>2021-05-10T14:07:01.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-蓝牙的概述">一、蓝牙的概述</h1>
+<p>1999年蓝牙1.0发布，紧随其后的是蓝牙2.1。蓝牙2.1的版本使用最广，很多产品都是这个版本，也就是我们所谓的经典蓝牙，以前非智能手机也是支持这个版本的。到了蓝牙3.0，又名为高速蓝牙，在2.1的基础上大大提升了传输速度(24Mbps)。后面4.0 / 4.1引入了低功耗蓝牙。蓝牙5.0也已经发布。主要是在信号范围，连接速度，以及广播速度进行了优化，蓝牙5.0还对物联网方向做了单独的改进。</p>
+<p>**一般一个蓝牙可以同时支持7个设备。**相关拓展阅读<a href="https://blog.csdn.net/weixin_35011300/article/details/112137779">android 获取蓝牙已连接的设备_冷知识：一个蓝牙可同时连接多个蓝牙设备</a></p>
+<ul>
+<li>
+<p><strong>蓝牙模块</strong><br>
+是指集成蓝牙功能的芯片基本电路集合，用于短距离2.4G的无线通讯模块。对于最终用户来说，蓝牙模块是半成品，通过在模块的基础上功能再开发、封装外壳等工序，实现能够利用蓝牙通讯的最终产品。</p>
+</li>
+<li>
+<p><strong>经典蓝牙</strong><br>
+泛指支持蓝牙协议在4.0以下的模块，一般用于数据量比较大的传输，如：语音、音乐等较高数据量的传输。<br>
+经典蓝牙模块又可细分为：<em><strong>传统蓝牙和高速蓝牙模块。</strong></em><br>
+传统蓝牙模块在2004年推出，主要代表是支持蓝牙2.1协议的模块，在智能手机爆发的时期得到了广泛的使用。<br>
+高速蓝牙模块在2009年推出，速率提高到约<strong>24Mbps</strong>，传输速率是经典蓝牙的八倍，可以轻松的应用于录像机到电视、PC到PMP、UMPC到打印机之间的资料传输。<br>
+传统蓝牙有3个功率级别，Class1,Class2,Class3,分别支持100m,10m,1m的传输距离。</p>
+</li>
+<li>
+<p><strong>BLE蓝牙</strong><br>
+全称是<strong>Bluetooth Low Energy</strong>，简称BLE。是指支持蓝牙协议4.0或以上的模块，也被称为BLE模块，最大的特点就是成本和功耗的降低，可以应用于实时性要求较高的产品当中，比如：智能家居类（蓝牙锁、蓝牙灯）、传感设备的数据发送（血压计、温度传感器）、消费类电子（电子烟、遥控玩具）等。</p>
+<p>蓝牙低功耗技术是低成本、短距离、可互操作的鲁棒性（是英文robustness一词的音译,也可意译为稳健性）无线技术，工作在<strong>免许可的2.4GHz ISM射频频段</strong>。因为BLE技术采用非常快速的连接方式，<strong>因此平时可以处于“非连接”状态（节省能源）</strong>，此时链路两端相互间只是知晓对方，只有在必要时才开启链路，然后在尽可能短的时间内关闭链路(<strong>每次最多传输20字节</strong>)。低功耗蓝牙无功率级别，一般发送功率在7dBm，一般在空旷距离，达到20m应该是没有问题。</p>
+<p>低功耗蓝牙中则有一个主设备（Central）和从设备（Peripheral，也叫外围设备）的概念。主设备作为发现方，调用发现设备的方法，通过<code>BluetoothAdapter#startLeScan()</code>方法实现。从设备则作为被发现方，发出广播，以供发现。同样，这个<code>startLeScan()</code>方法也仅能够发现低功耗蓝牙从设备。</p>
+</li>
+<li>
+<p><strong>经典蓝牙与低功耗蓝牙的区别</strong><br>
+低功耗蓝牙和传统蓝牙其实是有很大的区别的，<strong>低功耗蓝牙是NOKIA的Wibree标准上发展起来的。</strong><br>
+在功耗上，传统蓝牙有三个级别的功耗，class1、class2、class3分别支持100m、10m、1m的传输距离，一般要求至少使用两节3A电池。而且工作几天或者几周就没电了；低功耗蓝牙却没有功耗级别，一般发送功率在7dbm左右，一个纽扣电池就可以工作一两年，3A电池的电量一般是纽扣电池的10至12倍。<br>
+BLE5.0模块可支持蓝牙<strong>Mesh技术</strong>。</p>
+<blockquote>
+<p>正所谓有得必有失，低功耗带来的低传输速率，当然BLE被设计的本来就是传输少量数据的，对于很多传感器设备，例如心跳带，血压计等设备，是非常适合的。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>BLE on Android</strong><br>
+Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙，但是仅仅是支持中心（Central）模式——所谓的主设备，可以连接其他蓝牙外设。</p>
+<p>直到2014.6.26 Android 5.0(<code>Lollipop</code>，API 21)的面世，才带来了周边API的支持(<code>BluetoothLeAdvertiser</code>)——即Android 5.0版本以后的手机可以作为一个外设（从设备，Peripheral，也叫外围设备）来进行发布。</p>
+<p>Android SDK中BLE相关的API都在<code>android.bluetooth.*</code>下面，同时在Android 5.0也引入了一些也需要用到<code>android.bluetooth.le*</code>下面的API。另外，要在APP中使用蓝牙功能，需要在<code>AndroidManifest.xml</code>文件中配置申请蓝牙相关的权限声明。在Android 6.0 及以上平台中，还需要申请定位权限。</p>
+</li>
+</ul>
+<hr>
+<h1 id="二-经典蓝牙-传统蓝牙的工作流程">二、经典蓝牙、传统蓝牙的工作流程</h1>
+<ol>
+<li><strong>发现设备</strong>
+<ul>
+<li><strong>经典蓝牙</strong><br>
+经典蓝牙设备发现其它经典蓝牙设备的方式是调用<code>BluetoothAdapter#startDiscovery()</code>方法。</li>
+<li><strong>BLE蓝牙</strong><br>
+通过<code>BluetoothAdapter#startLeScan()</code>方法去扫描发现设备。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><code>BluetoothAdapter.startDiscovery</code>在大多数手机上是可以同时发现经典蓝牙和BLE的，但是<code>startDiscovery</code>的回调无法返回BLE的广播，所以无法通过广播识别设备，且<code>startDiscovery</code>扫描BLE的效率比<code>startLeScan</code>低很多。所以在实际应用中，还是<code>startDiscovery</code>和<code>startLeScan</code>分开扫，前者扫传统蓝牙，后者扫低功耗蓝牙。<br>
+注意：当两种蓝牙设备被某设备（包括当前的设备）配对 / 绑定后，可能不会再被扫描到。</p>
+</blockquote>
+<ol start="2">
+<li>
+<p><strong>配对 / 绑定设备</strong><br>
+不管是经典蓝牙还是低功耗蓝牙，绑定方法都是通用的，可以调用相同的绑定方法。<br>
+关于配对与绑定的具体介绍，可以参考<a href="http://blog.chinaunix.net/uid-21411227-id-5833051.html"><strong>BLE 配对与绑定过程详细解析、蓝牙配对与绑定的过程</strong></a>。</p>
+</li>
+<li>
+<p><strong>建立连接</strong></p>
+<ul>
+<li>
+<p><strong>经典蓝牙</strong><br>
+经典蓝牙建立连接的方式实际上就是<code>Socket</code>的连接的建立。只不过这里不是直接用<code>Socket</code>，而是<code>BluetoothSocket</code>。获取<code>BluetoothSocket</code>的方式也很简单，利用搜索找到的<code>BluetoothDevice</code>，调用其方法<code>createRfcommSocketToServiceRecord(UUID)</code>。最后，使用获取到的<code>BluetoothDevice</code>调用其方法<code>connect()</code>就建立了经典蓝牙设备之间的连接通道。</p>
+</li>
+<li>
+<p><strong>BLE蓝牙</strong><br>
+先通过<code>BluetoothAdapter</code>的<code>getRemoteDevice(address)</code>方法获取对应BLE从设备的<code>BluetoothDevice</code>，其中的address为目标蓝牙设备MAC地址；然后通过此<code>BluetoothDevice#connectGatt(this, false, mGattCallback)</code>方法获取设备连接。<br>
+此时的连接，只能够进行监听，也就是获取到当前BLE从设备广播出来的数据。</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>在蓝牙设备中，存在着物理地址，我们也叫作蓝牙的MAC地址，这个地址是唯一的，就像咱们网络上的IP地址。同时还存在着一个叫做UUID的东西，可以把它理解为是IP地址中的端口号。<br>
+正如知道了IP地址和端口号，就知道了怎么链接到目标网络服务器位置，知道了蓝牙设备的MAC地址和UUID也就能够确定到具体是哪一台蓝牙设备了，这两者合起来就是蓝牙的唯一身份标识。</p>
+</blockquote>
+<ol start="4">
+<li><strong>数据通信</strong>
+<ul>
+<li>
+<p><strong>经典蓝牙</strong><br>
+当建立连接后，就可以直接使用<code>BluetoothSocket#getOutputStream()</code>方法获取输出流写入需要发送的数据。读取发送回来的数据，则是调用<code>BluetoothSocket#getInputStream()</code>方法获取输入流读取。<strong>这点和Java中的Socket通信几乎是一模一样</strong>。</p>
+</li>
+<li>
+<p><strong>BLE蓝牙</strong><br>
+想要实现主设备对从设备的数据发送，则需要直接读取获取到的从设备的<code>Characteristic</code>，而<code>Characteristic</code>又是<code>Service</code>下面的一层，所以操作顺序是：</p>
+<p>1.通过BLE从设备相应的<code>Service_UUID</code>获取对应的<code>BluetoothGattService</code>，获取方法是：使用<code>BluetoothDevice的connectGatt(this, false, mGattCallback)</code>方法返回的<code>BluetoothGatt</code>对象，调用<code>BluetoothGatt的方法getService(Service_UUID)</code>获取相应的<code>BluetoothGattService</code>；</p>
+<p>2.调用<code>BluetoothGattService</code>和对应的<code>Characteristic</code>的写入<code>UUID</code>获取相应的<code>BluetoothGattCharacteristic</code>，获取方法是：调用<code>BluetoothGattService</code>的<code>getCharacteristic(Characteristic_UUID)</code>方法获得；</p>
+<p>3.设置需要发送的命令值，调用<code>BluetoothGattCharacteristic的方法setValue(value)进行设置</code>，<strong>其中value一般为byte[]</strong>；</p>
+<p>4.最后，使用<code>BluetoothGatt</code>的写入方法<code>writeCharacteristic(TxChar)</code>完成命令发送。<br>
+可以看到，想要实现BLE的数据通信，步骤相当繁琐，这里只是做一个简单的概念理解，<strong>如果想要获取到BLE从设备的返回值，还需要设置Notification</strong>，然后调用<code>BluetoothGatt的readCharacteristic(characteristic)方法</code>进行数据的读取。</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>两种蓝牙的流程<br>
+发现设备-&gt;配对/绑定设备-&gt;建立连接-&gt;数据通信<br>
+低功耗蓝牙设备版本要求<br>
+当设备是目标连接设备时，Android版本最低为Android 4.3以上系统<br>
+当设备是发起连接设备时，Android版本最低为Android 5.0以上系统</p>
+</blockquote>
+<hr>
+<h1 id="三-蓝牙的选用">三、蓝牙的选用</h1>
+<p>既然有经典蓝牙和低功耗蓝牙之分，我们在设计物联网产品和智能硬件产品的时候，如何选择呢？</p>
+<ul>
+<li><strong>经典蓝牙</strong><br>
+蓝牙最初的设计意图，是打电话放音乐。3.0版本以下的蓝牙，都称为“经典蓝牙”。<strong>功耗高、传输数据量大、传输距离只有10米。</strong></li>
+<li><strong>BLE蓝牙</strong><br>
+就是BLE，通常说的蓝牙4.0（及以上版本）。<strong>低功耗，数据量小，距离50米左右。</strong></li>
+</ul>
+<p>**传声音的，用经典蓝牙：**如蓝牙耳机、蓝牙音箱。蓝牙设计的时候就是为了传声音的，所以是近距离的音频传输的不二选择。</p>
+<p>**电池供电、连手机APP的，用BLE：**如共享单车锁、蓝牙智能锁、蓝牙防丢器、蓝牙室内定位，是目前手机和智能硬件通信的性价比最高的手段。直线距离约50米，一节5号电池能用一年，传输模组成本10块钱，远比WIFI、4G等大数据量的通信协议更实用。</p>
+<p>**又要声音又要数据的，用双模蓝牙：**双模蓝牙，就是同时支持经典蓝牙音频和低功耗蓝牙。如智能电视遥控器、降噪耳机等。很多智能电视配的遥控器带有语音识别，需要用经典蓝牙才能传输声音。</p>
+<p>**传大数据量的，用经典蓝牙：**如某些工控场景，使用Android或Linux主控，外挂蓝牙遥控设备的，可以使用经典蓝牙里的SPP协议，当作一个无线串口使用。速度比BLE传输快多了。</p>
+<p>**远距离的，不用蓝牙。**固定供电的、不考虑功耗的、要传超过几十米距离的、要传高速数据的，这些都不适合蓝牙。远距离的可以用2G、4G、NB-IOT，大数据量的可以用WIFI。</p>
+<hr>
+<h1 id="拓展阅读">拓展阅读</h1>
+<ul>
+<li><a href="https://www.jianshu.com/p/fc46c154eb77/">Android经典蓝牙开发简介</a></li>
+<li><a href="https://www.jianshu.com/p/a27f3ca027e3">安卓BLE蓝牙开发详解</a></li>
+<li><a href="https://www.jianshu.com/p/f98e77c9ec65">Android-BLE蓝牙原理</a></li>
+<li><a href="https://blog.csdn.net/zqf_888/article/details/80982337">Android蓝牙开发—经典蓝牙和BLE（低功耗）蓝牙的区别</a></li>
+<li><a href="https://blog.csdn.net/zqf_888/article/details/81196766?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-2.vipsorttest&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-2.vipsorttest">Android蓝牙开发—BLE（低功耗）蓝牙详细开发流程</a></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Android】初中高级开发工程师面试复习点]]></title>
         <id>https://jgduan.github.io/post/android-chu-zhong-gao-ji-kai-fa-gong-cheng-shi-mian-shi-fu-xi-dian/</id>
@@ -1207,59 +1343,6 @@ a x b可以记作a·b，也可以记作ab，即 a x b = a·b = ab。</li>
 <li><strong>确定正方向，并用箭头表示；</strong></li>
 <li><strong>根据需要，选取适当的单位长度。</strong></li>
 </ol>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【初中数学】二、有理数]]></title>
-        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-er-you-li-shu/</id>
-        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-er-you-li-shu/">
-        </link>
-        <updated>2021-01-13T09:45:21.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
-<p>本文目的：</p>
-<ol>
-<li><strong>理解有理数的含义；</strong></li>
-<li><strong>能够把给出的有理数正确分类；</strong></li>
-<li><strong>了解0在有理数分类中的作用。</strong></li>
-</ol>
-<hr>
-<h1 id="一-学过的数">一、学过的数</h1>
-<p>我们学过的数有：</p>
-<ul>
-<li><strong>正整数</strong><br>
-例如：1，2，3，4，5...</li>
-<li><strong>零</strong><br>
-0</li>
-<li><strong>负整数</strong><br>
-例如：-1，-2，-3，-4，-5...</li>
-<li><strong>正分数</strong><br>
-例如：1.1，12.91，5/2，3又3/4，17/3...</li>
-<li><strong>负分数</strong><br>
-例如：-7.5，-2/5，-3.25...</li>
-</ul>
-<hr>
-<h1 id="二-有理数">二、有理数</h1>
-<p><strong>什么是有理数？</strong></p>
-<blockquote>
-<p>有理数是整数（正整数、0、负整数）和分数的统称，是整数和分数的集合。</p>
-</blockquote>
-<p><strong>有理数的分类如下：</strong></p>
-<ul>
-<li>整数
-<ul>
-<li>正整数</li>
-<li>零</li>
-<li>负整数</li>
-</ul>
-</li>
-<li>分数
-<ul>
-<li>正分数</li>
-<li>负分数</li>
-</ul>
-</li>
-</ul>
 <hr>
 ]]></content>
     </entry>

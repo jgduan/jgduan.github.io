@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-05-10T15:33:52.394Z</updated>
+    <updated>2021-05-10T15:34:50.710Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -310,7 +310,7 @@ TTL(Time To Live)存活时间是所有蓝牙Mesh PDU都拥有的栏位。此一�
         <updated>2021-05-10T14:07:01.000Z</updated>
         <content type="html"><![CDATA[<h1 id="一-蓝牙的概述">一、蓝牙的概述</h1>
 <p>1999年蓝牙1.0发布，紧随其后的是蓝牙2.1。蓝牙2.1的版本使用最广，很多产品都是这个版本，也就是我们所谓的经典蓝牙，以前非智能手机也是支持这个版本的。到了蓝牙3.0，又名为高速蓝牙，在2.1的基础上大大提升了传输速度(24Mbps)。后面4.0 / 4.1引入了低功耗蓝牙。蓝牙5.0也已经发布。主要是在信号范围，连接速度，以及广播速度进行了优化，蓝牙5.0还对物联网方向做了单独的改进。</p>
-<p>**一般一个蓝牙可以同时支持7个设备。**相关拓展阅读<a href="https://blog.csdn.net/weixin_35011300/article/details/112137779">android 获取蓝牙已连接的设备_冷知识：一个蓝牙可同时连接多个蓝牙设备</a></p>
+<p><strong>一般一个蓝牙可以同时支持7个设备</strong>。相关拓展阅读<a href="https://blog.csdn.net/weixin_35011300/article/details/112137779">android 获取蓝牙已连接的设备_冷知识：一个蓝牙可同时连接多个蓝牙设备</a></p>
 <ul>
 <li>
 <p><strong>蓝牙模块</strong><br>

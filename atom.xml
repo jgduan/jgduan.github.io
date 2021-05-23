@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-05-23T14:22:33.748Z</updated>
+    <updated>2021-05-23T14:34:50.850Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -428,20 +428,19 @@ Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙
 <hr>
 <h1 id="二-经典蓝牙-传统蓝牙的工作流程">二、经典蓝牙、传统蓝牙的工作流程</h1>
 <ol>
-<li><strong>发现设备</strong>
+<li>
+<p><strong>发现设备</strong></p>
 <ul>
 <li><strong>经典蓝牙</strong><br>
 经典蓝牙设备发现其它经典蓝牙设备的方式是调用<code>BluetoothAdapter#startDiscovery()</code>方法。</li>
 <li><strong>BLE蓝牙</strong><br>
 通过<code>BluetoothAdapter#startLeScan()</code>方法去扫描发现设备。</li>
 </ul>
-</li>
-</ol>
 <blockquote>
 <p><code>BluetoothAdapter.startDiscovery</code>在大多数手机上是可以同时发现经典蓝牙和BLE的，但是<code>startDiscovery</code>的回调无法返回BLE的广播，所以无法通过广播识别设备，且<code>startDiscovery</code>扫描BLE的效率比<code>startLeScan</code>低很多。所以在实际应用中，还是<code>startDiscovery</code>和<code>startLeScan</code>分开扫，前者扫传统蓝牙，后者扫低功耗蓝牙。<br>
 注意：当两种蓝牙设备被某设备（包括当前的设备）配对 / 绑定后，可能不会再被扫描到。</p>
 </blockquote>
-<ol start="2">
+</li>
 <li>
 <p><strong>配对 / 绑定设备</strong><br>
 不管是经典蓝牙还是低功耗蓝牙，绑定方法都是通用的，可以调用相同的绑定方法。<br>
@@ -460,14 +459,13 @@ Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙
 此时的连接，只能够进行监听，也就是获取到当前BLE从设备广播出来的数据。</p>
 </li>
 </ul>
-</li>
-</ol>
 <blockquote>
 <p>在蓝牙设备中，存在着物理地址，我们也叫作蓝牙的MAC地址，这个地址是唯一的，就像咱们网络上的IP地址。同时还存在着一个叫做UUID的东西，可以把它理解为是IP地址中的端口号。<br>
 正如知道了IP地址和端口号，就知道了怎么链接到目标网络服务器位置，知道了蓝牙设备的MAC地址和UUID也就能够确定到具体是哪一台蓝牙设备了，这两者合起来就是蓝牙的唯一身份标识。</p>
 </blockquote>
-<ol start="4">
-<li><strong>数据通信</strong>
+</li>
+<li>
+<p><strong>数据通信</strong></p>
 <ul>
 <li>
 <p><strong>经典蓝牙</strong><br>
@@ -483,8 +481,6 @@ Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙
 可以看到，想要实现BLE的数据通信，步骤相当繁琐，这里只是做一个简单的概念理解，<strong>如果想要获取到BLE从设备的返回值，还需要设置Notification</strong>，然后调用<code>BluetoothGatt的readCharacteristic(characteristic)方法</code>进行数据的读取。</p>
 </li>
 </ul>
-</li>
-</ol>
 <blockquote>
 <p>两种蓝牙的流程<br>
 发现设备-&gt;配对/绑定设备-&gt;建立连接-&gt;数据通信<br>
@@ -492,6 +488,8 @@ Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙
 当设备是目标连接设备时，Android版本最低为Android 4.3以上系统<br>
 当设备是发起连接设备时，Android版本最低为Android 5.0以上系统</p>
 </blockquote>
+</li>
+</ol>
 <hr>
 <h1 id="三-蓝牙的选用">三、蓝牙的选用</h1>
 <p>既然有经典蓝牙和低功耗蓝牙之分，我们在设计物联网产品和智能硬件产品的时候，如何选择呢？</p>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-05-25T15:14:00.926Z</updated>
+    <updated>2021-05-25T15:25:02.235Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -90,6 +90,7 @@ B.onPause()-&gt;A.onActivityResult()-&gt;A.onRestart()-&gt;A.onStart()-&gt;A.onR
 3.ContentProvider TimeOut:  publish 在 10s 内没有完成；<br>
 4.Input Dispatching timeout:  5s 内未响应键盘输入、触摸屏幕等事件。</p>
 </blockquote>
+<hr>
 ]]></content>
     </entry>
     <entry>

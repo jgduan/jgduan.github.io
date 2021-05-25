@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】Activity面试题进阶 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1621955634576">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 有两个Activity A和Activity B，在Activity A中打开Activity B时，它们都会有哪些生命周期回调？
+
+当被启动的目标launchMode为默认standard的情况下，在Activity A中打开Act..." />
+    <meta name="keywords" content="面试,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1621955634576" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】Activity面试题进阶</h2>
+            <div class="post-date">2021-05-25</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-activity-mian-shi-ti-jin-jie.webp')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="1-有两个activity-a和activity-b在activity-a中打开activity-b时它们都会有哪些生命周期回调">1. 有两个Activity A和Activity B，在Activity A中打开Activity B时，它们都会有哪些生命周期回调？</h1>
+<ul>
+<li>当被启动的目标<code>launchMode</code>为默认<code>standard</code>的情况下，在Activity A中打开Activity B时，生命周期回调顺序为：<br>
+A.onPause()-&gt;B.onCreate()-&gt;B.onStart()-&gt;B.onResume()-&gt;A.onStop()；</li>
+<li>当被启动的目标<code>launchMode</code>为<code>singleTop</code>且目标在栈顶的情况下，生命周期回调顺序为：<br>
+B.onPause()-&gt;B.onNewIntent()-&gt;B.onResume()；</li>
+<li>当被启动的目标<code>launchMode</code>为<code>singleInstance、singleTask</code>的情况下且对应的目标Activity有可复用的实例时，生命周期回调顺序为：`A.onPause()-&gt;B.onNewIntent()-&gt;B.onRestart()-&gt;B.onStart()-&gt;B.onResume()-&gt;A.onStop()-&gt;A.onDestory()（A被移出栈时调用）。</li>
+</ul>
+<hr>
+<h1 id="2在activity中弹出dialog会对其生命周期造成什么影响">2.在Activity中弹出Dialog会对其生命周期造成什么影响？</h1>
+<ul>
+<li>如果启动的是常规的<code>Dialog</code><br>
+因生命周期的回调都是<code>AMS</code>通过<code>Binder</code>通知应用进程的，而弹出<code>Dialog、Toast、PopupWindow</code>本质上都是通过<code>WindowsManager.addView()</code>显示的，并没有经过<code>ActivityManagerService</code>，所以不会对<code>Activity</code>的生命周期产生影响。</li>
+<li>如果启动的是<code>Theme为Dialog的Activity</code><br>
+会对<code>Activity</code>的生命周期造成影响，会触发如下生命周期回调（原<code>Activity</code>为A，弹出来的<code>DialogActivity</code>为B）：<br>
+A.onPause()-&gt;B.onCreate()-&gt;B.onStart()-&gt;B.onResume()。</li>
+</ul>
+<blockquote>
+<p>注：这个相对于上面的<code>Activity</code>互相之间的启动，你会发现，<strong>原<code>Activity</code>并没有触发<code>onStop</code>回调</strong>，这是因为<code>Activity</code>只有切换到后台不可见时才会触发<code>onStop</code>回调方法，而当弹出一个<code>Theme为Dialog的Activity</code>时，此前的一个页面还处于可见的情况，只是失去了焦点，所以仅回调了<code>onPause</code>方法。</p>
+</blockquote>
+<hr>
+<h1 id="3为什么activity在onresume之后才显示">3.为什么Activity在onResume之后才显示？</h1>
+<p>我们的Activity一般是在onCreate方法中通过setContentView来进行设置，那么为什么Activity要在onResume之后才显示呢？这中间经历了什么？</p>
+<p>当我们在onCreate中通过setContentView方法设置布局时，实际上是直接调用了Window的setContentView，创建了一个DecorView用来包裹我们的布局：</p>
+<pre><code class="language-java">PhoneWindow.java
+public void setContentView(int layoutResID) {
+    if (mContentParent == null) {
+        installDecor();
+    } 
+    ...
+    // 加载布局，添加到 mContentParent
+    // mContentParent 又是 DecorView 的一个子布局  
+    mLayoutInflater.inflate(layoutResID, mContentParent);
+}
+</code></pre>
+<p>其实这一步只是加载好了布局，生成了一个ViewTree，具体怎么把ViewTree显示出来，答案就在下面：</p>
+<pre><code class="language-java">ActivityThread.java
+public void handleResumeActivity(...){
+    // onResume 回调
+    ActivityClientRecord r = performResumeActivity(...)
+    final Activity a = r.activity;
+    if (r.window == null &amp;&amp; !a.mFinished &amp;&amp; willBeVisible) {
+        r.window = r.activity.getWindow();
+        View decor = r.window.getDecorView();
+        ViewManager wm = a.getWindowManager();
+        wm.addView(decor, l);// 重点
+    }
+}
+</code></pre>
+<p>WindowManager的addView方法最终将DecorView添加到WMS，实现绘制到屏幕、接触触摸事件，具体调用如下：</p>
+<pre><code class="language-java">   WindowManagerImpl.addView
+-&gt; WindowManagerGlobal.addView
+-&gt; ViewRootImpl.setView     
+-&gt; ViewRootImpl.requestLayout() // 执行 View 的绘制流程
+   // 通过 Binder 调用 WMS ，WMS 会添加一个 Window 相关的对象
+   // 应用端通过 mWindowSession 调用 WMS
+   // WMS 通过 mWindow (一个 Binder 对象) 调用应用端  
+   mWindowSession.addToDisplay(mWindow) 
+</code></pre>
+<p>综上，在 onResume 回调之后，会创建一个 ViewRootImpl ，有了它之后应用端就可以和 WMS 进行双向调用了。</p>
+<hr>
+<h1 id="4onactivityresult在哪两个生命线周期之间回调">4.onActivityResult在哪两个生命线周期之间回调</h1>
+<p><code>onActivityResult</code>不属于Activity的生命周期组成，<code>onActivityResult</code>该方法的源码注释中写到<code>You will receive this call immediately before onResume() when your activity is re-starting.</code>，跟一下代码（<code>TransactionExecutor.execute</code>有兴趣的可以自己打断点跟一下），会发现<code>onActivityResult</code>回调先于该<code>Activity</code>的所有生命周期回调，从B Activity到A Activity的生命周期回调为：<br>
+B.onPause()-&gt;A.onActivityResult()-&gt;A.onRestart()-&gt;A.onStart()-&gt;A.onResume()。</p>
+<hr>
+<h1 id="5oncreate方法里面写死循环会触发anr吗">5.onCreate方法里面写死循环会触发ANR吗？</h1>
+<p>不会触发，因为Activity的生命周期中写死循环，只要不进行其它操作，不满足触发ANR的条件。</p>
+<blockquote>
+<p>ANR产生的四种场景：<br>
+1.Service TimeOut:  service 未在规定时间执行完成：前台服务 20s，后台 200s；<br>
+2.BroadCastQueue TimeOut: 未在规定时间内未处理完广播：前台广播 10s 内, 后台 60s 内；<br>
+3.ContentProvider TimeOut:  publish 在 10s 内没有完成；<br>
+4.Input Dispatching timeout:  5s 内未响应键盘输入、触摸屏幕等事件。</p>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/PIRHmYVa-/" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/android-yi-xian-mian-shi-ti-hui-zong/">
+                  <h3 class="post-title">
+                    【Android】一线面试题汇总
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Handler】This Handler class should be static or leaks might occur (anonymous android.os.Handler) | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1624202043760">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+Android开发者在日常开发过程中，经常会使用到Handler用来接收消息进行后续处理，然而当我们在Handler#handleMessage(Message msg)方法中做UI相关操作时，AndroidStudio就会报出如下警..." />
+    <meta name="keywords" content="性能优化,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1624202043760" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Handler】This Handler class should be static or leaks might occur (anonymous android.os.Handler)</h2>
+            <div class="post-date">2021-06-20</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/handler-this-handler-class-should-be-static-or-leaks-might-occur-anonymous-androidoshandler.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="前言">前言</h1>
+<p>Android开发者在日常开发过程中，经常会使用到<code>Handler</code>用来接收消息进行后续处理，然而当我们在<code>Handler#handleMessage(Message msg)</code>方法中做UI相关操作时，AndroidStudio就会报出如下警告：</p>
+<pre><code class="language-java">This Handler class should be static or leaks might occur (anonymous android.os.Handler)
+Inspection info:Since this Handler is declared as an inner class, it may prevent the outer class from being garbage collected.
+If the Handler is using a Looper or MessageQueue for a thread other than the main thread, then there is no issue.
+If the Handler is using the Looper or MessageQueue of the main thread, you need to fix your Handler declaration, as follows:
+   1. Declare the Handler as a static class;
+   2. In the outer class, instantiate a WeakReference to the outer class and pass this object to your Handler when you instantiate the Handler;
+   3. Make all references to members of the outer class using the WeakReference object.
+</code></pre>
+<p>警告内容是提示我们在内部类<code>Handler#handleMessage(Message msg)</code>方法中处理UI相关操作时，可能会造成内存泄漏风险，同时在警告内容中，指导给开发者相应的解决方案——内部类Handler静态化、使用弱引用<code>WeakReference</code>来进行抑制处理、访问所有的外部成员通过<code>WeakReference</code>引用对象来进行访问。</p>
+<blockquote>
+<p>除此之外，我们还可以在Activity被销毁时通过<code>Handler#removeCallbacksAndMessages(Object token)</code>方法来销毁对应<code>Handler</code>所有的消息队列。</p>
+</blockquote>
+<hr>
+<h1 id="主动创造一个引起内存泄漏的handler">主动创造一个引起内存泄漏的Handler</h1>
+<p>这里我们通过创造一个有内存泄漏风险的<code>Handler</code>通过不断切换<code>Activity</code>横竖屏来进行测试，看是否会引发内存泄漏，示例如下：</p>
+<pre><code class="language-java">// HandlerTestActivity.java
+public class HandlerTestActivity extends AppCompatActivity {
+ 
+    // 创建匿名Handler内部类的对象
+    private Handler leakHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
+ 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_handler_test);
+ 
+        leakHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Logger.d(&quot;leakHandler 延迟执行,内存泄露测试&quot;);
+            }
+        }, 5 * 60 * 1000);
+    }
+}
+</code></pre>
+<p>通过多次运行分析后，我们发现：应用内存占用出现了明显了升高;</p>
+<p><strong>简单描述下原因:</strong><br>
+由于上面的<code>Handler</code>内部类定义在<code>UI</code>线程中,因此使用的主线程的<code>Looper</code>和 <code>MessageQueue</code>;<br>
+<code>MessageQueue</code>中的<code>Message</code>会持有<code>Handler</code>对象;<br>
+匿名<code>Handler</code>内部类对象持有着外部<code>Activity</code>的强引用;<br>
+以上三点导致当有<code>Message</code>未被处理之前, 外部类<code>Activity</code>会一直被强引用,导致即使发生了销毁,也无法被GC回收;</p>
+<p>因此处理方法通常有两种:</p>
+<p>在外部类<code>Activity</code>销毁时取消所有的<code>Message</code>,即 <code>leakHandler.removeCallbacksAndMessages(null)</code>;<br>
+让内部类不要持有外部<code>Activity</code>的强引用;<br>
+<code>AndroidStudio</code>给出的提示方案属于第二种。</p>
+<blockquote>
+<p>我们通过smali源码来一步步探究验证下;<br>
+<a href="https://blog.csdn.net/weixin_33923762/article/details/91430429">[smali] This Handler class should be static or leaks might occur</a></p>
+</blockquote>
+<hr>
+<h1 id="弱引用的handler">弱引用的Handler</h1>
+<p>因大家在项目中可能存在多出使用<code>Handler</code>，我们可以封装一个公共的<code>WeakHandler</code>类，抽取公共方法供其它使用区域在此基础上继承实现，实现后的代码如下：</p>
+<pre><code class="language-java">public class WeakHandler&lt;T extends Activity&gt; extends Handler {
+    private final WeakReference&lt;T&gt; mWkActivity;
+
+    public WeakHandler(T activity) {
+        mWkActivity = new WeakReference&lt;&gt;(activity);
+    }
+
+    public T getActivity() {
+        return mWkActivity.get();
+    }
+
+//    @Override
+//    public void handleMessage(Message msg) {
+//        super.handleMessage(msg);
+//        T targetAct = mWkActivity.get();
+//        // 通过`WeakReference`对象去操作外部`Activity`属性和事件
+//        if (targetAct != null &amp;&amp; !targetAct.isFinishing()) {
+////           targetAct.对象
+//        }
+//    }
+
+}
+</code></pre>
+<p>那么在其它地方我们可以通过继承<code>WeakHandler</code>类的方式来实现弱引用的<code>Handler</code>，示例如下：</p>
+<pre><code class="language-java">SimpleWeakHandler simpleWeakHandler = new SimpleWeakHandler(SimpleActivity.this);
+    private static class SimpleWeakHandler extends WeakHandler&lt;SimpleActivity&gt; {
+
+        public SimpleWeakHandler(SimpleActivity activity) {
+            super(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            SimpleActivity targetAct = getActivity();
+            if (targetAct != null &amp;&amp; !targetAct.isFinishing()) {
+                targetAct.tvTitle.setText(&quot;SimpleWeakHandler&quot;);
+            }
+        }
+    }
+</code></pre>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/1Sd3o_JX7/" class="tag">
+                    性能优化
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/he-fei-android-15kzhao-pin-lie-biao/">
+                  <h3 class="post-title">
+                    【合肥】Android 15k+招聘列表
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

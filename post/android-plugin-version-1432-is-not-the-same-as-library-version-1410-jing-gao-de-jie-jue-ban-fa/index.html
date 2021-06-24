@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【初中数学】六、有理数的加法 | Zihao&#39;s blog</title>
+<title>【Android】Plugin version (1.4.32) is not the same as library version (1.4.10) 警告的解决办法 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,17 +18,12 @@
 
 
 
-    <meta name="description" content="一、有理数的加法
+    <meta name="description" content="问题
+在开发Kotlin项目的过程中，使用kotlin-stdlib标准库时，遇到了如下警告提示：
+Plugin version(1.4.32) is not the same as library version(1.4.10)
 
-
-同号的两个有理数相加，取相同的符号，并把 绝对值 相加。
-
-例如：+3 + +4 = 7；-3 + -4 = -7.
-
-
-
-符号不同的两个有理数相加，若绝对值不相等的情况下，取绝对值较大的数的符号，并用 绝对值 大的数..." />
-    <meta name="keywords" content="数学" />
+提示的..." />
+    <meta name="keywords" content="Kotlin" />
   </head>
   <body>
     <div id="app" class="main">
@@ -99,61 +94,47 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【初中数学】六、有理数的加法</h2>
-            <div class="post-date">2021-01-18</div>
+            <h2 class="post-title">【Android】Plugin version (1.4.32) is not the same as library version (1.4.10) 警告的解决办法</h2>
+            <div class="post-date">2021-06-24</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-plugin-version-1432-is-not-the-same-as-library-version-1410-jing-gao-de-jie-jue-ban-fa.jpg')">
+              </div>
             
             <div class="post-content" v-pre>
-              <h1 id="一-有理数的加法">一、有理数的加法</h1>
-<ul>
-<li>
-<p><strong>同号的两个有理数相加，取相同的符号，并把 <em>绝对值</em> 相加。</strong></p>
-<blockquote>
-<p>例如：+3 + +4 = 7；-3 + -4 = -7.</p>
-</blockquote>
-</li>
-<li>
-<p><strong>符号不同的两个有理数相加，若绝对值不相等的情况下，取绝对值较大的数的符号，并用 <em>绝对值</em> 大的数取减去<em>绝对值</em>小的获取结果。</strong></p>
-<blockquote>
-<p>例如：+7 + -3 = +4；-7 + +4 = -3.</p>
-</blockquote>
-</li>
-<li>
-<p><strong>符号不同的两个有理数相加，若两数绝对值相等，则结果为0。</strong></p>
-<blockquote>
-<p>例如：+2 + -2 = 0.</p>
-</blockquote>
-</li>
-<li>
-<p><strong>一个数同0相加，结果仍然是这个数。</strong></p>
-<blockquote>
-<p>例如：-2 + 0 = -2；+2 + 0 = +2.</p>
-</blockquote>
-</li>
-</ul>
+              <h1 id="问题">问题</h1>
+<p>在开发<code>Kotlin</code>项目的过程中，使用<code>kotlin-stdlib</code>标准库时，遇到了如下警告提示：</p>
+<pre><code class="language-java">Plugin version(1.4.32) is not the same as library version(1.4.10)
+</code></pre>
+<p>提示的大致意思是说我们的插件版本和依赖库的版本不一致，原因是因为一些第三方的Library库所依赖的版本比较低，而我们在项目中所指定的依赖版本比较高，从而导致AndroidStudio给我们提出了警示。</p>
 <hr>
-<h1 id="二-有理数加法的交换律-结合律">二、有理数加法的交换律、结合律</h1>
+<h1 id="解决办法">解决办法</h1>
+<p><strong>直接在module的build.gradle中删除依赖即可解决问题</strong></p>
+<pre><code class="language-java">// 删除moudle-build.gralde文件中的该段
+implementation &quot;org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version&quot;
+</code></pre>
+<p>详情请移步官网查看官方声明的这篇文章：<a href="https://kotlinlang.org/docs/whatsnew14.html#dependency-on-the-standard-library-added-by-default">What's new in Kotlin 1.4</a><br>
+<img src="https://jgduan.github.io//post-images/1624550094222.png" alt="" loading="lazy"><br>
+图中的意思是：</p>
 <blockquote>
-<p>有理数运算中，加法的交换律与结合律仍适用。</p>
+<p>Kotlin默认添加了stdlib的依赖，您不再需要stdlib在任何 Kotlin Gradle 项目（包括多平台项目）中声明对库的依赖。默认情况下添加依赖项。</p>
 </blockquote>
-<ul>
-<li><strong>加法交换律</strong><br>
-两个数相加，交换加数的位置，和不变。<br>
-例如：a + b = b + a。</li>
-<li><strong>加法结合律</strong><br>
-三个数相加，先把前两个数相加，或者先把后两个数相加，和不变。<br>
-例如：(a + b) + c = a + (b + c)。</li>
-</ul>
 <blockquote>
-<p>一般的，任意若干个数相加，无论各数相加的先后次序如何，其和不变。</p>
+<p>自动添加的标准库将是 Kotlin Gradle 插件的相同版本，因为它们具有相同的版本。</p>
 </blockquote>
+<blockquote>
+<p>对于特定于平台的源集，使用库的相应特定于平台的变体，同时将公共标准库添加到其余部分。Kotlin Gradle 插件将根据您的 Gradle 构建脚本的kotlinOptions.jvmTarget 编译器选项选择合适的 JVM 标准库。</p>
+</blockquote>
+<p>上面所说的Kotlin插件，是指Project根目录下的build.gradle文件中的Kotlin插件，具体如下图所示：<br>
+<img src="https://jgduan.github.io//post-images/1624550446644.png" alt="" loading="lazy"></p>
+<p>这样一来，让人糟心的警告就不见了。</p>
 <hr>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://jgduan.github.io/tag/MiOedvmVf/" class="tag">
-                    数学
+                  <a href="https://jgduan.github.io/tag/IUV0lXNw6/" class="tag">
+                    Kotlin
                   </a>
                 
               </div>
@@ -161,9 +142,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://jgduan.github.io/post/chu-zhong-shu-xue-wu-jue-dui-zhi/">
+                <a href="https://jgduan.github.io/post/handler-this-handler-class-should-be-static-or-leaks-might-occur-anonymous-androidoshandler/">
                   <h3 class="post-title">
-                    【初中数学】五、绝对值
+                    【Handler】This Handler class should be static or leaks might occur (anonymous android.os.Handler)
                   </h3>
                 </a>
               </div>

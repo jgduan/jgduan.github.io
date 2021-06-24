@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-06-20T15:16:15.894Z</updated>
+    <updated>2021-06-24T16:05:55.934Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,41 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Android】Plugin version (1.4.32) is not the same as library version (1.4.10) 警告的解决办法]]></title>
+        <id>https://jgduan.github.io/post/android-plugin-version-1432-is-not-the-same-as-library-version-1410-jing-gao-de-jie-jue-ban-fa/</id>
+        <link href="https://jgduan.github.io/post/android-plugin-version-1432-is-not-the-same-as-library-version-1410-jing-gao-de-jie-jue-ban-fa/">
+        </link>
+        <updated>2021-06-24T15:36:58.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="问题">问题</h1>
+<p>在开发<code>Kotlin</code>项目的过程中，使用<code>kotlin-stdlib</code>标准库时，遇到了如下警告提示：</p>
+<pre><code class="language-java">Plugin version(1.4.32) is not the same as library version(1.4.10)
+</code></pre>
+<p>提示的大致意思是说我们的插件版本和依赖库的版本不一致，原因是因为一些第三方的Library库所依赖的版本比较低，而我们在项目中所指定的依赖版本比较高，从而导致AndroidStudio给我们提出了警示。</p>
+<hr>
+<h1 id="解决办法">解决办法</h1>
+<p><strong>直接在module的build.gradle中删除依赖即可解决问题</strong></p>
+<pre><code class="language-java">// 删除moudle-build.gralde文件中的该段
+implementation &quot;org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version&quot;
+</code></pre>
+<p>详情请移步官网查看官方声明的这篇文章：<a href="https://kotlinlang.org/docs/whatsnew14.html#dependency-on-the-standard-library-added-by-default">What's new in Kotlin 1.4</a><br>
+<img src="https://jgduan.github.io//post-images/1624550094222.png" alt="" loading="lazy"><br>
+图中的意思是：</p>
+<blockquote>
+<p>Kotlin默认添加了stdlib的依赖，您不再需要stdlib在任何 Kotlin Gradle 项目（包括多平台项目）中声明对库的依赖。默认情况下添加依赖项。</p>
+</blockquote>
+<blockquote>
+<p>自动添加的标准库将是 Kotlin Gradle 插件的相同版本，因为它们具有相同的版本。</p>
+</blockquote>
+<blockquote>
+<p>对于特定于平台的源集，使用库的相应特定于平台的变体，同时将公共标准库添加到其余部分。Kotlin Gradle 插件将根据您的 Gradle 构建脚本的kotlinOptions.jvmTarget 编译器选项选择合适的 JVM 标准库。</p>
+</blockquote>
+<p>上面所说的Kotlin插件，是指Project根目录下的build.gradle文件中的Kotlin插件，具体如下图所示：<br>
+<img src="https://jgduan.github.io//post-images/1624550446644.png" alt="" loading="lazy"></p>
+<p>这样一来，让人糟心的警告就不见了。</p>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Handler】This Handler class should be static or leaks might occur (anonymous android.os.Handler)]]></title>
         <id>https://jgduan.github.io/post/handler-this-handler-class-should-be-static-or-leaks-might-occur-anonymous-androidoshandler/</id>
@@ -1673,110 +1708,6 @@ Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙
 </code></pre>
 </li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【初中数学】八、有理数的乘法]]></title>
-        <id>https://jgduan.github.io/post/chu-zhong-shu-xue-ba-you-li-shu-de-cheng-fa/</id>
-        <link href="https://jgduan.github.io/post/chu-zhong-shu-xue-ba-you-li-shu-de-cheng-fa/">
-        </link>
-        <updated>2021-01-19T08:29:02.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="学习目标">学习目标</h1>
-<ol>
-<li><strong>掌握有理数的乘法法则，了解有理数的乘法法则的合理性；</strong></li>
-<li><strong>熟练的进行有理数乘法运算；</strong></li>
-<li><strong>能够利用有理数的乘法法则进行简单计算；</strong></li>
-<li><strong>能够利用有理数的运算规律进行简便运算。</strong></li>
-</ol>
-<hr>
-<h1 id="一-有理数乘法的规律">一、有理数乘法的规律</h1>
-<p>例子：</p>
-<ul>
-<li>2 x 3 = 6</li>
-<li>(-2) x 3 = -6</li>
-<li>2 x (-3) = -6</li>
-<li>(-2) x (-3) = 6</li>
-<li>2 x 0 = 0</li>
-<li>1/2 * 2 = 1</li>
-</ul>
-<p>结合上述例子得出以下结论：</p>
-<ol>
-<li><strong>两个正数相乘，结果为正数；</strong></li>
-<li><strong>两个负数相乘，结果为正数；</strong></li>
-<li><strong>一正一负相乘，结果为负数；</strong></li>
-<li><strong>被乘数或者乘数为0时，结果是0；</strong></li>
-<li><strong>乘积是1的两个数互为倒数。</strong></li>
-</ol>
-<blockquote>
-<p>两数相乘，同号得正，异号得负，并把绝对值相乘。<br>
-任何数同0相乘，都得0。<br>
-注意：有理数相乘，先确定积的符号，再确定积的值。</p>
-</blockquote>
-<hr>
-<h1 id="二-有理数乘积的符号">二、有理数乘积的符号</h1>
-<p>例：观察下列各式，它们的积是正的还是负的？多个不等于0的有理数相乘，积的符号与负因数的个数有什么关系？</p>
-<ol>
-<li>(-1) x 2 x 3 x 4<br>
-解： (-1) x 2 x 3 x 4 = - 24</li>
-<li>(-1) x (-2) x 3 x 4<br>
-解：(-1) x (-2) x 3 x 4 = 24</li>
-<li>(-1) x (-2) x (-3) x 4<br>
-解：(-1) x (-2) x (-3) x 4 = -24</li>
-<li>(-1) x (-2) x (-3) x (-4)<br>
-解：(-1) x (-2) x (-3) x (-4) = 24</li>
-<li>(-1) x (-2) x (-3) x (-4) x 0<br>
-解：(-1) x (-2) x (-3) x (-4) x 0 = 0</li>
-</ol>
-<p>结论：几个不等于0的因数相乘，积的符号由<strong>负因数</strong>的个数决定。当负因数有<strong>奇数</strong>个时，积的符号为<strong>负</strong>；当负因数有<strong>偶数</strong>个时，积的符号为<strong>正</strong>；只要有一个因数为0，积就为0。</p>
-<blockquote>
-<p>因数是指整数a除以整数b(b≠0) 的商正好是整数而没有余数，我们就说b是a的因数。</p>
-</blockquote>
-<hr>
-<h1 id="三-有理数乘法的运算规律">三、有理数乘法的运算规律</h1>
-<p>请验证下面3个等式都是成立的：</p>
-<ol>
-<li>5 x (-6) = (-6) x 5<br>
-解：5 x (-6) = -30，(-6) x 5 = -30，两者结果相等。</li>
-<li>[3 x (-4)] x (-5) = 3 x [(-4) x (-5)]<br>
-解：[3 x (-4)] x (-5) = 60，3 x [(-4) x (-5)] = 60，两者结果相等。</li>
-<li>5 x [3 + (-7)] = 5 x 3 + 5 x (-7)<br>
-解：5 x [3 + (-7)]  = -20，5 x 3 + 5 x (-7) = -20，两者结果相等。</li>
-</ol>
-<p>从上面的等式中，你能总结出来什么？<br>
-<strong>有理数的运算规律：</strong></p>
-<ol>
-<li>乘法交换律：ab = ba（两个数相乘，交换因数的位置，积相等），如：2 x 3 = 3 x 2；<br>
-a x b可以记作a·b，也可以记作ab，即 a x b = a·b = ab。</li>
-<li>乘法的结合律：(ab)c = a(bc)，如：(2 x 3) x 4 = 2 x (3 x 4)；<br>
-三个数相乘，先把前两个数相乘，或者先把后两个数相乘，积相等。</li>
-<li>乘法的分配律：a(b + c) = ab + ac，例如：2 x (3 + 4) = (2 x 3) + (2 x 4)。<br>
-一个数同两个数的和相乘，等于把这个数分别同两个数相乘，再把积相加。</li>
-</ol>
-<hr>
-<h1 id="四-例题计算">四、例题计算</h1>
-<ol>
-<li><strong>例1</strong><br>
-计算：12 x 25 x (-1/3) x (-1/50)<br>
-解1：12 x 25 x (-1/3) x (-1/50)<br>
-= [12 x (-1/3)] x [25 x (-1/50)]<br>
-= -4 x (-1/2)<br>
-= 2<br>
-解2：12 x 25 x (-1/3) x (-1/50)<br>
-= 12 x 25 x 1/3 x 1/50<br>
-= (12 x 1/3) x (25 x 1/50)<br>
-= 4 x 1/2<br>
-= 2</li>
-<li><strong>例2</strong><br>
-计算：(-85) x (-25) x (-4)<br>
-= -85 x (25 x 4)<br>
-= -85 x 100<br>
-= -8500<br>
-计算：(-7/8) x 15 x (-1/7)<br>
-= (7/8 x 1/7) x 15<br>
-= 1/8 x 15<br>
-= 1又7/8</li>
-</ol>
-<hr>
 ]]></content>
     </entry>
 </feed>

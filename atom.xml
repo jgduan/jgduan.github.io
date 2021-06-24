@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-06-24T16:38:38.739Z</updated>
+    <updated>2021-06-24T16:40:58.615Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -48,6 +48,9 @@
 <p>//关联一个远程库命令，git@后面填写你的github repository（仓库），在github里面创建仓库后有http和ssh的链接，origin是你给这个仓库起的名字，可以自定义，下面命令中的origin也要相应改变</p>
 <figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1624552692583.webp" alt="" loading="lazy"></figure>
 <p>git push -u origin master //把本地已经commit 的结果push到github的origin 仓库的master分支中</p>
+<hr>
+<p>##【拓展阅读】<br>
+<a href="https://www.cnblogs.com/luhuan/p/9072820.html">Windows下配置Git多账号github码云</a></p>
 <hr>
 ]]></content>
     </entry>

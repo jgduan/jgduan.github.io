@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-06-24T16:42:01.964Z</updated>
+    <updated>2021-06-25T14:59:00.751Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,309 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【DOHENES】基于Kotlin的v3.0架构规范]]></title>
+        <id>https://jgduan.github.io/post/dohenes-ji-yu-kotlin-de-v30-jia-gou-gui-fan/</id>
+        <link href="https://jgduan.github.io/post/dohenes-ji-yu-kotlin-de-v30-jia-gou-gui-fan/">
+        </link>
+        <updated>2021-06-25T14:17:42.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>项目采用了<code>MVVM</code>架构方式+组件化方案+<code>Jetpack</code>常用库，基于<code>Kotlin 1.4.32</code>编译版本，在个别<code>Module</code>的部分区域混合使用了<code>Java（Java 8版本）</code>来进行开发工作，具体使用的三方库及其使用方法、示例将在文末进行讲解。</p>
+<hr>
+<h1 id="一-架构模式-mvvm">一、架构模式-MVVM</h1>
+<p>项目采用<code>MVVM</code>架构模式，这里通过<code>Jetpack</code>的<code>ViewModel</code>组件来更换传统的<code>ViewModel</code>。</p>
+<p><a href="https://www.jianshu.com/p/449136bddff6">Android MVVM 模式</a></p>
+<hr>
+<h1 id="二-project-组件化">二、Project-组件化</h1>
+<p>为了各个功能模块之间解耦、<code>Module</code>灵活组合编译运行，便于团队协作开发及后期维护，3.0版本架构在多<code>Module</code>的基础上，采用了组件化方案来进一步优化项目架构。</p>
+<ul>
+<li>
+<p><strong>模块解耦</strong><br>
+项目采用组件化方案进行模块的<strong>解耦</strong>处理。</p>
+</li>
+<li>
+<p><strong>组件分类及命名规范</strong><br>
+整体架构分层与v2.0版本类似，除了最上层的<code>base、common</code>两大Library基础库，功能成分库继续采用<code>component-xxx</code>来进行命名，包含界面、具体业务逻辑的Library继续用<code>module-xxx</code>进行命名。</p>
+</li>
+</ul>
+<blockquote>
+<p>具体可参考<a href="https://jgduan.github.io/post/dohenes-tb-gai-ban-v20-zheng-ti-jia-gou-gui-fan/">【DOHENES】TB改版v2.0整体架构规范</a></p>
+</blockquote>
+<ul>
+<li>
+<p><strong>统一的引用配置</strong><br>
+为保持引用库版本一致，规避开发过程中不必要的冲突。项目中通过Project根目录下的<code>config.gradle</code>文件，定义通用的构建元素字段，供各个模块进行引用。</p>
+</li>
+<li>
+<p><strong>独立编译运行</strong><br>
+发挥组件化方案的优势，通过在<code>config.gradle</code>中配置对应控制变量对各<code>moudle</code>进行<code>library-&gt;application</code>的灵活控制，让<code>module</code>既可以独立编译运行，又可以集成编译，按需灵活配置，方便开发人员协作。</p>
+</li>
+</ul>
+<hr>
+<h1 id="三-屏幕分辨率适配">三、屏幕（分辨率适配）</h1>
+<p>依据实际的<code>UI</code>设计图，我们以<code>sw-375dp</code>为基准进行屏幕的适配工作，相应适配文件存放于<code>base-&gt;res/values、values-swxxxdp/measure.xml</code>内。<br>
+在实际开发中根据UI设计图尺寸直接设置对应控件的尺寸即可（<code>@dimen/common_measure_xxxdp</code>），具体使用示例如下：</p>
+<pre><code class="language-java">// 在需要使用地方添加对应的尺寸
+android:layout_height=&quot;@dimen/common_measure_xxxdp&quot;
+</code></pre>
+<hr>
+<h1 id="四-数据存储">四、数据存储</h1>
+<ul>
+<li>
+<p><strong>ROOM</strong><br>
+<a href="https://blog.csdn.net/yu540135101/article/details/110670477">Android kotlin+协程+Room数据库的简单使用</a><br>
+<a href="https://www.jianshu.com/p/0dde643ac045">Android Room的简单使用</a></p>
+</li>
+<li>
+<p><strong>DataStore</strong></p>
+</li>
+<li>
+<p><strong>Native Files</strong><br>
+当我们在开发过程涉及到一些需要缓存的文件时，很多应用采取的策略是到<code>SD卡</code>的根目录上创建自己的文件夹然后保存到对应的文件路径下（之前的泰邦设计也是这样做的），虽然达到了缓存文件的目的，但它并不被Android所推荐——当应用卸载后，这些被创建的文件夹仍然存在，造成手机内多出了不少的垃圾文件，这样是极不友好的。<br>
+Android建议我们在缓存文件时使用应用专属（这里又分内部存储与外部存储，建议是尽可能使用外部存储进行缓存）的缓存路径进行文件的缓存，当应用被卸载后，这些数据也会随之而消失，从而规避了上述问题。<br>
+关于应用专属内、外部存储的更多了解，建议阅读以下文章或自行了解后再进行相关的操作：<br>
+<a href="https://blog.csdn.net/s13383754499/article/details/82910704">彻底搞懂Android文件存储---内部存储，外部存储以及各种存储路径解惑</a><br>
+<a href="https://www.jianshu.com/p/b752b2e70b8c">Android文件缓存目录</a><br>
+重点关注：getExternalCacheDir、getExternalFilesDir。</p>
+</li>
+</ul>
+<hr>
+<h1 id="五-kotlin">五、Kotlin</h1>
+<ul>
+<li>
+<p><strong>协程</strong><br>
+<a href="https://www.jianshu.com/p/6e6835573a9c">Kotlin协程</a></p>
+</li>
+<li>
+<p><strong>不再使用findViewById</strong><br>
+在Module的build.gradle中加上：<code>apply plugin: 'kotlin-android-extensions'</code>，然后就可以直接使用布局中定义的id去访问对应的控件了。</p>
+</li>
+</ul>
+<blockquote>
+<p>在使用的时候，你会发现导入的包是<code>import kotlinx.android.synthetic.main.activity_main.*</code>(如layout名称为activity_main.xml)</p>
+</blockquote>
+<hr>
+<h1 id="六-项目中三方库使用规范及示例">六、项目中三方库使用规范及示例</h1>
+<ul>
+<li>
+<p><strong>ARouter——路由</strong></p>
+<ul>
+<li>概述<br>
+一款阿里开源的路由框架，是一个帮助Android进行模块化、组件化开发的开源库。它支持模块间的路由、通信、解耦。</li>
+<li>引入
+<ul>
+<li>添加依赖和配置<pre><code class="language-java">android {
+    defaultConfig {
+        ...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+}
+
+dependencies {
+    // 替换成最新版本, 需要注意的是api
+    // 要与compiler匹配使用，均使用最新版可以保证兼容
+    compile 'com.alibaba:arouter-api:x.x.x'
+    annotationProcessor 'com.alibaba:arouter-compiler:x.x.x'
+    ...
+}
+// 旧版本gradle插件(&lt; 2.2)，可以使用apt插件，配置方法见文末'其他#4'
+// Kotlin配置参考文末'其他#5'
+
+</code></pre>
+<blockquote>
+<p>所有使用ARouter的Module都必须在<code>build.gradle</code>中<code>dependencies</code>标签内添加<code>annotationProcessor 'com.alibaba:arouter-compiler:x.x.x</code>注释处理器。</p>
+</blockquote>
+</li>
+<li>添加注解<pre><code class="language-java">// 在支持路由的页面上添加注解(必选)
+// 这里的路径需要注意的是至少需要有两级，/xx/xx
+@Route(path = &quot;/test/activity&quot;)
+public class YourActivity extend Activity {
+    ...
+}
+</code></pre>
+</li>
+<li>初始化SDK<pre><code class="language-java">if (isDebug()) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
+    ARouter.openLog();     // 打印日志
+    ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+}
+ARouter.init(mApplication); // 尽可能早，推荐在Application中初始化
+
+</code></pre>
+</li>
+<li>发起路由操作<pre><code class="language-java">// 1. 应用内简单的跳转(通过URL跳转在'进阶用法'中)
+ARouter.getInstance().build(&quot;/test/activity&quot;).navigation();
+
+// 2. 跳转并携带参数
+ARouter.getInstance().build(&quot;/test/1&quot;)
+            .withLong(&quot;key1&quot;, 666L)
+            .withString(&quot;key3&quot;, &quot;888&quot;)
+            .withObject(&quot;key4&quot;, new Test(&quot;Jack&quot;, &quot;Rose&quot;))
+            .navigation();
+
+</code></pre>
+</li>
+<li>使用 Gradle 插件实现路由表的自动加载 (可选)<pre><code class="language-java">apply plugin: 'com.alibaba.arouter'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath &quot;com.alibaba:arouter-register:?&quot;
+    }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>使用规范<br>
+在开发过程中，当我们对要进行跳转的页面上添加支持路由的注解时，我们需要遵循以下规则：<br>
+<strong>路径需要注意的是至少需要有两级，/xx/xx，我们以/moduleName/className为基准进行对应的命名。</strong></li>
+<li>使用示例<pre><code class="language-java">    @Route(path = &quot;/mine/mineActivity&quot;)
+    class MineActivity {
+    ...
+    }
+</code></pre>
+</li>
+<li>注意事项<br>
+<strong>在使用该库的每个类的build.gradle文件中要添加如下配置：</strong><pre><code class="language-java">android {
+    ...
+    defaultConfig {
+        ...
+        // ARouter--每个使用到路由的Module必须加
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        ...
+    }
+    ...
+}
+dependencies {
+    // ARouter--每个使用到路由的Module必须加
+    annotationProcessor rootProject.ext.dependencies['arouter-compiler']
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>DataBinding——数据绑定</strong></p>
+<ul>
+<li>
+<p>概述</p>
+</li>
+<li>
+<p>引入<br>
+在使用DataBinding的Module中的build.gradle文件中进行如下操作：</p>
+<ul>
+<li>在文件最顶端(android标签外部)添加如下插件声明<pre><code class="language-java">plugins {
+    ...
+    id 'kotlin-kapt'
+}
+</code></pre>
+</li>
+<li>在android标签内部添加databinding引用（AndroidStudio 4.0+与之前写法不同）<pre><code class="language-java">buildFeatures {
+    dataBinding = true
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>使用</p>
+<ul>
+<li>修改对应的布局<br>
+使用Databinding的布局，最外层必须套一层layout标签，我们要修改对应的布局如下：<pre><code class="language-java">&lt;layout&gt;
+    &lt;data&gt;
+        ...
+    &lt;/data&gt;
+    &lt;androidx.constraintlayout.widget.ConstraintLayout&gt;
+        ...
+    &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+&lt;/layout&gt;
+</code></pre>
+</li>
+<li>给对应的控件绑定数据（这里以TextView为例）<br>
+首先，在布局中添加一个TextView控件，然后在<code>&lt;data&gt;</code>标签内添加一个属性标签<code>&lt;variable&gt;</code>，其中name属性是指变量名称，type属性是指变量类型<pre><code class="language-java">&lt;layout xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;&gt;
+    
+    &lt;data&gt;
+
+        &lt;variable
+            name=&quot;titleStr&quot;
+            type=&quot;String&quot; /&gt;
+    &lt;/data&gt;
+    
+    &lt;androidx.constraintlayout.widget.ConstraintLayout&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tv_title&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;@{titleStr}&quot;
+            app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+            app:layout_constraintEnd_toEndOf=&quot;parent&quot;
+            app:layout_constraintStart_toStartOf=&quot;parent&quot;
+            app:layout_constraintTop_toTopOf=&quot;parent&quot; /&gt;
+    &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+&lt;layou/&gt;
+</code></pre>
+在页面中进行赋值操作：<pre><code class="language-java">DataBindingUtil.setContentView&lt;ActivitySimpleBindingImpl&gt;(this, R.layout.activity_simple)
+    .apply {
+        titleStr = &quot;DataBinding test&quot;
+    }
+</code></pre>
+<blockquote>
+<p>注：使用DataBinding的Activity会自动生成<code>ActivityXXXBindingImpl</code>，如SimpleActivity会生成ActivitySimpleBindingImpl类。</p>
+</blockquote>
+</li>
+<li>点击事件的使用</li>
+<li>RecyclerView的使用</li>
+<li>ImageView加载一张网络图片</li>
+</ul>
+</li>
+<li>
+<p>使用规范</p>
+</li>
+<li>
+<p>示例</p>
+</li>
+<li>
+<p>注意事项</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/e8cf690ee8cc">DataBinding + Kotlin</a></p>
+</blockquote>
+<ul>
+<li>
+<p><strong>Paging——分页</strong></p>
+<ul>
+<li>概述</li>
+<li>引入</li>
+<li>使用规范</li>
+<li>示例</li>
+<li>注意事项</li>
+</ul>
+</li>
+<li>
+<p><strong>BottomNavigation——底部导航栏</strong><br>
+<a href="https://www.jianshu.com/p/f0021265845f">Kotlin-BottomNavigationView</a><br>
+<a href="https://blog.csdn.net/afei__/article/details/80950288">Android底部导航栏，三种风格和实现</a><br>
+<a href="https://www.jianshu.com/p/1cebf8cd1a86">Android 底部导航之BottomNavigationBar</a><br>
+<a href="https://blog.csdn.net/abs1004/article/details/77330726">安卓 BottomNavigationBar 底部导航栏 最简单用法详解</a></p>
+</li>
+</ul>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【转】git命令行登陆github进行操作]]></title>
         <id>https://jgduan.github.io/post/zhuan-git-ming-ling-xing-deng-lu-github-jin-xing-cao-zuo/</id>
@@ -1238,418 +1541,6 @@ Android OS从4.3(<code>Jelly Bean</code>，API 18)才开始支持低功耗蓝牙
 <li><a href="https://link.jianshu.com/?t=http%3A%2F%2Fblog.csdn.net%2Fbruce_6%2Farticle%2Fdetails%2F38299677">git和SVN的区别</a></li>
 <li><a href="https://link.jianshu.com/?t=http%3A%2F%2Fblog.jobbole.com%2F31444%2F">Git 和 SVN 之间的五个基本区别</a></li>
 </ul>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【JJQ】Android开发规范（注释、命名、打包）]]></title>
-        <id>https://jgduan.github.io/post/jjq-android-kai-fa-gui-fan-zhu-shi-ming-ming-da-bao/</id>
-        <link href="https://jgduan.github.io/post/jjq-android-kai-fa-gui-fan-zhu-shi-ming-ming-da-bao/">
-        </link>
-        <updated>2021-02-26T03:15:52.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
-<p><strong>统一、规范的命名有助于提升项目协作效率，也让代码的可读性、可维护性变得更加友好。</strong><br>
-这里根据<a href="http://www.360sdn.com/2013/android_0517/144.html?ckvcbc=yz6j13"><strong>Google Android编程规范</strong></a>来对公司客户端研发输出一份相对全面、清晰的Android代码命名规范，如有异议，欢迎批评指正。</p>
-<hr>
-<h1 id="关于注释">关于注释</h1>
-<p>在开发过程中，类、生僻对象命名、方法原则上都要加上相关注释，说明含义、用途。</p>
-<hr>
-<h1 id="各对象暂定的命名规范">各对象暂定的命名规范</h1>
-<ul>
-<li><strong>项目名称(Project name)</strong>
-<ul>
-<li>命名规则：<code>大驼峰式命名</code>，单词间连续无间隔；</li>
-<li>示例：如新建一个名为BaiYaoWanJia的项目。</li>
-</ul>
-</li>
-<li><strong>模块命名(Module-Library name)</strong>
-<ul>
-<li>命名规则：Library name采用<code>大驼峰式命名</code>，单词间连续无间隔，Module name会自动生成，不需修改；</li>
-<li>示例：<br>
-<img src="https://jgduan.github.io//post-images/1614309587721.png" alt="" loading="lazy"></li>
-</ul>
-</li>
-<li><strong>包</strong>
-<ul>
-<li>命名规则：小写、单词间连续无间隔，3级包名一般为applicationId或Module的根目录，4级包名对应不同的细分模块。</li>
-<li>示例：
-<ul>
-<li>3级包名applicationId：一般为com.公司名.项目名，如com.dohenes.bywanjia 或 com.公司名.Module name，如com.dohenes.shop；</li>
-<li>4级包名：com.公司名.项目名/Module name.xxx，具体可参考下图<br>
-<img src="https://jgduan.github.io//post-images/1614309652905.png" alt="" loading="lazy"></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>类</strong>
-<ul>
-<li>命名规则：<code>大驼峰式命名</code>，可使用单词或者单词简写，在具体命名类时，会根据该类的类型不同而附加额外的命名规则；</li>
-<li>示例：  <table>
-  	  <tr>
-  		  <th>类目</th>
-  		  <th>类型</th>
-  		  <th>命名规则描述</th>
-  		  <th>命名示例</th>
-  	  </tr>
-  	  <tr>
-  		  <th>普通java类</th>
-  		  <th>java类</th>
-  		  <th>大驼峰式命名法</th>
-  		  <th>GetTime</th>
-  	  </tr>
-  	  <tr>
-  		  <th rowspan="15">Android相关</th>
-  		  <th>基类</th>
-  		  <th>Base + 类别 / 功能</th>
-  		  <th>BaseActivity / BaseFragment / BaseAdapter</th>
-  	  </tr>
-  	  <tr>
-  		  <th>Activity</th>
-  		  <th>模块名 + Activity</th>
-  		  <th>LoginActivity</th>
-  	  </tr>
-  	  <tr>
-  		  <th>Fragment</th>
-  		  <th>模块名 + Fragment</th>
-  		  <th>LoginFragment</th>
-  	  </tr>
-  	  <tr>
-  		  <th>BroadcastReceiver</th>
-  		  <th>功能名 + Receiver</th>
-  		  <th>BootBroadcastReceiver</th>
-  	  </tr>
-  	  <tr>
-  		  <th>Service</th>
-  		  <th>模块名 / 功能名 + Service</th>
-  		  <th>LoginService / BLEService</th>
-  	  </tr>
-  	  <tr>
-  		  <th>自定义对话框Dialog</th>
-  		  <th>功能名 + Dialog</th>
-  		  <th>TipsDialog</th>
-  	  </tr>
-  	  <tr>
-  		  <th>自定义View</th>
-  		  <th>Custom + 功能名 + 组件名称(继承的组件名)</th>
-  		  <th>CustomToast / CustomLayout</th>
-  	  </tr>
-  	  <tr>
-  		  <th>自定义Widget</th>
-  		  <th>功能名 + Widget</th>
-  		  <th>LoginWidget</th>
-  	  </tr>  
-  	  <tr>
-  		  <th>数据适配器类</th>
-  		  <th>功能名 + Adapter</th>
-  		  <th>WeatherAdapter</th>
-  	  </tr>  
-  	  <tr>
-  		  <th>工具类</th>
-  		  <th>功能名 + Util/Manager</th>
-  		  <th>StringUtil / DatabaseManager</th>
-  	  </tr>  
-  	  <tr>
-  		  <th>帮助类</th>
-  		  <th>功能名 + Helper</th>
-  		  <th>DBHelper</th>
-  	  </tr>  
-  	  <tr>
-  		  <th>解析类</th>
-  		  <th>功能名 + Parse</th>
-  		  <th>GsonParse</th>
-  	  </tr>   
-  	  <tr>
-  		  <th>异常类</th>
-  		  <th>以Exception结尾</th>
-  		  <th>LoginException</th>
-  	  </tr>   
-  	  <tr>
-  		  <th>接口</th>
-  		  <th>多以able或ible结尾，也可在类名前加I标明</th>
-  		  <th>Runnable / Accessible / ILogin</th>
-  	  </tr>   
-  	  <tr>
-  		  <th>回调</th>
-  		  <th>功能名 + Callback</th>
-  		  <th>LoginCallback</th>
-  	  </tr>   
-     </table>
-</li>
-</ul>
-</li>
-<li><strong>变量</strong>
-<ul>
-<li>命名规则：<code>小驼峰式命名</code>，在具体命名变量时，会根据该变量的类型不同而附加额外的命名规则；</li>
-<li>示例：  <table>
-  	  <tr>
-  		  <th>类型</th>
-  		  <th>命名规则描述</th>
-  		  <th>命名示例</th>
-  	  </tr>
-  	  <tr>
-  		  <th>变量</th>
-  		  <th>m + 单词名</th>
-  		  <th>private int mCount</th>
-  	  </tr>
-  	  <tr>
-  		  <th>静态变量</th>
-  		  <th>前缀添加s</th>
-  		  <th>private static int sCount</th>
-  	  </tr>
-  	  <tr>
-  		  <th>临时变量(代码块内的)</th>
-  		  <th>小驼峰式命名</th>
-  		  <th>int count</th>
-  	  </tr>
-  	  <tr>
-  		  <th>常量</th>
-  		  <th>CONSTANT_作用名</th>
-  		  <th>CONSTANT_KEY_NAME</th>
-  	  </tr>
-  	  <tr>
-  		  <th>Android UI控件</th>
-  		  <th>m + 控件缩写 + 功能描述</th>
-  		  <th>mTvTitle / mBtnLogin</th>
-  	  </tr>
-  </table>
-</li>
-</ul>
-</li>
-<li><strong>方法</strong>
-<ul>
-<li>命名规则：<code>小驼峰式命名</code>,在具体命名方法名时，会根据该方法名的作用不同而附加额外的命名规则；</li>
-<li>示例：  <table>
-  	  <tr>
-  		  <th>功能</th>
-  		  <th>命名规则描述</th>
-  		  <th>命名示例</th>
-  	  </tr>
-  	  <tr>
-  		  <th>初始化</th>
-  		  <th>init + 单词</th>
-  		  <th>初始化布局：initView()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>判断 / 校验，返回至为boolean</th>
-  		  <th>is + 单词 / check + 单词</th>
-  		  <th>可见性：isVisible() / checkKey()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>显示/弹出提示框</th>
-  		  <th>show + 单词</th>
-  		  <th>显示提示信息：showTips()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>重置数据</th>
-  		  <th>reset + 单词</th>
-  		  <th>重置用户数据：resetUserData()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>保存数据</th>
-  		  <th>save + 单词</th>
-  		  <th>保存用户名：saveUserName()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>获取数据</th>
-  		  <th>get + 单词</th>
-  		  <th>获取用户名：getUserName()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>清除数据</th>
-  		  <th>clear + 单词</th>
-  		  <th>清除用户名:clearUserName()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>移除数据</th>
-  		  <th>remove + 单词</th>
-  		  <th>移除用户数据:removeUserData()</th>
-  	  </tr>
-  	  <tr>
-  		  <th>绘制相关</th>
-  		  <th>draw + 单词</th>
-  		  <th>绘制线条:drawLine()</th>
-  	  </tr>
-  </table>
-</li>
-</ul>
-</li>
-<li><strong>参数</strong>
-<ul>
-<li>命名规则：<code>小驼峰式命名</code>；</li>
-<li>示例：如userName,phoneNumber等。</li>
-</ul>
-</li>
-<li><strong>资源</strong>
-<ul>
-<li>布局资源(布局文件单词都要小写，中间用下划线_隔开)  <table>
-      <tr>
-          <th>类型</th>
-          <th>命名规则描述</th>
-          <th>命名示例</th>
-      </tr>
-      <tr>
-          <th>activity布局</th>
-          <th>activity_单词</th>
-          <th>activity_main</th>
-      </tr>
-      <tr>
-          <th>fragment布局</th>
-          <th>fragment_单词</th>
-          <th>fragment_main</th>
-      </tr>
-      <tr>
-          <th>dialog布局</th>
-          <th>dialog_单词</th>
-          <th>dialog_tips</th>
-      </tr>
-      <tr>
-          <th>popupwindow布局</th>
-          <th>pw_单词</th>
-          <th>pw_net_error</th>
-      </tr>
-      <tr>
-          <th>列表子项布局</th>
-          <th>item_单词</th>
-          <th>item_message</th>
-      </tr>
-  </table>
-</li>
-<li>控件ID  <table>
-      <tr>
-          <th>类型</th>
-          <th>命名规则描述</th>
-          <th>命名示例</th>
-      </tr>
-      <tr>
-          <th>TextView</th>
-          <th rowspan="11">模块名_控件缩写_功能单词名</th>
-          <th>login_tv_title</th>
-      </tr>
-      <tr>
-          <th>EditTextView</th>
-          <th>login_et_userName</th>
-      </tr>
-      <tr>
-          <th>ImageView</th>
-          <th>login_iv_userHead</th>
-      </tr>
-      <tr>
-          <th>Button</th>
-          <th>login_btn</th>
-      </tr>
-      <tr>
-          <th>CheckBox</th>
-          <th>login_cb_status</th>
-      </tr>
-      <tr>
-          <th>RadioButton</th>
-          <th>login_rb_gender</th>
-      </tr>
-      <tr>
-          <th>ListView</th>
-          <th>main_lv_message</th>
-      </tr>
-      <tr>
-          <th>GridView</th>
-          <th>main_gv_cards</th>
-      </tr>
-      <tr>
-          <th>LinearLayout</th>
-          <th>login_lt_header</th>
-      </tr>
-      <tr>
-          <th>RelativeLayout</th>
-          <th>login_rl_header</th>
-      </tr>
-      <tr>
-          <th>FragmentLayout / TableLayout / ConstraintLayout</th>
-          <th>简写对应 fl / tl / cl</th>
-      </tr>
-  </table>
-</li>
-<li>图片资源  <table>
-      <tr>
-          <th>类目</th>
-          <th>类型</th>
-          <th>命名规则描述</th>
-          <th>命名示例</th>
-      </tr>
-      <tr>
-          <th rowspan = "10">Drawable / mipmap资源</th>
-          <th>普通图标</th>
-          <th>ic_具体模块_功能</th>
-          <th>R.drawable.ic_user_login / R.drawable.ic_launcher</th>
-      </tr>
-      <tr>
-          <th>背景资源</th>
-          <th>bg_具体模块_功能</th>
-          <th>R.drawable.bg_login</th>
-      </tr>
-      <tr>
-          <th>样式选择器(selector)</th>
-          <th>selector_具体模块_适用范围</th>
-          <th>R.drawable.selector_login_btn</th>
-      </tr>
-      <tr>
-          <th>样式形状(shape)</th>
-          <th>shape_具体模块_适用范围</th>
-          <th>R.drawable.shape_login_btn</th>
-      </tr>
-  </table>
-</li>
-<li>动画资源  <table>
-      <tr>
-          <th>类型</th>
-          <th>命名规则描述</th>
-          <th>命名示例</th>
-      </tr>
-      <tr>
-          <th>补间动画</th>
-          <th>动画类型_方向</th>
-          <th>淡入：fade_int；淡出：fade_out</th>
-      </tr>
-      <tr>
-          <th>其余动画</th>
-          <th>模块名_动画名</th>
-          <th>login_jump</th>
-      </tr>
-  </table>
-</li>
-<li>Values资源  <table>
-      <tr>
-          <th>类型</th>
-          <th>命名规则描述</th>
-          <th>命名示例</th>
-      </tr>
-      <tr>
-          <th>color</th>
-          <th>模块名_color</th>
-          <th>login_color</th>
-      </tr>
-      <tr>
-          <th>style</th>
-          <th>模块名_style</th>
-          <th>login_style</th>
-      </tr>
-      <tr>
-          <th>theme</th>
-          <th>模块名_theme</th>
-          <th>login_theme</th>
-      </tr>
-      <tr>
-          <th>string</th>
-          <th>模块名_作用名</th>
-          <th>user_name</th>
-      </tr>
-  </table>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h1 id="关于app打包命名">关于App打包命名</h1>
-<p>release版本在项目混淆、加固(目前采用360加固)的基础上，按照以下规范命名，其它情况不考虑：<br>
-<a href="https://www.jianshu.com/p/d7dc4624a122"><strong>【Android】apk打包命名规则交流篇</strong></a></p>
 <hr>
 ]]></content>
     </entry>

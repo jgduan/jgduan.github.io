@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【初中数学】五、绝对值 | Zihao&#39;s blog</title>
+<title>【Android】RxJava3实现倒计时功能 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,20 +18,10 @@
 
 
 
-    <meta name="description" content="学习目标
-
-理解绝对值的概念及其几何意义；
-会求一个数的绝对值；
-了解绝对值的非负性，并能用其非负性解决相关问题；
-进一步理解绝对值的代数意义和几何意义；
-会用数轴或绝对值比较两个有理数的大小。
-
-
-一、绝对值
-
-绝对值的定义
-一般地，数轴..." />
-    <meta name="keywords" content="数学" />
+    <meta name="description" content="一、导入RxJava3
+在需要使用RxJava的Module中，打开build.gradle文件在dependencies标签内添加如下代码引入RxJava：
+implementation &quot;io.reactivex.rxjava..." />
+    <meta name="keywords" content="RxJava,Android" />
   </head>
   <body>
     <div id="app" class="main">
@@ -102,61 +92,60 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【初中数学】五、绝对值</h2>
-            <div class="post-date">2021-01-14</div>
+            <h2 class="post-title">【Android】RxJava3实现倒计时功能</h2>
+            <div class="post-date">2021-06-28</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-rxjava3-shi-xian-dao-ji-shi-gong-neng.webp')">
+              </div>
             
             <div class="post-content" v-pre>
-              <h1 id="学习目标">学习目标</h1>
-<ol>
-<li><strong>理解绝对值的概念及其几何意义；</strong></li>
-<li><strong>会求一个数的绝对值；</strong></li>
-<li><strong>了解绝对值的非负性，并能用其非负性解决相关问题；</strong></li>
-<li><strong>进一步理解绝对值的代数意义和几何意义；</strong></li>
-<li><strong>会用数轴或绝对值比较两个有理数的大小。</strong></li>
-</ol>
+              <h1 id="一-导入rxjava3">一、导入RxJava3</h1>
+<p>在需要使用RxJava的Module中，打开<code>build.gradle</code>文件在<code>dependencies</code>标签内添加如下代码引入RxJava：</p>
+<pre><code class="language-java">implementation &quot;io.reactivex.rxjava3:rxjava:3.0.6&quot;
+implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+</code></pre>
 <hr>
-<h1 id="一-绝对值">一、绝对值</h1>
+<h1 id="二-倒计时实现">二、倒计时实现</h1>
 <ul>
-<li><strong>绝对值的定义</strong><br>
-一般地，数轴上表示数a的点与原点的距离叫做数a的绝对值。<br>
-其中a可以是负数、正数和0。
+<li><strong>使用<code>intervalRange</code>实现倒计时任务</strong></li>
+</ul>
+<pre><code class="language-java">/**
+ * start：开始的数值
+ * count：输出值的个数（执行几次）
+ * initialDelay：延迟多久执行
+ * period：间隔多久执行一次
+ * TimeUnit：延迟/间隔数值单位，NANOSECONDS（纳秒），MICROSECONDS（微秒），MILLISECONDS（毫秒），
+ * SECONDS（秒），MINUTES（分钟），HOURS（小时），DAYS（天）
+ */
+Observable.intervalRange(0, 1, 5, 0, TimeUnit.SECONDS)
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnComplete {
+        LogUtil.e(TAG,&quot;start to MainActivity...&quot;)
+        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+    }.subscribe()
+</code></pre>
 <ul>
-<li>正数的绝对值是其本身；</li>
-<li>负数的绝对值是其相反数；</li>
-<li>0的绝对值还是0.</li>
+<li><strong>使用<code>timer</code>实现倒计时任务</strong></li>
 </ul>
-</li>
-<li><strong>绝对值的表示</strong><br>
-数a的绝对值，记作：| a |.<br>
-例如：-8的绝对值是8，记作：| -8 | = 8.</li>
-<li><strong>互为相反数的两个数，它们的绝对值有什么关系？</strong><br>
-互为相反数的的两个数，它们的绝对值是相等的。</li>
-</ul>
-<blockquote>
-<p>两个正数，绝对值大的大；<br>
-两个负数，绝对值大的反而小。</p>
-</blockquote>
-<hr>
-<h1 id="二-有理数大小的比较">二、有理数大小的比较</h1>
-<ol>
-<li><strong>一个数与0比较，要考虑这个数的正负</strong><br>
-一个数与0比较，正数大于0，负数小于0。</li>
-<li><strong>异号两数比较，要考虑这两个数的正负</strong><br>
-正数大于负数。</li>
-<li><strong>同好两个数比较，要考虑这两个数的绝对值</strong><br>
-两个正数，绝对值大的大；两个负数，绝对值大的反而小。</li>
-<li><strong>多个有理数比较，适合用数轴</strong><br>
-数轴上的点表示的数左边的小，右边的大。<br>
-注意：需要简化时，要先简化再比较。</li>
-</ol>
-<hr>
+<pre><code class="language-java">// 延时1s进入MainActivity
+Observable.timer(1, TimeUnit.SECONDS)
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe {
+        LogUtil.e(TAG,&quot;start to MainActivity2...&quot;)
+        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+    }
+</code></pre>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://jgduan.github.io/tag/MiOedvmVf/" class="tag">
-                    数学
+                  <a href="https://jgduan.github.io/tag/b0acUv2CN/" class="tag">
+                    RxJava
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
                   </a>
                 
               </div>
@@ -164,9 +153,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://jgduan.github.io/post/chu-zhong-shu-xue-si-xiang-fan-shu/">
+                <a href="https://jgduan.github.io/post/android-chuang-jian-qian-ming-ti-shi-qian-yi-dao-xing-ye-biao-zhun-ge-shi-pkcs12wen-ti/">
                   <h3 class="post-title">
-                    【初中数学】四、相反数
+                    【Android】创建签名提示“迁移到行业标准格式PKCS12”问题
                   </h3>
                 </a>
               </div>

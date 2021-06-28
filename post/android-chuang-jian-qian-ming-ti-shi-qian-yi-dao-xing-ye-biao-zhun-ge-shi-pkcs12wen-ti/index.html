@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【初中数学】五、绝对值 | Zihao&#39;s blog</title>
+<title>【Android】创建签名提示“迁移到行业标准格式PKCS12”问题 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,20 +18,16 @@
 
 
 
-    <meta name="description" content="学习目标
+    <meta name="description" content="背景
+Android Studio新建项目签名时创建签名文件时，提示“迁移到行业标准格式PKCS12”。
 
-理解绝对值的概念及其几何意义；
-会求一个数的绝对值；
-了解绝对值的非负性，并能用其非负性解决相关问题；
-进一步理解绝对值的代数意义和几何意义；
-会用数轴或绝对值比较两个有理数的大小。
+解决办法
+在Android Studio上，通过命令行创建签名文件。
 
+输入以下命令：
 
-一、绝对值
-
-绝对值的定义
-一般地，数轴..." />
-    <meta name="keywords" content="数学" />
+keytool -genkey -alia..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -102,71 +98,57 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【初中数学】五、绝对值</h2>
-            <div class="post-date">2021-01-14</div>
+            <h2 class="post-title">【Android】创建签名提示“迁移到行业标准格式PKCS12”问题</h2>
+            <div class="post-date">2021-06-28</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-chuang-jian-qian-ming-ti-shi-qian-yi-dao-xing-ye-biao-zhun-ge-shi-pkcs12wen-ti.jpg')">
+              </div>
             
             <div class="post-content" v-pre>
-              <h1 id="学习目标">学习目标</h1>
+              <h1 id="背景">背景</h1>
+<p>Android Studio新建项目签名时创建签名文件时，提示“迁移到行业标准格式PKCS12”。</p>
+<hr>
+<h1 id="解决办法">解决办法</h1>
+<p>在Android Studio上，通过命令行创建签名文件。</p>
 <ol>
-<li><strong>理解绝对值的概念及其几何意义；</strong></li>
-<li><strong>会求一个数的绝对值；</strong></li>
-<li><strong>了解绝对值的非负性，并能用其非负性解决相关问题；</strong></li>
-<li><strong>进一步理解绝对值的代数意义和几何意义；</strong></li>
-<li><strong>会用数轴或绝对值比较两个有理数的大小。</strong></li>
+<li>输入以下命令：</li>
 </ol>
-<hr>
-<h1 id="一-绝对值">一、绝对值</h1>
+<pre><code class="language-java">keytool -genkey -alias 这里替换成你的应用别名 -keypass 这里填写你的别名密码 -keyalg RSA -keysize 2048 -validity 36500 -keystore 签名文件的存储路径\你得项目名称\app\xxx.jks -storepass 你的签名密码
+</code></pre>
+<p>你需要修改以下四处：</p>
 <ul>
-<li><strong>绝对值的定义</strong><br>
-一般地，数轴上表示数a的点与原点的距离叫做数a的绝对值。<br>
-其中a可以是负数、正数和0。
-<ul>
-<li>正数的绝对值是其本身；</li>
-<li>负数的绝对值是其相反数；</li>
-<li>0的绝对值还是0.</li>
+<li>应用别名（alias）</li>
+<li>别名密码（alias password）</li>
+<li>签名文件保存的路径（全路径，如：D:/TestProject/app/test.jks）</li>
+<li>签名密码</li>
 </ul>
-</li>
-<li><strong>绝对值的表示</strong><br>
-数a的绝对值，记作：| a |.<br>
-例如：-8的绝对值是8，记作：| -8 | = 8.</li>
-<li><strong>互为相反数的两个数，它们的绝对值有什么关系？</strong><br>
-互为相反数的的两个数，它们的绝对值是相等的。</li>
-</ul>
-<blockquote>
-<p>两个正数，绝对值大的大；<br>
-两个负数，绝对值大的反而小。</p>
-</blockquote>
-<hr>
-<h1 id="二-有理数大小的比较">二、有理数大小的比较</h1>
-<ol>
-<li><strong>一个数与0比较，要考虑这个数的正负</strong><br>
-一个数与0比较，正数大于0，负数小于0。</li>
-<li><strong>异号两数比较，要考虑这两个数的正负</strong><br>
-正数大于负数。</li>
-<li><strong>同好两个数比较，要考虑这两个数的绝对值</strong><br>
-两个正数，绝对值大的大；两个负数，绝对值大的反而小。</li>
-<li><strong>多个有理数比较，适合用数轴</strong><br>
-数轴上的点表示的数左边的小，右边的大。<br>
-注意：需要简化时，要先简化再比较。</li>
+<ol start="2">
+<li>第1步完成后，回车，然后填写签名作者相关信息</li>
 </ol>
-<hr>
+<pre><code class="language-java">您的名字与姓氏是什么?
+  [Unknown]:  zihao
+您的组织单位名称是什么?
+  [Unknown]:  xxxx
+您的组织名称是什么?
+  [Unknown]:  xxxx
+您所在的城市或区域名称是什么?
+  [Unknown]:  HeFei
+您所在的省/市/自治区名称是什么?
+  [Unknown]:  AnHui
+该单位的双字母国家/地区代码是什么?
+  [Unknown]:  0086
+CN=zihao, OU=xxxx, O=xxxx L=HeFei, ST=AnHui, C=0086是否正确?
+  [否]:  y
+</code></pre>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://jgduan.github.io/tag/MiOedvmVf/" class="tag">
-                    数学
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://jgduan.github.io/post/chu-zhong-shu-xue-si-xiang-fan-shu/">
+                <a href="https://jgduan.github.io/post/dohenes-ji-yu-kotlin-de-v30-jia-gou-gui-fan/">
                   <h3 class="post-title">
-                    【初中数学】四、相反数
+                    【DOHENES】基于Kotlin的v3.0架构规范
                   </h3>
                 </a>
               </div>

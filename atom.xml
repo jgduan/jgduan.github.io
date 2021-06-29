@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-06-29T15:14:41.054Z</updated>
+    <updated>2021-06-29T15:18:46.165Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -55,7 +55,7 @@
 <p>Room 包含 3 个主要组件：</p>
 <ul>
 <li>
-<p>**数据库：**包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
+<p><strong>数据库：</strong> 包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
 使用<code>@Database</code>注释的类应满足以下条件：</p>
 <ul>
 <li>
@@ -68,13 +68,13 @@
 <p>包含具有 0 个参数且返回使用<code>@Dao</code>注释的类的抽象方法。</p>
 </li>
 </ul>
-<p>在运行时，您可以通过调用 Room.databaseBuilder() 或 Room.inMemoryDatabaseBuilder() 获取 Database 的实例。</p>
+<p>在运行时，您可以通过调用<code>Room.databaseBuilder()</code>或<code>Room.inMemoryDatabaseBuilder()</code>获取 Database 的实例。</p>
 </li>
 <li>
-<p>**Entity：**表示数据库中的表。</p>
+<p><strong>Entity：</strong> 表示数据库中的表。</p>
 </li>
 <li>
-<p>**DAO：**包含用于访问数据库的方法。</p>
+<p><strong>DAO：</strong> 包含用于访问数据库的方法。</p>
 </li>
 </ul>
 <p>应用使用 Room 数据库来获取与该数据库关联的数据访问对象 (DAO)。然后，应用使用每个 DAO 从数据库中获取实体，然后再将对这些实体的所有更改保存回数据库中。 最后，应用使用实体来获取和设置与数据库中的表列相对应的值。</p>

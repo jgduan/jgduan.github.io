@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1624979675756">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1624979922545">
 <link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
 
 
@@ -32,7 +32,7 @@ Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能�
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://jgduan.github.io/">
-        <img src="https://jgduan.github.io//images/avatar.png?v=1624979675756" class="site-logo">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1624979922545" class="site-logo">
         <h1 class="site-title">Zihao&#39;s blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -140,7 +140,7 @@ Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能�
 <p>Room 包含 3 个主要组件：</p>
 <ul>
 <li>
-<p>**数据库：**包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
+<p><strong>数据库：</strong> 包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
 使用<code>@Database</code>注释的类应满足以下条件：</p>
 <ul>
 <li>
@@ -153,13 +153,13 @@ Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能�
 <p>包含具有 0 个参数且返回使用<code>@Dao</code>注释的类的抽象方法。</p>
 </li>
 </ul>
-<p>在运行时，您可以通过调用 Room.databaseBuilder() 或 Room.inMemoryDatabaseBuilder() 获取 Database 的实例。</p>
+<p>在运行时，您可以通过调用<code>Room.databaseBuilder()</code>或<code>Room.inMemoryDatabaseBuilder()</code>获取 Database 的实例。</p>
 </li>
 <li>
-<p>**Entity：**表示数据库中的表。</p>
+<p><strong>Entity：</strong> 表示数据库中的表。</p>
 </li>
 <li>
-<p>**DAO：**包含用于访问数据库的方法。</p>
+<p><strong>DAO：</strong> 包含用于访问数据库的方法。</p>
 </li>
 </ul>
 <p>应用使用 Room 数据库来获取与该数据库关联的数据访问对象 (DAO)。然后，应用使用每个 DAO 从数据库中获取实体，然后再将对这些实体的所有更改保存回数据库中。 最后，应用使用实体来获取和设置与数据库中的表列相对应的值。</p>

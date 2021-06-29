@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-06-28T15:19:09.670Z</updated>
+    <updated>2021-06-29T15:14:41.054Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,161 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Android】Jetpack之Room]]></title>
+        <id>https://jgduan.github.io/post/android-jetpack-zhi-room/</id>
+        <link href="https://jgduan.github.io/post/android-jetpack-zhi-room/">
+        </link>
+        <updated>2021-06-29T14:50:46.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="简介">简介</h1>
+<p>Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能够在充分利用 SQLite 的强大功能的同时，获享更强健的数据库访问机制。</p>
+<hr>
+<h1 id="声明依赖-引入room到项目中">声明依赖--引入Room到项目中</h1>
+<p>在添加Room依赖前，我们需要在Project的<code>build.gradle</code>中，添加Google Maven代码库到项目中，示例如下：</p>
+<pre><code class="language-java">allprojects {
+    repositories {
+        google()
+
+        // 如果您使用的Gradle版本低于4.1，则必须使用：
+        // maven {
+        //     url 'https://maven.google.com'
+        // }
+        // 另一个URL是 'https://dl.google.com/dl/android/maven2/'
+    }
+}
+</code></pre>
+<p>在app或者使用Room的Module的<code>build.gradle</code>文件中，我这里添加了以下以代码来使用Room：</p>
+<pre><code class="language-java">dependencies {
+    def room_version = &quot;2.3.0&quot;
+
+    implementation(&quot;androidx.room:room-runtime:$room_version&quot;)
+    annotationProcessor &quot;androidx.room:room-compiler:$room_version&quot;
+
+    // To use Kotlin annotation processing tool (kapt) --使用Kotlin注释处理工具
+    kapt(&quot;androidx.room:room-compiler:$room_version&quot;)
+
+    // optional - Kotlin Extensions and Coroutines support for Room--可选项，在Room上Kotlin扩展和协程
+    implementation(&quot;androidx.room:room-ktx:$room_version&quot;)
+
+    // optional - RxJava3 support for Room--可选项，Room RxJava3支持
+    implementation &quot;androidx.room:room-rxjava3:$room_version&quot;
+}
+</code></pre>
+<hr>
+<h1 id="room库分析">Room库分析</h1>
+<p>Room 包含 3 个主要组件：</p>
+<ul>
+<li>
+<p>**数据库：**包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
+使用<code>@Database</code>注释的类应满足以下条件：</p>
+<ul>
+<li>
+<p>是扩展<code>RoomDatabase</code>的抽象类。</p>
+</li>
+<li>
+<p>在注释中添加与数据库关联的实体列表。</p>
+</li>
+<li>
+<p>包含具有 0 个参数且返回使用<code>@Dao</code>注释的类的抽象方法。</p>
+</li>
+</ul>
+<p>在运行时，您可以通过调用 Room.databaseBuilder() 或 Room.inMemoryDatabaseBuilder() 获取 Database 的实例。</p>
+</li>
+<li>
+<p>**Entity：**表示数据库中的表。</p>
+</li>
+<li>
+<p>**DAO：**包含用于访问数据库的方法。</p>
+</li>
+</ul>
+<p>应用使用 Room 数据库来获取与该数据库关联的数据访问对象 (DAO)。然后，应用使用每个 DAO 从数据库中获取实体，然后再将对这些实体的所有更改保存回数据库中。 最后，应用使用实体来获取和设置与数据库中的表列相对应的值。</p>
+<p>Room 不同组件之间的关系如图 1 所示：<br>
+<img src="https://developer.android.google.cn/images/training/data-storage/room_architecture.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="room使用示例">Room使用示例</h1>
+<h2 id="新建一个实体类user">新建一个实体类User</h2>
+<pre><code class="language-java">@Entity
+data class User(
+    @PrimaryKey val uid: Int,
+    @ColumnInfo(name = &quot;first_name&quot;) val firstName: String?,
+    @ColumnInfo(name = &quot;last_name&quot;) val lastName: String?
+)
+</code></pre>
+<h2 id="新建一个dao类">新建一个DAO类</h2>
+<pre><code class="language-java">@Dao
+interface UserDao {
+    @Query(&quot;SELECT * FROM user&quot;)
+    fun getAll(): List&lt;User&gt;
+
+    @Query(&quot;SELECT * FROM user WHERE uid IN (:userIds)&quot;)
+    fun loadAllByIds(userIds: IntArray): List&lt;User&gt;
+
+    @Query(&quot;SELECT * FROM user WHERE first_name LIKE :first AND &quot; +
+            &quot;last_name LIKE :last LIMIT 1&quot;)
+    fun findByName(first: String, last: String): User
+
+    @Insert
+    fun insertAll(vararg users: User)
+
+    @Delete
+    fun delete(user: User)
+}
+</code></pre>
+<h2 id="新建一个appdatabase类继承roomdatabase">新建一个AppDatabase类继承RoomDatabase</h2>
+<pre><code class="language-java">@Database(entities = arrayOf(User::class), version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}
+</code></pre>
+<h2 id="数据库的使用">数据库的使用</h2>
+<blockquote>
+<p>创建完上述文件后，您可以使用以下代码获取已创建的数据库的实例了：</p>
+</blockquote>
+<pre><code class="language-java">val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, &quot;database-name&quot;
+        ).build()
+</code></pre>
+<blockquote>
+<p>注意：如果您的应用在单个进程中运行，在实例化 AppDatabase 对象时应遵循单例设计模式。每个 RoomDatabase 实例的成本相当高，而您几乎不需要在单个进程中访问多个实例。</p>
+</blockquote>
+<blockquote>
+<p>如果您的应用在多个进程中运行，请在数据库构建器调用中包含 <code>enableMultiInstanceInvalidation()</code>。这样，如果您在每个进程中都有一个 AppDatabase 实例，可以在一个进程中使共享数据库文件失效，并且这种失效会自动传播到其他进程中 AppDatabase 的实例。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>主要内容源自<a href="https://developer.android.google.cn/training/data-storage/room">官方开发者文档Room操作指南</a></p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【Android】应用加固、混淆分析解读]]></title>
+        <id>https://jgduan.github.io/post/android-ying-yong-jia-gu-hun-yao-fen-xi-jie-du/</id>
+        <link href="https://jgduan.github.io/post/android-ying-yong-jia-gu-hun-yao-fen-xi-jie-du/">
+        </link>
+        <updated>2021-06-29T14:30:28.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>当我们准备发布一个App版本时，出于对App安全性的考虑，我们一般会选择对代码进行混淆、对打包后的apk文件进行加固操作，其目的就是为了防止app被恶意破解，增加破解难度来提高应用安全性。</p>
+<h2 id="代码混淆">代码混淆</h2>
+<p>代码混淆是一种常用的加密方式，它通过开启代码混淆开关、配置本地文件，对项目打包后的代码进行加密混淆（混淆的原理实际上就是对原来有具体含义的包名,类名,变量名,方法名等名称全部替换成按顺序排列的无意义的英文字母，如：a,b,c等）。</p>
+<blockquote>
+<p>proguard-rules.pro文件是给Library模块自己使用的混淆规则；<br>
+consumer-rules.pro文件则是会合并到app的混淆规则中，是给包括app在内的其他模块调用时使用的混淆规则；<br>
+而这两个文件，完全可以使用同一个文件进行配置；当需要进行区分时，可以使用两个不同的文件进行配置；根据项目需求选择所需即可。</p>
+</blockquote>
+<h2 id="应用加固">应用加固</h2>
+<blockquote>
+<p>一个apk文件，当我们把它后缀名修改为.zip时（后续我会追加一篇应用打包过程的文章，来描述apk到底是如何生成的，它包含哪些元素），可以找到classes.dex文件，这个文件包含了我们项目的<strong>主要源代码</strong>，通过反编译工具（如dex2jar等），我们可以轻松的拿到对应的源文件jar包并查看源代码。</p>
+</blockquote>
+<p>应用加固是指，通过对dex文件的的加密、拼接加壳操作，来有效的对项目代码进行保护，防止通过上述方法来拿到dex文件进行反编译。</p>
+<p>当apk被安装后，app启动时会有dex的解密过程，然后系统会重新加载解密后的dex文件。</p>
+<hr>
+<hr>
+<h1 id="拓展阅读">拓展阅读</h1>
+<p><a href="https://blog.csdn.net/weixin_45443931/article/details/98869613">浅谈安卓apk加固原理和实现</a><br>
+<a href="https://blog.csdn.net/qq_33232521/article/details/114919455">android 混淆 minifyEnabled proguard-rules.pro consumer-rules.pro</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Android】Android Studio 4.1忽略build文件夹后找不到BuildConfig]]></title>
         <id>https://jgduan.github.io/post/android-android-studio-41-hu-lue-build-wen-jian-jia-hou-zhao-bu-dao-buildconfig/</id>
@@ -754,153 +909,6 @@ public class HandlerTestActivity extends AppCompatActivity {
 <blockquote>
 <p>持续维护中。。。</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Android】Activity面试题进阶]]></title>
-        <id>https://jgduan.github.io/post/android-activity-mian-shi-ti-jin-jie/</id>
-        <link href="https://jgduan.github.io/post/android-activity-mian-shi-ti-jin-jie/">
-        </link>
-        <updated>2021-05-25T15:10:29.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="1-有两个activity-a和activity-b在activity-a中打开activity-b时它们都会有哪些生命周期回调">1. 有两个Activity A和Activity B，在Activity A中打开Activity B时，它们都会有哪些生命周期回调？</h1>
-<ul>
-<li>当被启动的目标<code>launchMode</code>为默认<code>standard</code>的情况下，在Activity A中打开Activity B时，生命周期回调顺序为：<br>
-A.onPause()-&gt;B.onCreate()-&gt;B.onStart()-&gt;B.onResume()-&gt;A.onStop()；</li>
-<li>当被启动的目标<code>launchMode</code>为<code>singleTop</code>且目标在栈顶的情况下，生命周期回调顺序为：<br>
-B.onPause()-&gt;B.onNewIntent()-&gt;B.onResume()；</li>
-<li>当被启动的目标<code>launchMode</code>为<code>singleInstance、singleTask</code>的情况下且对应的目标Activity有可复用的实例时，生命周期回调顺序为：`A.onPause()-&gt;B.onNewIntent()-&gt;B.onRestart()-&gt;B.onStart()-&gt;B.onResume()-&gt;A.onStop()-&gt;A.onDestory()（A被移出栈时调用）。</li>
-</ul>
-<hr>
-<h1 id="2在activity中弹出dialog会对其生命周期造成什么影响">2.在Activity中弹出Dialog会对其生命周期造成什么影响？</h1>
-<ul>
-<li>如果启动的是常规的<code>Dialog</code><br>
-因生命周期的回调都是<code>AMS</code>通过<code>Binder</code>通知应用进程的，而弹出<code>Dialog、Toast、PopupWindow</code>本质上都是通过<code>WindowsManager.addView()</code>显示的，并没有经过<code>ActivityManagerService</code>，所以不会对<code>Activity</code>的生命周期产生影响。</li>
-<li>如果启动的是<code>Theme为Dialog的Activity</code><br>
-会对<code>Activity</code>的生命周期造成影响，会触发如下生命周期回调（原<code>Activity</code>为A，弹出来的<code>DialogActivity</code>为B）：<br>
-A.onPause()-&gt;B.onCreate()-&gt;B.onStart()-&gt;B.onResume()。</li>
-</ul>
-<blockquote>
-<p>注：这个相对于上面的<code>Activity</code>互相之间的启动，你会发现，<strong>原<code>Activity</code>并没有触发<code>onStop</code>回调</strong>，这是因为<code>Activity</code>只有切换到后台不可见时才会触发<code>onStop</code>回调方法，而当弹出一个<code>Theme为Dialog的Activity</code>时，此前的一个页面还处于可见的情况，只是失去了焦点，所以仅回调了<code>onPause</code>方法。</p>
-</blockquote>
-<hr>
-<h1 id="3为什么activity在onresume之后才显示">3.为什么Activity在onResume之后才显示？</h1>
-<p>我们的Activity一般是在onCreate方法中通过setContentView来进行设置，那么为什么Activity要在onResume之后才显示呢？这中间经历了什么？</p>
-<p>当我们在onCreate中通过setContentView方法设置布局时，实际上是直接调用了Window的setContentView，创建了一个DecorView用来包裹我们的布局：</p>
-<pre><code class="language-java">PhoneWindow.java
-public void setContentView(int layoutResID) {
-    if (mContentParent == null) {
-        installDecor();
-    } 
-    ...
-    // 加载布局，添加到 mContentParent
-    // mContentParent 又是 DecorView 的一个子布局  
-    mLayoutInflater.inflate(layoutResID, mContentParent);
-}
-</code></pre>
-<p>其实这一步只是加载好了布局，生成了一个ViewTree，具体怎么把ViewTree显示出来，答案就在下面：</p>
-<pre><code class="language-java">ActivityThread.java
-public void handleResumeActivity(...){
-    // onResume 回调
-    ActivityClientRecord r = performResumeActivity(...)
-    final Activity a = r.activity;
-    if (r.window == null &amp;&amp; !a.mFinished &amp;&amp; willBeVisible) {
-        r.window = r.activity.getWindow();
-        View decor = r.window.getDecorView();
-        ViewManager wm = a.getWindowManager();
-        wm.addView(decor, l);// 重点
-    }
-}
-</code></pre>
-<p>WindowManager的addView方法最终将DecorView添加到WMS，实现绘制到屏幕、接触触摸事件，具体调用如下：</p>
-<pre><code class="language-java">   WindowManagerImpl.addView
--&gt; WindowManagerGlobal.addView
--&gt; ViewRootImpl.setView     
--&gt; ViewRootImpl.requestLayout() // 执行 View 的绘制流程
-   // 通过 Binder 调用 WMS ，WMS 会添加一个 Window 相关的对象
-   // 应用端通过 mWindowSession 调用 WMS
-   // WMS 通过 mWindow (一个 Binder 对象) 调用应用端  
-   mWindowSession.addToDisplay(mWindow) 
-</code></pre>
-<p>综上，在 onResume 回调之后，会创建一个 ViewRootImpl ，有了它之后应用端就可以和 WMS 进行双向调用了。</p>
-<hr>
-<h1 id="4onactivityresult在哪两个生命线周期之间回调">4.onActivityResult在哪两个生命线周期之间回调</h1>
-<p><code>onActivityResult</code>不属于Activity的生命周期组成，<code>onActivityResult</code>该方法的源码注释中写到<code>You will receive this call immediately before onResume() when your activity is re-starting.</code>，跟一下代码（<code>TransactionExecutor.execute</code>有兴趣的可以自己打断点跟一下），会发现<code>onActivityResult</code>回调先于该<code>Activity</code>的所有生命周期回调，从B Activity到A Activity的生命周期回调为：<br>
-B.onPause()-&gt;A.onActivityResult()-&gt;A.onRestart()-&gt;A.onStart()-&gt;A.onResume()。</p>
-<hr>
-<h1 id="5oncreate方法里面写死循环会触发anr吗">5.onCreate方法里面写死循环会触发ANR吗？</h1>
-<p>不会触发，因为Activity的生命周期中写死循环，只要不进行其它操作，不满足触发ANR的条件。</p>
-<blockquote>
-<p>ANR产生的四种场景：<br>
-1.Service TimeOut:  service 未在规定时间执行完成：前台服务 20s，后台 200s；<br>
-2.BroadCastQueue TimeOut: 未在规定时间内未处理完广播：前台广播 10s 内, 后台 60s 内；<br>
-3.ContentProvider TimeOut:  publish 在 10s 内没有完成；<br>
-4.Input Dispatching timeout:  5s 内未响应键盘输入、触摸屏幕等事件。</p>
-</blockquote>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Android】一线面试题汇总]]></title>
-        <id>https://jgduan.github.io/post/android-yi-xian-mian-shi-ti-hui-zong/</id>
-        <link href="https://jgduan.github.io/post/android-yi-xian-mian-shi-ti-hui-zong/">
-        </link>
-        <updated>2021-05-19T14:19:00.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="一-基础系列">一、基础系列</h1>
-<ol>
-<li><strong>Activity的四种启动模式；</strong></li>
-<li><strong>Activity生命周期中在onStart、onStop中做了什么；</strong></li>
-<li><strong>为什么Activity之间传递对象需要序列化；</strong></li>
-<li><strong>Http由哪些部分组成？Http与Https有什么区别；</strong></li>
-<li><strong>请描述一个Http的请求过程；</strong></li>
-<li><strong>用过哪些网络请求框架？okhttp如何复用连接？</strong></li>
-<li><strong>什么是强引用、什么是弱引用，它们能干什么；</strong></li>
-<li><strong>线程、线程池的概念描述；</strong></li>
-<li><strong>动画有哪些种类？都适用于什么场景；</strong></li>
-<li><strong>Android中的三级缓存是什么；</strong></li>
-<li><strong>Sharepreferences的使用场景？能跨进程访问吗？工作原理是什么；</strong></li>
-<li><strong>常用的数据库有哪些？如何进行升降级；</strong></li>
-<li><strong>MVC、MVP、MVVM架构模式概念描述，常用哪个；</strong></li>
-<li><strong>对Jetpack哪些组件比较了解？简单描述下其工作原理及适用场景；</strong></li>
-<li><strong>简述Android的启动流程；</strong></li>
-<li><strong>android:style与android:theme的区别是什么；</strong></li>
-<li><strong>请简述Intent概念（含Filter），Intent传递对象大小有限制吗、为什么；</strong></li>
-<li><strong>请简述Service前后台服务及其使用场景，Android8.0+如何兼容；</strong></li>
-<li><strong>BroadcastReceiver动、静态注册；</strong></li>
-<li><strong>ContentProvider是什么，请介绍其使用场景；</strong></li>
-<li><strong>Java与Kotlin有什么区别？优缺点；</strong></li>
-<li><strong>View的绘制流程是什么样的？如果屏幕方向发生改变会影响到什么；</strong></li>
-<li><strong>请简述事件分发机制；</strong></li>
-<li><strong>View与ViewGroup的关系描述；</strong></li>
-<li><strong>你是如何做屏幕适配的（sw策略）；</strong></li>
-<li><strong>Window、View、Activity之间的关系；</strong></li>
-<li><strong>介绍下Handler的原理；</strong></li>
-<li><strong>性能优化有哪些方式。</strong></li>
-</ol>
-<hr>
-<h1 id="二-进阶系列">二、进阶系列</h1>
-<ol>
-<li><strong>WindowManagerService简述及其作用；</strong></li>
-<li><strong>ActivityManagerService简述及其作用；</strong></li>
-<li><strong>ConstraintLayout为什么效果好？为什么多了层级，性能可能会差很多；</strong></li>
-<li><strong>什么是ANR？如何避免；</strong></li>
-<li><strong>如何防止内存泄漏、OOM；</strong></li>
-<li><strong>如何降低App异常崩溃提高稳定性；</strong></li>
-<li><strong>什么是IPC？IPC有哪些实现方式；</strong></li>
-<li><strong>内存优化工具LeakCanary和MAT的原理是什么；</strong></li>
-<li><strong>什么是JVM，简述下内存模型；</strong></li>
-<li><strong>Java为什么能够跨平台；</strong></li>
-<li><strong>Java类文件的编译过程；</strong></li>
-<li><strong>什么是组件化？你在项目中是如何实现组件化的？功能模块之间的相互引用如何处理、会有哪些问题；</strong></li>
-<li><strong>Java同步机制有哪些，volatile和syncronized区别；</strong></li>
-<li><strong>HashMap和HashTable区别；</strong></li>
-<li><strong>List、ArrayList、LinkedList之间的关系、区别；</strong></li>
-<li><strong>简述下PackageManagerService的工作流程；</strong></li>
-<li><strong>Android是如何加载so文件的；</strong></li>
-<li><strong>请介绍下Binder的原理及流程；</strong></li>
-<li><strong>Java同步机制有哪些；</strong></li>
-<li><strong>Recycleview如何做到回收复用的。</strong></li>
-</ol>
-<hr>
 ]]></content>
     </entry>
 </feed>

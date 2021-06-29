@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】Jetpack之Room | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1624979675756">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="简介
+Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能够在充分利用 SQLite 的强大功能的同时，获享更强健的数据库访问机制。
+
+声明依赖--引入Room到项目中
+在添加Room依赖前，我们需要在Project的bu..." />
+    <meta name="keywords" content="Jetpack,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1624979675756" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】Jetpack之Room</h2>
+            <div class="post-date">2021-06-29</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-jetpack-zhi-room.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="简介">简介</h1>
+<p>Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能够在充分利用 SQLite 的强大功能的同时，获享更强健的数据库访问机制。</p>
+<hr>
+<h1 id="声明依赖-引入room到项目中">声明依赖--引入Room到项目中</h1>
+<p>在添加Room依赖前，我们需要在Project的<code>build.gradle</code>中，添加Google Maven代码库到项目中，示例如下：</p>
+<pre><code class="language-java">allprojects {
+    repositories {
+        google()
+
+        // 如果您使用的Gradle版本低于4.1，则必须使用：
+        // maven {
+        //     url 'https://maven.google.com'
+        // }
+        // 另一个URL是 'https://dl.google.com/dl/android/maven2/'
+    }
+}
+</code></pre>
+<p>在app或者使用Room的Module的<code>build.gradle</code>文件中，我这里添加了以下以代码来使用Room：</p>
+<pre><code class="language-java">dependencies {
+    def room_version = &quot;2.3.0&quot;
+
+    implementation(&quot;androidx.room:room-runtime:$room_version&quot;)
+    annotationProcessor &quot;androidx.room:room-compiler:$room_version&quot;
+
+    // To use Kotlin annotation processing tool (kapt) --使用Kotlin注释处理工具
+    kapt(&quot;androidx.room:room-compiler:$room_version&quot;)
+
+    // optional - Kotlin Extensions and Coroutines support for Room--可选项，在Room上Kotlin扩展和协程
+    implementation(&quot;androidx.room:room-ktx:$room_version&quot;)
+
+    // optional - RxJava3 support for Room--可选项，Room RxJava3支持
+    implementation &quot;androidx.room:room-rxjava3:$room_version&quot;
+}
+</code></pre>
+<hr>
+<h1 id="room库分析">Room库分析</h1>
+<p>Room 包含 3 个主要组件：</p>
+<ul>
+<li>
+<p>**数据库：**包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
+使用<code>@Database</code>注释的类应满足以下条件：</p>
+<ul>
+<li>
+<p>是扩展<code>RoomDatabase</code>的抽象类。</p>
+</li>
+<li>
+<p>在注释中添加与数据库关联的实体列表。</p>
+</li>
+<li>
+<p>包含具有 0 个参数且返回使用<code>@Dao</code>注释的类的抽象方法。</p>
+</li>
+</ul>
+<p>在运行时，您可以通过调用 Room.databaseBuilder() 或 Room.inMemoryDatabaseBuilder() 获取 Database 的实例。</p>
+</li>
+<li>
+<p>**Entity：**表示数据库中的表。</p>
+</li>
+<li>
+<p>**DAO：**包含用于访问数据库的方法。</p>
+</li>
+</ul>
+<p>应用使用 Room 数据库来获取与该数据库关联的数据访问对象 (DAO)。然后，应用使用每个 DAO 从数据库中获取实体，然后再将对这些实体的所有更改保存回数据库中。 最后，应用使用实体来获取和设置与数据库中的表列相对应的值。</p>
+<p>Room 不同组件之间的关系如图 1 所示：<br>
+<img src="https://developer.android.google.cn/images/training/data-storage/room_architecture.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="room使用示例">Room使用示例</h1>
+<h2 id="新建一个实体类user">新建一个实体类User</h2>
+<pre><code class="language-java">@Entity
+data class User(
+    @PrimaryKey val uid: Int,
+    @ColumnInfo(name = &quot;first_name&quot;) val firstName: String?,
+    @ColumnInfo(name = &quot;last_name&quot;) val lastName: String?
+)
+</code></pre>
+<h2 id="新建一个dao类">新建一个DAO类</h2>
+<pre><code class="language-java">@Dao
+interface UserDao {
+    @Query(&quot;SELECT * FROM user&quot;)
+    fun getAll(): List&lt;User&gt;
+
+    @Query(&quot;SELECT * FROM user WHERE uid IN (:userIds)&quot;)
+    fun loadAllByIds(userIds: IntArray): List&lt;User&gt;
+
+    @Query(&quot;SELECT * FROM user WHERE first_name LIKE :first AND &quot; +
+            &quot;last_name LIKE :last LIMIT 1&quot;)
+    fun findByName(first: String, last: String): User
+
+    @Insert
+    fun insertAll(vararg users: User)
+
+    @Delete
+    fun delete(user: User)
+}
+</code></pre>
+<h2 id="新建一个appdatabase类继承roomdatabase">新建一个AppDatabase类继承RoomDatabase</h2>
+<pre><code class="language-java">@Database(entities = arrayOf(User::class), version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}
+</code></pre>
+<h2 id="数据库的使用">数据库的使用</h2>
+<blockquote>
+<p>创建完上述文件后，您可以使用以下代码获取已创建的数据库的实例了：</p>
+</blockquote>
+<pre><code class="language-java">val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, &quot;database-name&quot;
+        ).build()
+</code></pre>
+<blockquote>
+<p>注意：如果您的应用在单个进程中运行，在实例化 AppDatabase 对象时应遵循单例设计模式。每个 RoomDatabase 实例的成本相当高，而您几乎不需要在单个进程中访问多个实例。</p>
+</blockquote>
+<blockquote>
+<p>如果您的应用在多个进程中运行，请在数据库构建器调用中包含 <code>enableMultiInstanceInvalidation()</code>。这样，如果您在每个进程中都有一个 AppDatabase 实例，可以在一个进程中使共享数据库文件失效，并且这种失效会自动传播到其他进程中 AppDatabase 的实例。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>主要内容源自<a href="https://developer.android.google.cn/training/data-storage/room">官方开发者文档Room操作指南</a></p>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/25IkQnsIa/" class="tag">
+                    Jetpack
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/android-ying-yong-jia-gu-hun-yao-fen-xi-jie-du/">
+                  <h3 class="post-title">
+                    【Android】应用加固、混淆分析解读
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

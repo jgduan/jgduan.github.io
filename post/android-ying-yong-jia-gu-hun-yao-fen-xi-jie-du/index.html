@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【Android】RxJava3实现倒计时功能 | Zihao&#39;s blog</title>
+<title>【Android】应用加固、混淆分析解读 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,10 +18,11 @@
 
 
 
-    <meta name="description" content="一、导入RxJava3
-在需要使用RxJava的Module中，打开build.gradle文件在dependencies标签内添加如下代码引入RxJava：
-implementation &quot;io.reactivex.rxjava..." />
-    <meta name="keywords" content="RxJava,Android" />
+    <meta name="description" content="前言
+当我们准备发布一个App版本时，出于对App安全性的考虑，我们一般会选择对代码进行混淆、对打包后的apk文件进行加固操作，其目的就是为了防止app被恶意破解，增加破解难度来提高应用安全性。
+代码混淆
+代码混淆是一种常用的加密方式，它通..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -92,70 +93,39 @@ implementation &quot;io.reactivex.rxjava..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【Android】RxJava3实现倒计时功能</h2>
-            <div class="post-date">2021-06-28</div>
-            
-              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-rxjava3-shi-xian-dao-ji-shi-gong-neng.webp')">
-              </div>
+            <h2 class="post-title">【Android】应用加固、混淆分析解读</h2>
+            <div class="post-date">2021-06-29</div>
             
             <div class="post-content" v-pre>
-              <h1 id="一-导入rxjava3">一、导入RxJava3</h1>
-<p>在需要使用RxJava的Module中，打开<code>build.gradle</code>文件在<code>dependencies</code>标签内添加如下代码引入RxJava：</p>
-<pre><code class="language-java">implementation &quot;io.reactivex.rxjava3:rxjava:3.0.6&quot;
-implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-</code></pre>
+              <h1 id="前言">前言</h1>
+<p>当我们准备发布一个App版本时，出于对App安全性的考虑，我们一般会选择对代码进行混淆、对打包后的apk文件进行加固操作，其目的就是为了防止app被恶意破解，增加破解难度来提高应用安全性。</p>
+<h2 id="代码混淆">代码混淆</h2>
+<p>代码混淆是一种常用的加密方式，它通过开启代码混淆开关、配置本地文件，对项目打包后的代码进行加密混淆（混淆的原理实际上就是对原来有具体含义的包名,类名,变量名,方法名等名称全部替换成按顺序排列的无意义的英文字母，如：a,b,c等）。</p>
+<blockquote>
+<p>proguard-rules.pro文件是给Library模块自己使用的混淆规则；<br>
+consumer-rules.pro文件则是会合并到app的混淆规则中，是给包括app在内的其他模块调用时使用的混淆规则；<br>
+而这两个文件，完全可以使用同一个文件进行配置；当需要进行区分时，可以使用两个不同的文件进行配置；根据项目需求选择所需即可。</p>
+</blockquote>
+<h2 id="应用加固">应用加固</h2>
+<blockquote>
+<p>一个apk文件，当我们把它后缀名修改为.zip时（后续我会追加一篇应用打包过程的文章，来描述apk到底是如何生成的，它包含哪些元素），可以找到classes.dex文件，这个文件包含了我们项目的<strong>主要源代码</strong>，通过反编译工具（如dex2jar等），我们可以轻松的拿到对应的源文件jar包并查看源代码。</p>
+</blockquote>
+<p>应用加固是指，通过对dex文件的的加密、拼接加壳操作，来有效的对项目代码进行保护，防止通过上述方法来拿到dex文件进行反编译。</p>
+<p>当apk被安装后，app启动时会有dex的解密过程，然后系统会重新加载解密后的dex文件。</p>
 <hr>
-<h1 id="二-倒计时实现">二、倒计时实现</h1>
-<ul>
-<li><strong>使用<code>intervalRange</code>实现倒计时任务</strong></li>
-</ul>
-<pre><code class="language-java">/**
- * start：开始的数值
- * count：输出值的个数（执行几次）
- * initialDelay：延迟多久执行
- * period：间隔多久执行一次
- * TimeUnit：延迟/间隔数值单位，NANOSECONDS（纳秒），MICROSECONDS（微秒），MILLISECONDS（毫秒），
- * SECONDS（秒），MINUTES（分钟），HOURS（小时），DAYS（天）
- */
-Observable.intervalRange(0, 1, 5, 0, TimeUnit.SECONDS)
-    .observeOn(AndroidSchedulers.mainThread())
-    .doOnComplete {
-        LogUtil.e(TAG,&quot;start to MainActivity...&quot;)
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-    }.subscribe()
-</code></pre>
-<ul>
-<li><strong>使用<code>timer</code>实现倒计时任务</strong></li>
-</ul>
-<pre><code class="language-java">// 延时1s进入MainActivity
-Observable.timer(1, TimeUnit.SECONDS)
-    .observeOn(AndroidSchedulers.mainThread())
-    .subscribe {
-        LogUtil.e(TAG,&quot;start to MainActivity2...&quot;)
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-    }
-</code></pre>
+<hr>
+<h1 id="拓展阅读">拓展阅读</h1>
+<p><a href="https://blog.csdn.net/weixin_45443931/article/details/98869613">浅谈安卓apk加固原理和实现</a><br>
+<a href="https://blog.csdn.net/qq_33232521/article/details/114919455">android 混淆 minifyEnabled proguard-rules.pro consumer-rules.pro</a></p>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://jgduan.github.io/tag/b0acUv2CN/" class="tag">
-                    RxJava
-                  </a>
-                
-                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
-                    Android
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://jgduan.github.io/post/android-chuang-jian-qian-ming-ti-shi-qian-yi-dao-xing-ye-biao-zhun-ge-shi-pkcs12wen-ti/">
+                <a href="https://jgduan.github.io/post/android-android-studio-41-hu-lue-build-wen-jian-jia-hou-zhao-bu-dao-buildconfig/">
                   <h3 class="post-title">
-                    【Android】创建签名提示“迁移到行业标准格式PKCS12”问题
+                    【Android】Android Studio 4.1忽略build文件夹后找不到BuildConfig
                   </h3>
                 </a>
               </div>

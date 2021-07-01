@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-06-29T15:21:51.525Z</updated>
+    <updated>2021-07-01T15:23:39.970Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,108 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【转】打造 Material 颜色主题 | 设计篇]]></title>
+        <id>https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-she-ji-pian/</id>
+        <link href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-she-ji-pian/">
+        </link>
+        <updated>2021-07-01T15:02:38.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>本文转自<a href="https://blog.csdn.net/jILRvRTrc/article/details/109475532">CSDN-谷歌开发者 打造 Material 颜色主题 | 设计篇</a><br>
+<em>作者 / Liam Spradlin, Material Design Advocate</em></p>
+</blockquote>
+<p>颜色是设计中最清晰的表现形式之一，尤其是当您需要在人们的各种活动场合中传播您的品牌或产品形象时。应用的界面可容纳丰富的颜色，不仅可以用于打造产品形象，而且由于用户可以直接触摸和操作界面，因此在传播产品形象的同时又能与用户的生活和体验紧密联系，并增强产品的功能、实用性和个性。</p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzAwODY4OTk2Mg%3D%3D&amp;action=getalbum&amp;album_id=1340817101657014273#wechat_redirect">Material Design</a> 包含全面的颜色系统，可以让设计师和开发者制定全局颜色决策，并能够有效管理界面状态、强调重点和对比度等问题，使这些颜色决策贯穿于产品的各个层级。</p>
+<hr>
+<h1 id="material-中的颜色">Material 中的颜色</h1>
+<p>为了实现上述目标，Material 使用一组定义好的颜色取值，构成 &quot;颜色主题&quot;。颜色主题包含主要 (Primary) 颜色和次要 (Secondary) 颜色，它们可用于关键组件，另外还包含用于自定义背景 (Background) 色、表面 (Surface) 颜色 (用于呈现抬升的表面或 &quot;纸张&quot;) 和错误 (Error) 颜色的色值。<br>
+<img src="https://jgduan.github.io//post-images/1625152307401.png" alt="基准 Material 颜色主题" loading="lazy"><br>
+△ 基准 Material 颜色主题</p>
+<p>还有一些色值用于 &quot;On&quot; 颜色，顾名思义，它们是出现在其他元素上方的颜色。例如，On Primary 可用于呈现在应用的主要颜色上方显示的文本、图标或其他元素。比如下图展示了带有菜单图标和标题的应用栏，其中的图表和文字都使用 &quot;On&quot; 颜色来确保内容具备适当的对比度和可读性。<br>
+<img src="https://jgduan.github.io//post-images/1625152360593.png" alt="" loading="lazy"></p>
+<p>对于诸如状态等更加细微的颜色使用场景，Material 使用 &quot;色调调色板&quot;。色调调色板会基于您所选择的颜色提供一组十个值，提供了减淡和加深的选项，可使您的颜色主题更加灵活。<br>
+<img src="https://jgduan.github.io//post-images/1625152382453.png" alt="" loading="lazy"></p>
+<p>△ 上图中的界面使用主要颜色以及两个主要颜色变体，并应用到所有组件中</p>
+<hr>
+<h1 id="选择品牌颜色">选择品牌颜色</h1>
+<h2 id="从头开始">从头开始</h2>
+<p>如果您要从头开始构建颜色主题，也就是说如果您没有现成的品牌调色板，那么最好先充分思考您应用的特质。在我们的 Material Studies 专栏 (基于现实用例和产品约束设计的示例应用) 中，您可以看到根据各种应用的功能和个性所采用的多种基于颜色的品牌化方案。</p>
+<ul>
+<li>
+<p>Material Studies<br>
+https://material.io/design/material-studies/about-our-material-studies.html</p>
+<p>您的应用是否像暗色调的个人理财应用 Rally 一样，是一款可以帮助人们高效解析信息的实用工具？是否像现代而精致的购物应用 Shrine 一样，能够以精致的美学和粉红色调激发用户的兴趣？或者，也许像教育应用 Owl 一样，能够通过生动的配色来提供更加有趣的教学体验。在每个用例中，颜色在打造和增强应用的个性方面都起着重要作用。<br>
+<img src="https://jgduan.github.io//post-images/1625152528876.png" alt="" loading="lazy"><br>
+△ Rally 的每个信息图表都使用了两种取自其颜色主题的颜色</p>
+<p>对于像 Rally 这样的应用而言，其功能旨在查看和管理个人财务数据，因此必须选用一种深沉的配色方案。该应用的主要颜色为绿色，On 颜色为白色，背景色则为深灰色调。其他颜色均极为深沉，用于在各种信息展示界面中以实用的方式呈现数据。</p>
+</li>
+<li>
+<p>Rally<br>
+https://material.io/design/material-studies/rally.html</p>
+<p><img src="https://jgduan.github.io//post-images/1625152585442.png" alt="" loading="lazy"><br>
+△ Owl 使用三种颜色主题来区分应用中的不同部分</p>
+<p>与 Rally 截然相反，Owl 通过在其颜色主题中使用三种不同的主要颜色，打造出鲜活有趣的使用氛围。尽管 Owl 事实上可以被视为在同一个应用中采用了三种不同的颜色主题，但这些颜色却因生动鲜明的共同特征而紧密关联 (它们各自趋近色轮中的三原色: 红、黄、蓝)。</p>
+</li>
+<li>
+<p>Owl<br>
+https://material.io/design/material-studies/owl.html</p>
+<p><img src="https://jgduan.github.io//post-images/1625152619523.png" alt="" loading="lazy"><br>
+△ Shrine 在关健组件和版面设计中采用了简单的颜色主题</p>
+<p>Shrine 则介于以上两款应用之间。这款应用具有个性鲜明的色彩表现，使用奶油粉色调作为主要颜色和次要颜色，并使用深棕色作为 On 颜色。虽然 Shrine 的调色板十分独特，但在应用中以专注而精致的方式应用这种色调，能够体现出 Shrine 想要展现的个性形象，打造出一个现代而优雅的时尚和生活购物助手。</p>
+</li>
+<li>
+<p>Shrine<br>
+https://material.io/design/material-studies/shrine.html</p>
+<p>从头开始制作自己的主题时，请考虑您的应用在上述示例所覆盖的范围中所处的位置。首先，请选择一种能够最贴切地表达应用个性和用途的主要颜色。然后，根据您对应用观感的设想，选择可以增强或调节这些特质的次要颜色。请考虑如何使用 On 颜色，或对表面或背景应用新的颜色以增强表现力。</p>
+</li>
+</ul>
+<h2 id="如果您已有品牌调色板">如果您已有品牌调色板</h2>
+<p>在为您的应用构建颜色主题时，您可能已经具有可以轻松转换为 Material 颜色主题的品牌调色板。这种情况下，您可能已经拥有品牌指南，其中涵盖了应优先考虑的颜色以及如何概念化品牌个性或色调方面的内容。您可以将指南内容与前文提到的信息相结合，确定要在颜色主题中包含哪些颜色。</p>
+<p>如果您已有品牌调色板但没有指南，请浏览现有的品牌物料或界面设计，然后与调色板进行对比，确定应优先考虑采用哪些颜色作为主要颜色和次要颜色。测试这些颜色以确定它们是否能带来方便阅读的对比度。如果效果不佳，您可以从色调调色板中选择效果理想的颜色变体。</p>
+<ul>
+<li>测试颜色<br>
+https://material.io/tools/color</li>
+</ul>
+<h2 id="使用调色板生成器扩展调色板">使用调色板生成器扩展调色板</h2>
+<p>基于确定下来的几种颜色，可以使用调色板生成器对颜色取值进行扩展，从而满足更多场合的需求。只需在生成器右侧添加所选颜色，然后点击每个生成的色样即可复制其十六进制色值。</p>
+<ul>
+<li>
+<p>调色板生成器<br>
+https://material.io/design/color/the-color-system.html#tools-for-picking-colors</p>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1625152728551.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+<h2 id="呈现主题">呈现主题</h2>
+<p>选择一些颜色并将其扩展为色调调色板后，您就可以通过将颜色代入到 Material Design 提供的色谱中来实际创建颜色主题了。</p>
+<ul>
+<li>
+<p>色调调色板<br>
+https://material.io/design/color/the-color-system.html#tools-for-picking-colors</p>
+<p>要在设计工具中进行此操作 (并在 Material Components 上获得主题的即时预览)，请下载我们的 Figma 基准设计工具包。在工具包内的 Material Theme 页面中，您将看到一个名为 Color 的框架，该框架全面展示了您的颜色主题，包括了色调调色板。</p>
+</li>
+<li>
+<p>Figma 基准设计工具包<br>
+https://www.figma.com/@materialdesign</p>
+<figure data-type="image" tabindex="2"><img src="https://jgduan.github.io//post-images/1625152787143.png" alt="" loading="lazy"></figure>
+<p>在上图右侧，您会看到一个面板，在 Color Styles 下方包含了与主题中的颜色相符的全局样式。要开始将颜色插入到主题中，请点击每种颜色样式旁边的编辑图标。返回到生成器中的色调调色板，然后点击工具中的每个色样以复制其十六进制色值，然后将其输入到 Figma 中您选择的样式中。</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://jgduan.github.io//post-images/1625152807417.png" alt="" loading="lazy"></figure>
+<p>当主要颜色和次要颜色的色样处理完成后，请查看 Figma 界面左边的 Stickersheet 页面以查看主题在每个组件上的显示效果。</p>
+<hr>
+<h1 id="下一步-实现">下一步: 实现</h1>
+<p>完成了上述操作后，您还可以尝试调整表面、背景和错误颜色来优化这个全新的颜色主题。您也可以尝试通过创建多个主题 (例如上文中的 Owl 示例) 来利用颜色系统实现更多创意。</p>
+<p>在创建出完美的颜色主题后，您就可以准备实现它了。请大家关注我们接下来会发布的文章<a href="https://blog.csdn.net/jILRvRTrc/article/details/109567406">《打造 Material 颜色主题 | 实现篇》</a>。</p>
+<hr>
+<h1 id="推荐阅读">推荐阅读</h1>
+<ul>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808cf031b7fb79276e6792f13b342073c99a0b8118a9bb2b6b995a5cad6fa57dc58b55993e07&amp;idx=1&amp;mid=2652065908&amp;scene=21&amp;sn=8af70145ec89870c138818a38f005ed0#wechat_redirect">跨设备设计基础 | 如何确定任意屏幕的分辨率指标</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808cec31b7fb65275fa39b276c69cf670cfcd8f2395b532953c27bb48d368fe40638a225d4f1&amp;idx=1&amp;mid=2652064884&amp;scene=21&amp;sn=e407e1d047f415309b7b120e1265ce9c#wechat_redirect">使用 Material Design 组件实现深色主题</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808ce8fbb7fb61ede45fa93a0d8d5464935f48f28601f2db5d5ea8d60863fe2392f2361cffae&amp;idx=1&amp;mid=2652063934&amp;scene=21&amp;sn=caeaec14e70b7569c06503b1bb04138b#wechat_redirect">Android Material 组件 1.2.0 现已发布</a></li>
+</ul>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Android】Jetpack之Room]]></title>
         <id>https://jgduan.github.io/post/android-jetpack-zhi-room/</id>
@@ -777,138 +879,6 @@ public class HandlerTestActivity extends AppCompatActivity {
     }
 </code></pre>
 <hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【合肥】Android 15k+招聘列表]]></title>
-        <id>https://jgduan.github.io/post/he-fei-android-15kzhao-pin-lie-biao/</id>
-        <link href="https://jgduan.github.io/post/he-fei-android-15kzhao-pin-lie-biao/">
-        </link>
-        <updated>2021-06-03T14:58:17.000Z</updated>
-        <content type="html"><![CDATA[<table>
-<thead>
-<tr>
-<th>企业名称</th>
-<th>规模</th>
-<th>薪资范围</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/d9520547f8e6810d1nZy3tq9EFdX.html?ka=search_list_jname_8_blank&amp;lid=7e4TsFRJ8rx.search.8&amp;securityId=0MTB9UTp35FML-l1tN71WWrZdpvDkTdQdp0jtNzeS5lcmAtQ8wv1VdQLP3YVyd5Xy3UBVVzjpwpYlY0x9STelScv443n1JGi0G7yWuffajDwOKpI">声智科技</a></td>
-<td>100-499人</td>
-<td>14-24K·14薪</td>
-<td>B轮，BLE优先，注册2000万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/74de27973b151e941nZ73dy9ElVQ.html?ka=search_list_jname_3_blank&amp;lid=7e4TsFRJ8rx.search.3&amp;securityId=HfXkRdJw7U651-R1vFwoW-XeqQl5ZoKj1anZnXOqGs60SC1EfasnQnIdIK3EnyhoJ2o1rNlqN9owlPzRsX2wuv-8Ancc2PlIkCqosrsj8puBDtHIvDD0">星河智联</a></td>
-<td>100-499人</td>
-<td>15-30K·14薪</td>
-<td>讯飞+广汽，注册8500万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/0d3783ca84c5f16b1nZ73dy9ElJX.html?ka=search_list_jname_71_blank&amp;lid=7e4TsFRJ8rx.search.71&amp;securityId=qdLjqsTw-P7Vu-H1m690t_zxqjhl400DMnDG082DGT-6d006_5a_3fgfMWzNxlvJFSP0vQKe9t-OE4sjYhi1sySlW3TR6R6ml4H6QS2m8jK2VR5fpZPd">星河智联</a></td>
-<td>100-499人</td>
-<td>16-27K·15薪</td>
-<td>4年SDK经验，注册8500万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/50f7f60b0a9068d41nV-3ti4FVZS.html?ka=search_list_jname_6_blank&amp;lid=7e4TsFRJ8rx.search.6&amp;securityId=G2WqzXeq8ogk--g1SGrF1nc1V_3PLxRAoYreJU8V-d7AqMY17YqztlCLMUSOZe9eCXs3WTem1LMiAObfsJehCPy6BvPDrTUVQyQM1xxQL8Ul9jBGbw%7E%7E">至博光电</a></td>
-<td>20-99人</td>
-<td>18-28K·14薪</td>
-<td>注册9900万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/49ecb91030fa20e91XVy29S5EFA~.html?ka=search_list_jname_9_blank&amp;lid=7e4TsFRJ8rx.search.9&amp;securityId=eWosVjUVb3HS8-11jIVSN4J16MYm_8CuV__TbocyKiLQxONVmiwuQoiv93OY4U3Jf7D9eSiKwUAyFyZreQbCjhUT29wss61jXiZpxFpTeKx7YFQJ">ZOOM</a></td>
-<td>500-999人</td>
-<td>12-23K·14薪</td>
-<td>已上市，注册730w美元</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/a4d1bf001f7554841nd62tW5E1BW.html?ka=search_list_jname_13_blank&amp;lid=7e4TsFRJ8rx.search.13&amp;securityId=Ofye-K8cl5Mr7-n1spJMDl6QcFkPzBstSB0fn-6nRjeY06nK399YAc--VLHkq3iS0fJKKp_PAG-QupbUsSbxKq8bU59b5iUgvOHg2iqZadmlGmlM">爱点击</a></td>
-<td>1000-9999人</td>
-<td>15-30K·14薪</td>
-<td>注册26900万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/034df4a46d925f801nZz0tu9ElpT.html?ka=search_list_jname_16_blank&amp;lid=7e4TsFRJ8rx.search.16&amp;securityId=a53zI2spdrmlz-B1qslaixw2qt05RR0t8TJgaCw9GGekrRovpiiCEyfnVkNNRnodHLSqZh82KRTcQg6RdmfdusG8FL0Zh9wQtKnkU9lErdkNwvhvXQ%7E%7E">深圳优仕康</a></td>
-<td>20-99人</td>
-<td>12-24K</td>
-<td>独立开发，注册1000万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/cefdcaa23625427e33x83Nm_FVE~.html?ka=search_list_jname_17_blank&amp;lid=7e4TsFRJ8rx.search.17&amp;securityId=Cf_9WxXyCOAI5-F1d0cV5Jj3sG8CShCZPtbm32ZUFfG0VtoJYNicvVgv4P-ZG-V9NIZ6Il3orBtjiRGJs62pzajXzOQbWn_UEk5Z7nnLWu7u4ZTG">米娱科技</a></td>
-<td>100-499人</td>
-<td>12-22K·14薪</td>
-<td>注册500万人民币</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/7b8fab8a3f28be1433Ny2d29FVA~.html?ka=search_list_jname_52_blank&amp;lid=7e4TsFRJ8rx.search.52&amp;securityId=yXTSOx7BEdbnS-R1rBucgK20hxY-5uH6Vq4elL65HxvmkHs7WVYxsdoVI4Amst7jCZ1hNhG0AUjJwaiXRZweQUs0sYJu3PUCaGfl7zCDz0scu5bt">米娱科技</a></td>
-<td>100-499人</td>
-<td>15-25K·14薪</td>
-<td>独立开发要求，注册500万人民币</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/3b9003a1a5de83fa1nZ939u8EldU.html?ka=search_list_jname_18_blank&amp;lid=7e4TsFRJ8rx.search.18&amp;securityId=CudY8Fq5WN8e9-a1JkTZp7BZLnF2DGymHrDuxAYGp1nhzrhr6X1TjUdWDhzTcUGWqBSU1PujSTOjpJdOUi3kuqwsGLVKyPCgwP5oUUk3RSYgKeTNVD0%7E">中科数盾</a></td>
-<td>100-499人</td>
-<td>20-30K·14薪</td>
-<td>Android Leader岗，注册2200万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/25f432e3e85bfcd11nRy2tu5GVdT.html?ka=search_list_jname_19_blank&amp;lid=7e4TsFRJ8rx.search.19&amp;securityId=LtF76yyJ_924q-a1BFRtZ61eZYx4n6MgLi17RXcX4jUO2WH0GNO8gWFkPzq6eQQ9vN0mrJB5CFiaU4ks5twx6rQ4oTe4_v6OE8_h75ko_oZbmL_KaXg%7E">徽娱传媒</a></td>
-<td>20-99人</td>
-<td>12-22K·14薪</td>
-<td>注册500万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/ff34bebf7c8627291nd43dq5FltS.html?ka=search_list_jname_21_blank&amp;lid=7e4TsFRJ8rx.search.21&amp;securityId=_Sf8VeIr-oMZQ-p1g-lg_6TMKseg2RKl602khYJHQVj8VO1SJzCZQ8eQOuUel2E6waM9ydSDjtuqxSorCC_gJKswb-MKsRJDm-Kuu98mELqALCM69V0%7E">的卢深视</a></td>
-<td>100-499人</td>
-<td>14-28K·15薪</td>
-<td>Android平台算法SDK，注册595万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/3060c00d3a1713203nJ92Ni4Flc~.html?ka=search_list_jname_24_blank&amp;lid=7e4TsFRJ8rx.search.24&amp;securityId=uZFPD8cGA1FgP-41owavIWLodXP6ho090YOYEFq104bQfmE7C-LL3ZeZmuFRGmzO2ddwIrowMt37bMlBk5JAEJcWx8O4FbXl-HGUZjLg7ikWme6A">瀚茗斯</a></td>
-<td>20-99人</td>
-<td>14-28K</td>
-<td>Android Leader岗，注册1000万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/291d91989aaa84b51nZ-2tS4FlNT.html?ka=search_list_jname_25_blank&amp;lid=7e4TsFRJ8rx.search.25&amp;securityId=IczMxAR1txtjz-v1NacOcigcr-f00fD-68Ziy6wJiEtXyPlKADl7rVKxNNQVd2Qxw0UnvT3-YTA26CGrVJgkhbd0pJBBY5ggZ4LiBDkOBGeQYY0O4dk%7E">屯大软件</a></td>
-<td>20-99人</td>
-<td>15-23K</td>
-<td>可能是外包，注册500万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/d293564f07f222c51nB83ty8ElBY.html?ka=search_list_jname_51_blank&amp;lid=7e4TsFRJ8rx.search.51&amp;securityId=LlQ9wQKZ_pZL3-o1b29PKzxqdFmiAcb6LV8xQErkKfDFgRqtZmLvCJoMIGrZIfi9o_Aq-7Dh3AO-reG8eROmJYM3YWQ8szVjctV0YaiGa_7uRKbo">科大讯飞</a></td>
-<td>10000人以上</td>
-<td>15-25K·14薪</td>
-<td>RN/Flutter优先，注册222473万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/eac33ac5cf350d521nBz3d2_FFBU.html?ka=search_list_jname_66_blank&amp;lid=7e4TsFRJ8rx.search.66&amp;securityId=w3fBWRwbCVmPx-E1jyrIoTX7l-ZnfrtoRp-vgH_fi0Vg6BaFpyGWTD2iph1hYmlneBDJjAKkh9P2BkhnAEwyEMe7K_eNFwwCQyXVGnELtOStkMI%7E">科大讯飞</a></td>
-<td>10000人以上</td>
-<td>13-23K·14薪</td>
-<td>注册222473万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/b1e62a6936767a641nZ_09m-FlpT.html?ka=comp_joblist_1">江湖科技</a></td>
-<td>20-99人</td>
-<td>15-20K</td>
-<td>Flutter，注册500万</td>
-</tr>
-<tr>
-<td><a href="https://www.zhipin.com/job_detail/b2214314e8c5bc131nZz29q4EFBW.html?ka=job_recommend_1">一视科技</a></td>
-<td>20-99人</td>
-<td>15-25K·14薪</td>
-<td>注册500万</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<blockquote>
-<p>持续维护中。。。</p>
-</blockquote>
 ]]></content>
     </entry>
 </feed>

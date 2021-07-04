@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-04T16:20:19.330Z</updated>
+    <updated>2021-07-04T16:21:22.739Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -122,7 +122,6 @@ https://material.io/design/color/the-color-system.html#tools-for-picking-colors<
 <p>除 Material 主题指定的 12 个颜色槽以外，您的设计系统可能还会用到其他颜色槽。幸运的是，在 Android 上声明颜色属性的操作很简单:</p>
 <pre><code class="language-java">&lt;!-- In res/values/attrs.xml --&gt;
 &lt;attr name=&quot;colorCustom&quot; format=&quot;color&quot; /&gt;
- 
  
 &lt;!-- In res/values/themes.xml --&gt;
 &lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.MaterialComponents.*&quot;&gt;

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Kotlin】使用PermissionsDispatcher进行动态权限适配 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1625499964387">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、PermissionsDispatcher简介
+PermissionsDispatcher provides a simple annotation-based API to handle runtime permissions.
+Pe..." />
+    <meta name="keywords" content="权限,Kotlin" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1625499964387" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Kotlin】使用PermissionsDispatcher进行动态权限适配</h2>
+            <div class="post-date">2021-07-05</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/kotlin-shi-yong-permissionsdispatcher-jin-xing-dong-tai-quan-xian-gua-pei.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-permissionsdispatcher简介">一、PermissionsDispatcher简介</h1>
+<p>PermissionsDispatcher provides a simple annotation-based API to handle runtime permissions.<br>
+<code>PermissionsDispatcher</code>提供了一个简单的基于注解的 API 来处理运行时权限。</p>
+<p>This library lifts the burden that comes with writing a bunch of check statements whether a permission has been granted or not from you, in order to keep your code clean and safe.<br>
+该库减轻了编写一堆检查语句所带来的负担，无论是否已授予您许可，以保持您的代码清洁和安全。</p>
+<ul>
+<li><strong>Fully Kotlin/Java support - 完全支持Kotlin/Java</strong></li>
+<li><strong><a href="https://github.com/hotchemi/PermissionsDispatcher/blob/master/doc/special_permissions.md">Special permissions support - 特殊权限支持</a></strong></li>
+<li><strong>100% reflection-free - 100%无反射</strong></li>
+</ul>
+<p>本文基于<code>PermissionsDispatcher 4.8.0及 permissionsdispatcher-ktx 1.0.5</code>版本，我们将介绍Kotlin的ktx使用方式，如过需要使用Kotlin kapt或Java使用方式的，请移步<a href="https://github.com/permissions-dispatcher/PermissionsDispatcher">Github-PermissionsDispatcher</a></p>
+<blockquote>
+<p><code>permissionsdispatcher-ktx</code><br>
+<code>permissionsdispatcher-ktx</code>旨在让开发人员在不使用注释处理（kapt）的情况下以声明式方式处理运行时权限。</p>
+</blockquote>
+<hr>
+<h1 id="二-使用示例">二、使用示例</h1>
+<h2 id="1准备工作添加一个示例权限">1.准备工作——添加一个示例权限</h2>
+<p>我们在项目的<code>AndroidManifest.xml</code>中添加如下权限：</p>
+<pre><code class="language-java">&lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt;
+</code></pre>
+<h2 id="2引入库">2.引入库</h2>
+<p>在使用该库API的Module的<code>build.gradle</code>文件中，添加如下代码引入<code>PermissionsDispatcher</code>库：</p>
+<pre><code class="language-java">dependencies {
+  implementation &quot;com.github.permissions-dispatcher:permissionsdispatcher:4.8.0&quot;
+  implementation &quot;com.github.permissions-dispatcher:ktx:1.0.5&quot;
+}
+</code></pre>
+<h2 id="3在需要进行权限请求的activityfragment中定义请求者constructpermissionsrequest">3.在需要进行权限请求的Activity/Fragment中，定义请求者constructPermissionsRequest</h2>
+<p>该库提供了<code>constructPermissionsRequest</code>您可以使用给定的几个回调函数构造请求者对象的方法，以便在适当的情况下调用。</p>
+<pre><code class="language-java">/* * 
+* @param 权限 [requiresPermission] 需要的权限。
+* @param onShowRationale 该方法解释了为什么需要权限。
+* @param onPermissionDenied 用户未授予权限时调用的方法。
+* @param onNeverAskAgain 如果用户不使用
+*“不再询问”选项
+拒绝权限，则调用该方法。* @param requiresPermission 该操作需要 [permissions]。
+*/ fun FragmentActivity /*(or Fragment )*/.constructPermissionsRequest(
+     vararg permissions : String ,
+     onShowRationale : ShowRationaleFunc ? 
+    = null,
+     onPermissionDenied :  Func ? = null,
+     onNeverAskAgain :  Func ? = null,
+     requiresPermission :  Func ): PermissionsRequester
+</code></pre>
+<p>在这里你只需定义<code>showCamera</code>，使用该库，您无需手动覆盖<code>onRequestPermissionsResult.</code></p>
+<blockquote>
+<p>注意：确保每次创建活动时都构造一个请求者以适当地捕获回调。</p>
+</blockquote>
+<p>完整使用示例</p>
+<pre><code class="language-java">class MainActivity: AppCompatActivity {
+    // constructPermissionsRequest must be invoked every time an activity is created 
+    private val showCamera = constructPermissionsRequest(Manifest.permission.CAMERA,
+        onShowRationale = ::onCameraShowRationale,
+        onPermissionDenied = ::onCameraDenied,
+        onNeverAskAgain = ::onCameraNeverAskAgain) {
+		    // do something here
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        findViewById(R.id.button_camera).setOnClickListener {
+            // 这里发起权限请求
+            showCamera.launch()
+        }
+    }
+
+    // 用户未授予权限时调用
+    private fun onCameraDenied() {
+        Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_SHORT).show()
+    }
+
+    // 解释为什么需要权限
+    private fun onCameraShowRationale(request: PermissionRequest) {
+        // 继续请求操作
+        request.proceed()
+    }
+
+    // 用户勾选“不再询问”选项时调用
+    private fun onCameraNeverAskAgain() {
+        Toast.makeText(requireContext(), R.string.permission_camera_never_ask_again, Toast.LENGTH_SHORT).show()
+    }
+}
+</code></pre>
+<hr>
+<h1 id="三-拓展用法">三、拓展用法</h1>
+<h2 id="1location-permissions位置权限">1.Location Permissions——位置权限</h2>
+<blockquote>
+<p>Since the location permissions have been one of the most sensitive permission group to deal with, we provide a dedicated method <code>constructLocationPermissionRequest</code>. With the method you don't have to think of which API version you can ask <code>ACCESS_BACKGROUND_LOCATION</code>(see the issue for more detail).<br>
+由于位置权限一直是要处理的最敏感的权限组之一，因此我们提供了专门的方法<code>constructLocationPermissionRequest</code>。使用该方法，您不必考虑可以询问<a href="https://developer.android.com/about/versions/10/privacy/changes#app-access-device-location">ACCESS_BACKGROUND_LOCATION</a>的API 版本（有关更多详细信息，请参阅<a href="https://github.com/permissions-dispatcher/PermissionsDispatcher/issues/646">问题</a>）。</p>
+</blockquote>
+<pre><code class="language-java">/**
+ * @param onShowRationale the method explains why the permissions are required.
+ * @param onPermissionDenied the method invoked if the user doesn't grant the permissions.
+ * @param requiresPermission the action requires [permissions].
+ */
+fun FragmentActivity/*(or Fragment)*/.constructLocationPermissionRequest(
+    vararg permissions: LocationPermission,
+    onShowRationale: ShowRationaleFun? = null,
+    onPermissionDenied: Fun? = null,
+    onNeverAskAgain: Fun? = null,
+    requiresPermission: Fun
+): PermissionsRequester
+
+</code></pre>
+<p><strong>注：设备位置权限的访问控制</strong><br>
+用户可以更好地控制应用何时可以访问设备位置。当在Android Q上运行的应用程序请求位置访问时，会通过对话框的形式给用户进行授权提示。此对话框允许用户授予对两个不同范围的位置访问权限：在使用中（仅限前台）或始终（前台和后台）。<br>
+新增权限 <code>ACCESS_BACKGROUND_LOCATION</code><br>
+如果你的应用针对 <code>Android Q</code> 并且需要在后台运行时访问用户的位置，则必须在应用的清单文件中声明新权限</p>
+<pre><code class="language-java">&lt;manifest&gt;
+ &lt;uses-permission android:name=&quot;android.permission.ACCESS_COARSE_LOCATION&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.ACCESS_BACKGROUND_LOCATION&quot; /&gt;
+&lt;/manifest&gt;
+</code></pre>
+<h2 id="2special-permissions特殊权限">2.Special Permissions——特殊权限</h2>
+<blockquote>
+<p>The library also provides <code>constructWriteSettingsPermissionRequest</code> and <code>constructSystemAlertWindowPermissionRequest</code> to support <code>WRITE_SETTINGS</code> and <code>SYSTEM_ALERT_WINDOW</code> that requires exceptional handling.<br>
+该库还提供<code>constructWriteSettingsPermissionRequest</code>和 <code>constructSystemAlertWindowPermissionRequest</code>支持<code>WRITE_SETTINGS</code>，<code>SYSTEM_ALERT_WINDOW</code>这需要特殊处理。</p>
+</blockquote>
+<pre><code class="language-java">/**
+ * @param onShowRationale the method explains why the permissions are required.
+ * @param onPermissionDenied the method invoked if the user doesn't grant the permissions.
+ * @param requiresPermission the action requires [permissions].
+ */
+fun FragmentActivity/*(or Fragment)*/.constructWriteSettingsPermissionRequest(
+    onShowRationale: ShowRationaleFunc? = null,
+    onPermissionDenied: Func? = null,
+    requiresPermission: Func): PermissionsRequester
+
+ /**
+ * @param onShowRationale the method explains why the permissions are required.
+ * @param onPermissionDenied the method invoked if the user doesn't grant the permissions.
+ * @param requiresPermission the action requires [permissions].
+ */
+fun FragmentActivity/*(or Fragment)*/.constructSystemAlertWindowPermissionRequest(
+    onShowRationale: ShowRationaleFunc? = null,
+    onPermissionDenied: Func? = null,
+    requiresPermission: Func): PermissionsRequester
+</code></pre>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/o4thkcOg8/" class="tag">
+                    权限
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/IUV0lXNw6/" class="tag">
+                    Kotlin
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-shi-xian-pian/">
+                  <h3 class="post-title">
+                    【转】打造 Material 颜色主题 | 实现篇
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

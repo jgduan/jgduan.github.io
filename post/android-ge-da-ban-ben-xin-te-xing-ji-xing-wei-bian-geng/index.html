@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】各大版本新特性及行为变更 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1625499964387">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+
+Android 12.0开发者预览版
+
+概览 API 30
+Android 12.0影响所有应用的 Android 11 行为变更
+行为变更：以 Android 12 为目标平台的应用
+前台服务启动限制
+Android 12 中有关限制..." />
+    <meta name="keywords" content="Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1625499964387" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】各大版本新特性及行为变更</h2>
+            <div class="post-date">2021-07-05</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-ge-da-ban-ben-xin-te-xing-ji-xing-wei-bian-geng.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <ul>
+<li>
+<p><strong>Android 12.0开发者预览版</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/12/features?hl=zh_cn">概览 API 30</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/behavior-changes-all">Android 12.0影响所有应用的 Android 11 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/behavior-changes-12?hl=zh_cn">行为变更：以 Android 12 为目标平台的应用</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/foreground-services?hl=zh_cn">前台服务启动限制</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/non-sdk-12?hl=zh_cn">Android 12 中有关限制非 SDK 接口的更新</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/features">Android 12 功能</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/work?hl=zh_cn">Android 12 中的企业功能新变化</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/migration?hl=zh_cn">将应用迁移到 Android 12</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/features/unified-content-api?hl=zh_cn">接收内容的统一 API</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/features/compatible-media-transcoding?hl=zh_cn">兼容的媒体转码</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 11.0</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/11?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/behavior-changes-all">影响所有应用的 Android 11 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/behavior-changes-11">影响以 Android 11 为目标平台的应用的 Android 11 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/privacy">Android 11 隐私权变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/features">Android 11 功能和 API 30</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 10.0(Q)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/10?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/migration?hl=zh_cn">将应用迁移至 Android 10</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/privacy?hl=zh_cn">隐私功能</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/behavior-changes-all?hl=zh_cn">行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/highlights?hl=zh_cn">新功能和 API 29</a></li>
+<li><a href="https://blog.csdn.net/u011216417/article/details/89189741">Android10.0(Q)新特性和行为变更</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 9.0(P)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/pie?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0?hl=zh_cn">功能和API 28</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0-changes-all?hl=zh_cn">针对所有应用的行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0-changes-28?hl=zh_cn">针对API 28+应用的行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0-migration?hl=zh_cn">迁移至Android 9.0</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/power?hl=zh_cn">电源管理</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 8.0(O)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/oreo?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0?hl=zh_cn">Android 8.0 功能和 API 26</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0-changes?hl=zh_cn">Android 8.0 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0-migration?hl=zh_cn">迁移到Android 8.0</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0-samples?hl=zh_cn">Android 8.0示例</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/background?hl=zh_cn">后台执行限制</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/background-location-limits?hl=zh_cn">后台位置信息限制</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.1?hl=zh_cn">Android 8.1 功能和 API 27</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 7.0(N)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/nougat?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.0?hl=zh_cn">Android 7.0 开发者版本 API 24</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.0-changes?hl=zh_cn">Android 7.0 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.0-samples?hl=zh_cn">Android 7.0 示例</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.1?hl=zh_cn">Android 7.1 开发者版本 API 25</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.1-samples?hl=zh_cn">Android 7.1 示例</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 6.0(M)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0?hl=zh_cn">Android 6.0 API 23</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0-changes?hl=zh_cn">Android 6.0 变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0-samples?hl=zh_cn">Android 6.0 示例</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0-testing?hl=zh_cn">Android 6.0 测试指南</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 5.0(L)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/lollipop?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-5.1?hl=zh_cn">Android 5.1 API 22</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-5.0?hl=zh_cn">Android 5.0 API 21</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-5.0-changes?hl=zh_cn">Android 5.0 行为变更</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 4.4(KitKat)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/kitkat?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-4.4?hl=zh_cn">Android 4.4 API 19</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p><a href="https://developer.android.google.cn/about/versions?hl=zh_cn">所有Android版本</a></p>
+</blockquote>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/kotlin-shi-yong-permissionsdispatcher-jin-xing-dong-tai-quan-xian-gua-pei/">
+                  <h3 class="post-title">
+                    【Kotlin】使用PermissionsDispatcher进行动态权限适配
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-04T16:48:31.152Z</updated>
+    <updated>2021-07-05T15:46:08.818Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,267 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Android】各大版本新特性及行为变更]]></title>
+        <id>https://jgduan.github.io/post/android-ge-da-ban-ben-xin-te-xing-ji-xing-wei-bian-geng/</id>
+        <link href="https://jgduan.github.io/post/android-ge-da-ban-ben-xin-te-xing-ji-xing-wei-bian-geng/">
+        </link>
+        <updated>2021-07-05T15:03:37.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>
+<p><strong>Android 12.0开发者预览版</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/12/features?hl=zh_cn">概览 API 30</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/behavior-changes-all">Android 12.0影响所有应用的 Android 11 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/behavior-changes-12?hl=zh_cn">行为变更：以 Android 12 为目标平台的应用</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/foreground-services?hl=zh_cn">前台服务启动限制</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/non-sdk-12?hl=zh_cn">Android 12 中有关限制非 SDK 接口的更新</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/features">Android 12 功能</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/work?hl=zh_cn">Android 12 中的企业功能新变化</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/migration?hl=zh_cn">将应用迁移到 Android 12</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/features/unified-content-api?hl=zh_cn">接收内容的统一 API</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/12/features/compatible-media-transcoding?hl=zh_cn">兼容的媒体转码</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 11.0</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/11?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/behavior-changes-all">影响所有应用的 Android 11 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/behavior-changes-11">影响以 Android 11 为目标平台的应用的 Android 11 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/privacy">Android 11 隐私权变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/11/features">Android 11 功能和 API 30</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 10.0(Q)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/10?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/migration?hl=zh_cn">将应用迁移至 Android 10</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/privacy?hl=zh_cn">隐私功能</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/behavior-changes-all?hl=zh_cn">行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/10/highlights?hl=zh_cn">新功能和 API 29</a></li>
+<li><a href="https://blog.csdn.net/u011216417/article/details/89189741">Android10.0(Q)新特性和行为变更</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 9.0(P)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/pie?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0?hl=zh_cn">功能和API 28</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0-changes-all?hl=zh_cn">针对所有应用的行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0-changes-28?hl=zh_cn">针对API 28+应用的行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/android-9.0-migration?hl=zh_cn">迁移至Android 9.0</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/pie/power?hl=zh_cn">电源管理</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 8.0(O)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/oreo?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0?hl=zh_cn">Android 8.0 功能和 API 26</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0-changes?hl=zh_cn">Android 8.0 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0-migration?hl=zh_cn">迁移到Android 8.0</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.0-samples?hl=zh_cn">Android 8.0示例</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/background?hl=zh_cn">后台执行限制</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/background-location-limits?hl=zh_cn">后台位置信息限制</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/oreo/android-8.1?hl=zh_cn">Android 8.1 功能和 API 27</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 7.0(N)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/nougat?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.0?hl=zh_cn">Android 7.0 开发者版本 API 24</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.0-changes?hl=zh_cn">Android 7.0 行为变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.0-samples?hl=zh_cn">Android 7.0 示例</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.1?hl=zh_cn">Android 7.1 开发者版本 API 25</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/nougat/android-7.1-samples?hl=zh_cn">Android 7.1 示例</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 6.0(M)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0?hl=zh_cn">Android 6.0 API 23</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0-changes?hl=zh_cn">Android 6.0 变更</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0-samples?hl=zh_cn">Android 6.0 示例</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/marshmallow/android-6.0-testing?hl=zh_cn">Android 6.0 测试指南</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 5.0(L)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/lollipop?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-5.1?hl=zh_cn">Android 5.1 API 22</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-5.0?hl=zh_cn">Android 5.0 API 21</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-5.0-changes?hl=zh_cn">Android 5.0 行为变更</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Android 4.4(KitKat)</strong></p>
+<ul>
+<li><a href="https://developer.android.google.cn/about/versions/kitkat?hl=zh_cn">概览</a></li>
+<li><a href="https://developer.android.google.cn/about/versions/android-4.4?hl=zh_cn">Android 4.4 API 19</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p><a href="https://developer.android.google.cn/about/versions?hl=zh_cn">所有Android版本</a></p>
+</blockquote>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【Kotlin】使用PermissionsDispatcher进行动态权限适配]]></title>
+        <id>https://jgduan.github.io/post/kotlin-shi-yong-permissionsdispatcher-jin-xing-dong-tai-quan-xian-gua-pei/</id>
+        <link href="https://jgduan.github.io/post/kotlin-shi-yong-permissionsdispatcher-jin-xing-dong-tai-quan-xian-gua-pei/">
+        </link>
+        <updated>2021-07-05T12:55:35.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-permissionsdispatcher简介">一、PermissionsDispatcher简介</h1>
+<p>PermissionsDispatcher provides a simple annotation-based API to handle runtime permissions.<br>
+<code>PermissionsDispatcher</code>提供了一个简单的基于注解的 API 来处理运行时权限。</p>
+<p>This library lifts the burden that comes with writing a bunch of check statements whether a permission has been granted or not from you, in order to keep your code clean and safe.<br>
+该库减轻了编写一堆检查语句所带来的负担，无论是否已授予您许可，以保持您的代码清洁和安全。</p>
+<ul>
+<li><strong>Fully Kotlin/Java support - 完全支持Kotlin/Java</strong></li>
+<li><strong><a href="https://github.com/hotchemi/PermissionsDispatcher/blob/master/doc/special_permissions.md">Special permissions support - 特殊权限支持</a></strong></li>
+<li><strong>100% reflection-free - 100%无反射</strong></li>
+</ul>
+<p>本文基于<code>PermissionsDispatcher 4.8.0及 permissionsdispatcher-ktx 1.0.5</code>版本，我们将介绍Kotlin的ktx使用方式，如过需要使用Kotlin kapt或Java使用方式的，请移步<a href="https://github.com/permissions-dispatcher/PermissionsDispatcher">Github-PermissionsDispatcher</a></p>
+<blockquote>
+<p><code>permissionsdispatcher-ktx</code><br>
+<code>permissionsdispatcher-ktx</code>旨在让开发人员在不使用注释处理（kapt）的情况下以声明式方式处理运行时权限。</p>
+</blockquote>
+<hr>
+<h1 id="二-使用示例">二、使用示例</h1>
+<h2 id="1准备工作添加一个示例权限">1.准备工作——添加一个示例权限</h2>
+<p>我们在项目的<code>AndroidManifest.xml</code>中添加如下权限：</p>
+<pre><code class="language-java">&lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt;
+</code></pre>
+<h2 id="2引入库">2.引入库</h2>
+<p>在使用该库API的Module的<code>build.gradle</code>文件中，添加如下代码引入<code>PermissionsDispatcher</code>库：</p>
+<pre><code class="language-java">dependencies {
+  implementation &quot;com.github.permissions-dispatcher:permissionsdispatcher:4.8.0&quot;
+  implementation &quot;com.github.permissions-dispatcher:ktx:1.0.5&quot;
+}
+</code></pre>
+<h2 id="3在需要进行权限请求的activityfragment中定义请求者constructpermissionsrequest">3.在需要进行权限请求的Activity/Fragment中，定义请求者constructPermissionsRequest</h2>
+<p>该库提供了<code>constructPermissionsRequest</code>您可以使用给定的几个回调函数构造请求者对象的方法，以便在适当的情况下调用。</p>
+<pre><code class="language-java">/* * 
+* @param 权限 [requiresPermission] 需要的权限。
+* @param onShowRationale 该方法解释了为什么需要权限。
+* @param onPermissionDenied 用户未授予权限时调用的方法。
+* @param onNeverAskAgain 如果用户不使用
+*“不再询问”选项
+拒绝权限，则调用该方法。* @param requiresPermission 该操作需要 [permissions]。
+*/ fun FragmentActivity /*(or Fragment )*/.constructPermissionsRequest(
+     vararg permissions : String ,
+     onShowRationale : ShowRationaleFunc ? 
+    = null,
+     onPermissionDenied :  Func ? = null,
+     onNeverAskAgain :  Func ? = null,
+     requiresPermission :  Func ): PermissionsRequester
+</code></pre>
+<p>在这里你只需定义<code>showCamera</code>，使用该库，您无需手动覆盖<code>onRequestPermissionsResult.</code></p>
+<blockquote>
+<p>注意：确保每次创建活动时都构造一个请求者以适当地捕获回调。</p>
+</blockquote>
+<p>完整使用示例</p>
+<pre><code class="language-java">class MainActivity: AppCompatActivity {
+    // constructPermissionsRequest must be invoked every time an activity is created 
+    private val showCamera = constructPermissionsRequest(Manifest.permission.CAMERA,
+        onShowRationale = ::onCameraShowRationale,
+        onPermissionDenied = ::onCameraDenied,
+        onNeverAskAgain = ::onCameraNeverAskAgain) {
+		    // do something here
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        findViewById(R.id.button_camera).setOnClickListener {
+            // 这里发起权限请求
+            showCamera.launch()
+        }
+    }
+
+    // 用户未授予权限时调用
+    private fun onCameraDenied() {
+        Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_SHORT).show()
+    }
+
+    // 解释为什么需要权限
+    private fun onCameraShowRationale(request: PermissionRequest) {
+        // 继续请求操作
+        request.proceed()
+    }
+
+    // 用户勾选“不再询问”选项时调用
+    private fun onCameraNeverAskAgain() {
+        Toast.makeText(requireContext(), R.string.permission_camera_never_ask_again, Toast.LENGTH_SHORT).show()
+    }
+}
+</code></pre>
+<hr>
+<h1 id="三-拓展用法">三、拓展用法</h1>
+<h2 id="1location-permissions位置权限">1.Location Permissions——位置权限</h2>
+<blockquote>
+<p>Since the location permissions have been one of the most sensitive permission group to deal with, we provide a dedicated method <code>constructLocationPermissionRequest</code>. With the method you don't have to think of which API version you can ask <code>ACCESS_BACKGROUND_LOCATION</code>(see the issue for more detail).<br>
+由于位置权限一直是要处理的最敏感的权限组之一，因此我们提供了专门的方法<code>constructLocationPermissionRequest</code>。使用该方法，您不必考虑可以询问<a href="https://developer.android.com/about/versions/10/privacy/changes#app-access-device-location">ACCESS_BACKGROUND_LOCATION</a>的API 版本（有关更多详细信息，请参阅<a href="https://github.com/permissions-dispatcher/PermissionsDispatcher/issues/646">问题</a>）。</p>
+</blockquote>
+<pre><code class="language-java">/**
+ * @param onShowRationale the method explains why the permissions are required.
+ * @param onPermissionDenied the method invoked if the user doesn't grant the permissions.
+ * @param requiresPermission the action requires [permissions].
+ */
+fun FragmentActivity/*(or Fragment)*/.constructLocationPermissionRequest(
+    vararg permissions: LocationPermission,
+    onShowRationale: ShowRationaleFun? = null,
+    onPermissionDenied: Fun? = null,
+    onNeverAskAgain: Fun? = null,
+    requiresPermission: Fun
+): PermissionsRequester
+
+</code></pre>
+<p><strong>注：设备位置权限的访问控制</strong><br>
+用户可以更好地控制应用何时可以访问设备位置。当在Android Q上运行的应用程序请求位置访问时，会通过对话框的形式给用户进行授权提示。此对话框允许用户授予对两个不同范围的位置访问权限：在使用中（仅限前台）或始终（前台和后台）。<br>
+新增权限 <code>ACCESS_BACKGROUND_LOCATION</code><br>
+如果你的应用针对 <code>Android Q</code> 并且需要在后台运行时访问用户的位置，则必须在应用的清单文件中声明新权限</p>
+<pre><code class="language-java">&lt;manifest&gt;
+ &lt;uses-permission android:name=&quot;android.permission.ACCESS_COARSE_LOCATION&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.ACCESS_BACKGROUND_LOCATION&quot; /&gt;
+&lt;/manifest&gt;
+</code></pre>
+<h2 id="2special-permissions特殊权限">2.Special Permissions——特殊权限</h2>
+<blockquote>
+<p>The library also provides <code>constructWriteSettingsPermissionRequest</code> and <code>constructSystemAlertWindowPermissionRequest</code> to support <code>WRITE_SETTINGS</code> and <code>SYSTEM_ALERT_WINDOW</code> that requires exceptional handling.<br>
+该库还提供<code>constructWriteSettingsPermissionRequest</code>和 <code>constructSystemAlertWindowPermissionRequest</code>支持<code>WRITE_SETTINGS</code>，<code>SYSTEM_ALERT_WINDOW</code>这需要特殊处理。</p>
+</blockquote>
+<pre><code class="language-java">/**
+ * @param onShowRationale the method explains why the permissions are required.
+ * @param onPermissionDenied the method invoked if the user doesn't grant the permissions.
+ * @param requiresPermission the action requires [permissions].
+ */
+fun FragmentActivity/*(or Fragment)*/.constructWriteSettingsPermissionRequest(
+    onShowRationale: ShowRationaleFunc? = null,
+    onPermissionDenied: Func? = null,
+    requiresPermission: Func): PermissionsRequester
+
+ /**
+ * @param onShowRationale the method explains why the permissions are required.
+ * @param onPermissionDenied the method invoked if the user doesn't grant the permissions.
+ * @param requiresPermission the action requires [permissions].
+ */
+fun FragmentActivity/*(or Fragment)*/.constructSystemAlertWindowPermissionRequest(
+    onShowRationale: ShowRationaleFunc? = null,
+    onPermissionDenied: Func? = null,
+    requiresPermission: Func): PermissionsRequester
+</code></pre>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【转】打造 Material 颜色主题 | 实现篇]]></title>
         <id>https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-shi-xian-pian/</id>
@@ -1071,85 +1332,6 @@ Paging 库可帮助您加载和显示来自本地存储或网络中更大的数�
 <a href="https://blog.csdn.net/abs1004/article/details/77330726">安卓 BottomNavigationBar 底部导航栏 最简单用法详解</a></p>
 </li>
 </ul>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【转】git命令行登陆github进行操作]]></title>
-        <id>https://jgduan.github.io/post/zhuan-git-ming-ling-xing-deng-lu-github-jin-xing-cao-zuo/</id>
-        <link href="https://jgduan.github.io/post/zhuan-git-ming-ling-xing-deng-lu-github-jin-xing-cao-zuo/">
-        </link>
-        <updated>2021-06-24T16:32:40.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>转载自<a href="https://www.jianshu.com/p/6e3f9e4e8e69">git命令行登陆github进行操作</a>，侵删。</strong></p>
-</blockquote>
-<p>登陆github必须先创建SSH key<br>
-因为本地Git仓库和GitHub仓库之间的传输是通过SSH加密传输的，GitHub需要识别是否是你推送，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送，所以需要配置ssh key。</p>
-<hr>
-<h2 id="1创建ssh-key">1.创建SSH Key。</h2>
-<p>在用户主目录（C:\Users\Administrator）下，看看有没有.ssh文件，如果有，再看文件下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了，可直接到下一步。如果没有，打开Git Bash，输入命令，创建SSH Key</p>
-<p><code>$ ssh-keygen -t rsa -C &quot;你自己注册GitHub的邮箱&quot;</code></p>
-<hr>
-<h2 id="2接下来到github上打开account-settings-ssh-keys页面然后点击add-ssh-key填上title随意写在key文本框里粘贴-id_rsapub文件里的全部内容">2.接下来到GitHub上，打开“Account settings”--“SSH Keys”页面，然后点击“Add SSH Key”，填上Title（随意写），在Key文本框里粘贴 id_rsa.pub文件里的全部内容。</h2>
-<p>id_rsa.pub 默认在C:\Users\Administrator.ssh</p>
-<p>每台想要登陆某个github账号的主机都需要有一个对应的key，例如你有一个github账号，你在你的笔记本和台式上都要创建key</p>
-<hr>
-<h2 id="3git-bash里输入下面的命令登陆">3.git bash里输入下面的命令登陆</h2>
-<p><code>$ ssh -T git@github.com</code></p>
-<p>如果看到 hi + 你的用户名说明密钥验证通过了，你已经可以上传下载了<br>
-<img src="https://jgduan.github.io//post-images/1624552568098.png" alt="" loading="lazy"></p>
-<hr>
-<h2 id="4设置username和email因为github每次commit都会记录他们">4.设置username和email，因为github每次commit都会记录他们</h2>
-<p>git commit 命令会记录提交者的信息，所以使用git前必须先添加两条信息</p>
-<p><code>$ git config --global user.name &quot;你的GitHub登陆名&quot;</code><br>
-<code>$ git config --global user.email &quot;你的GitHub注册邮箱&quot;</code></p>
-<blockquote>
-<p>（其实可以不和github上面的用户名邮箱一致，只是为了避免混淆）</p>
-</blockquote>
-<hr>
-<h2 id="5接下来就是把本地仓库传到github上去">5.接下来就是把本地仓库传到github上去</h2>
-<p><code>$ git remote add origin git@github.com:userName/yourProject.git</code></p>
-<p>//关联一个远程库命令，git@后面填写你的github repository（仓库），在github里面创建仓库后有http和ssh的链接，origin是你给这个仓库起的名字，可以自定义，下面命令中的origin也要相应改变</p>
-<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1624552692583.webp" alt="" loading="lazy"></figure>
-<p>git push -u origin master //把本地已经commit 的结果push到github的origin 仓库的master分支中</p>
-<hr>
-<p>##【拓展阅读】<br>
-<a href="https://www.cnblogs.com/luhuan/p/9072820.html">Windows下配置Git多账号github码云</a></p>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Android】Plugin version (1.4.32) is not the same as library version (1.4.10) 警告的解决办法]]></title>
-        <id>https://jgduan.github.io/post/android-plugin-version-1432-is-not-the-same-as-library-version-1410-jing-gao-de-jie-jue-ban-fa/</id>
-        <link href="https://jgduan.github.io/post/android-plugin-version-1432-is-not-the-same-as-library-version-1410-jing-gao-de-jie-jue-ban-fa/">
-        </link>
-        <updated>2021-06-24T15:36:58.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="问题">问题</h1>
-<p>在开发<code>Kotlin</code>项目的过程中，使用<code>kotlin-stdlib</code>标准库时，遇到了如下警告提示：</p>
-<pre><code class="language-java">Plugin version(1.4.32) is not the same as library version(1.4.10)
-</code></pre>
-<p>提示的大致意思是说我们的插件版本和依赖库的版本不一致，原因是因为一些第三方的Library库所依赖的版本比较低，而我们在项目中所指定的依赖版本比较高，从而导致AndroidStudio给我们提出了警示。</p>
-<hr>
-<h1 id="解决办法">解决办法</h1>
-<p><strong>直接在module的build.gradle中删除依赖即可解决问题</strong></p>
-<pre><code class="language-java">// 删除moudle-build.gralde文件中的该段
-implementation &quot;org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version&quot;
-</code></pre>
-<p>详情请移步官网查看官方声明的这篇文章：<a href="https://kotlinlang.org/docs/whatsnew14.html#dependency-on-the-standard-library-added-by-default">What's new in Kotlin 1.4</a><br>
-<img src="https://jgduan.github.io//post-images/1624550094222.png" alt="" loading="lazy"></p>
-<p>图中的意思是：</p>
-<blockquote>
-<p>Kotlin默认添加了stdlib的依赖，您不再需要stdlib在任何 Kotlin Gradle 项目（包括多平台项目）中声明对库的依赖。默认情况下添加依赖项。</p>
-</blockquote>
-<blockquote>
-<p>自动添加的标准库将是 Kotlin Gradle 插件的相同版本，因为它们具有相同的版本。</p>
-</blockquote>
-<blockquote>
-<p>对于特定于平台的源集，使用库的相应特定于平台的变体，同时将公共标准库添加到其余部分。Kotlin Gradle 插件将根据您的 Gradle 构建脚本的kotlinOptions.jvmTarget 编译器选项选择合适的 JVM 标准库。</p>
-</blockquote>
-<p>上面所说的Kotlin插件，是指Project根目录下的build.gradle文件中的Kotlin插件，具体如下图所示：<br>
-<img src="https://jgduan.github.io//post-images/1624550446644.png" alt="" loading="lazy"></p>
-<p>这样一来，让人糟心的警告就不见了。</p>
 <hr>
 ]]></content>
     </entry>

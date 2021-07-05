@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-05T15:46:08.818Z</updated>
+    <updated>2021-07-05T15:49:07.292Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -134,9 +134,15 @@
 <p>This library lifts the burden that comes with writing a bunch of check statements whether a permission has been granted or not from you, in order to keep your code clean and safe.<br>
 该库减轻了编写一堆检查语句所带来的负担，无论是否已授予您许可，以保持您的代码清洁和安全。</p>
 <ul>
-<li><strong>Fully Kotlin/Java support - 完全支持Kotlin/Java</strong></li>
-<li><strong><a href="https://github.com/hotchemi/PermissionsDispatcher/blob/master/doc/special_permissions.md">Special permissions support - 特殊权限支持</a></strong></li>
-<li><strong>100% reflection-free - 100%无反射</strong></li>
+<li>
+<p><strong>Fully Kotlin/Java support - 完全支持Kotlin/Java</strong></p>
+</li>
+<li>
+<p><strong><a href="https://github.com/hotchemi/PermissionsDispatcher/blob/master/doc/special_permissions.md">Special permissions support - 特殊权限支持</a></strong></p>
+</li>
+<li>
+<p><strong>100% reflection-free - 100%无反射</strong></p>
+</li>
 </ul>
 <p>本文基于<code>PermissionsDispatcher 4.8.0及 permissionsdispatcher-ktx 1.0.5</code>版本，我们将介绍Kotlin的ktx使用方式，如过需要使用Kotlin kapt或Java使用方式的，请移步<a href="https://github.com/permissions-dispatcher/PermissionsDispatcher">Github-PermissionsDispatcher</a></p>
 <blockquote>

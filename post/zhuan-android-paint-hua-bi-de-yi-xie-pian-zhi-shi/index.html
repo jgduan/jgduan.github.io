@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【转】Android Paint 画笔的一些偏知识 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1625584496049">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+本文转载于 抛物线http://hencoder.com/ui-1-2/
+
+
+setStrokeCap(Paint.Cap cap) 设置线头的形状
+设置线头的形状。线头形状有三种：BUTT 平头、ROUND 圆头、SQUARE 方头。默..." />
+    <meta name="keywords" content="Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1625584496049" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【转】Android Paint 画笔的一些偏知识</h2>
+            <div class="post-date">2021-07-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/zhuan-android-paint-hua-bi-de-yi-xie-pian-zhi-shi.webp')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>本文转载于 抛物线http://hencoder.com/ui-1-2/</p>
+</blockquote>
+<hr>
+<h1 id="setstrokecappaintcap-cap-设置线头的形状">setStrokeCap(Paint.Cap cap) 设置线头的形状</h1>
+<p>设置线头的形状。线头形状有三种：<code>BUTT</code> 平头、<code>ROUND</code> 圆头、<code>SQUARE</code> 方头。默认为 <code>BUTT</code>。</p>
+<blockquote>
+<p>放出「平头」「圆头」「方头」这种翻译我始终有点纠结：既觉得自己翻译得简洁清晰尽显机智，同时又担心用词会不会有点太过通俗，让人觉得我不够高贵冷艳？</p>
+</blockquote>
+<p>当线条的宽度是 1 像素时，这三种线头的表现是完全一致的，全是 1 个像素的点；而当线条变粗的时候，它们就会表现出不同的样子：<br>
+<img src="https://jgduan.github.io//post-images/1625584089491.jpg" alt="" loading="lazy"></p>
+<p>虚线是额外加的，虚线左边是线的实际长度，虚线右边是线头。有了虚线作为辅助，可以清楚地看出 <code>BUTT</code> 和 <code>SQUARE</code> 的区别。</p>
+<hr>
+<h1 id="setstrokejoinpaintjoin-join">setStrokeJoin(Paint.Join join)</h1>
+<p>设置拐角的形状。有三个值可以选择：<code>MITER</code> 尖角、 <code>BEVEL</code> 平角和 <code>ROUND</code> 圆角。默认为 <code>MITER</code>。<br>
+<img src="https://jgduan.github.io//post-images/1625584131677.jpg" alt="" loading="lazy"></p>
+<p>辅助理解：<br>
+<code>MITER</code> 在现实中其实就是这玩意：<br>
+<img src="https://jgduan.github.io//post-images/1625584155362.jpg" alt="" loading="lazy"></p>
+<p>而 <code>BEVEL</code> 是这玩意：<br>
+<img src="https://jgduan.github.io//post-images/1625584171460.jpg" alt="" loading="lazy"></p>
+<hr>
+<h1 id="setstrokemiterfloat-miter">setStrokeMiter(float miter)</h1>
+<p>这个方法是对于 <code>setStrokeJoin()</code> 的一个补充，它用于设置 <code>MITER</code> 型拐角的延长线的最大值。所谓「延长线的最大值」，是这么一回事：<br>
+当线条拐角为 <code>MITER</code> 时，拐角处的外缘需要使用延长线来补偿：<br>
+<img src="https://jgduan.github.io//post-images/1625584210033.jpg" alt="" loading="lazy"></p>
+<p>而这种补偿方案会有一个问题：如果拐角的角度太小，就有可能由于出现连接点过长的情况。比如这样：<br>
+<img src="https://jgduan.github.io//post-images/1625584221599.jpg" alt="" loading="lazy"></p>
+<p>所以为了避免意料之外的过长的尖角出现， <code>MITER</code> 型连接点有一个额外的规则：当尖角过长时，自动改用 <code>BEVEL</code> 的方式来渲染连接点。例如上图的这个尖角，在默认情况下是不会出现的，而是会由于延长线过长而被转为 <code>BEVEL</code> 型连接点：<br>
+<img src="https://jgduan.github.io//post-images/1625584236255.jpg" alt="" loading="lazy"></p>
+<p>至于多尖的角属于过于尖，尖到需要转为使用 <code>BEVEL</code> 来绘制，则是由一个属性控制的，而这个属性就是 <code>setStrokeMiter(miter)</code>方法中的 <code>miter</code> 参数。<code>miter</code> 参数是对于转角长度的限制，具体来讲，是指尖角的外缘端点和内部拐角的距离与线条宽度的比。也就是下面这两个长度的比：<br>
+<img src="https://jgduan.github.io//post-images/1625584259127.jpg" alt="" loading="lazy"></p>
+<p>用几何知识很容易得出这个比值的计算公式：如果拐角的大小为 θ ，那么这个比值就等于 1 / sin ( θ / 2 ) 。<br>
+这个 <code>miter limit</code> 的默认值是 4，对应的是一个大约 29° 的锐角：<br>
+<img src="https://jgduan.github.io//post-images/1625584364544.jpg" alt="" loading="lazy"></p>
+<blockquote>
+<p>默认情况下，大于这个角的尖角会被保留，而小于这个夹角的就会被「削成平头」</p>
+</blockquote>
+<p>所以，这个方法虽然名叫 <code>setStrokeMiter(miter)</code> ，但它其实设置的是「 线条在 <code>Join</code> 类型为 <code>MITER</code> 时对于 <code>MITER</code> 的长度限制」。它的这个名字虽然短，但却存在一定的迷惑性，如果叫 <code>setStrokeJoinMiterLimit(limit)</code> 就更准确了。 Google 的工程师没有这么给它命名，大概也是不想伤害大家的手指吧，毕竟程序员何苦为难程序员。</p>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/android-ge-da-ban-ben-xin-te-xing-ji-xing-wei-bian-geng/">
+                  <h3 class="post-title">
+                    【Android】各大版本新特性及行为变更
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

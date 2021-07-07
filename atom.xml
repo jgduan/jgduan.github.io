@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-06T15:18:08.116Z</updated>
+    <updated>2021-07-07T15:03:38.015Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,77 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Android】自定义绘制一个圆环形进度条]]></title>
+        <id>https://jgduan.github.io/post/android-zi-ding-yi-hui-zhi-yi-ge-yuan-huan-xing-jin-du-tiao/</id>
+        <link href="https://jgduan.github.io/post/android-zi-ding-yi-hui-zhi-yi-ge-yuan-huan-xing-jin-du-tiao/">
+        </link>
+        <updated>2021-07-07T14:46:45.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-预期效果">一、预期效果</h1>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1625669223339.png" alt="" loading="lazy"></figure>
+<hr>
+<h1 id="二-绘制分析">二、绘制分析</h1>
+<p>根据预期图片可以看出：</p>
+<ul>
+<li>
+<p><strong>需要绘制一个带有文本的圆环形进度条</strong></p>
+<ul>
+<li>绘制圆环（进度条背景色）</li>
+<li>绘制圆环上的进度（进度条前景色）</li>
+</ul>
+</li>
+<li>
+<p><strong>它的最大值、进度可自由设置</strong></p>
+<ul>
+<li>自定义属性：maxValue</li>
+<li>自定义属性：progress</li>
+</ul>
+</li>
+<li>
+<p><strong>进度线条的形状为圆头</strong></p>
+</li>
+<li>
+<p><strong>进度条中心位置显示标题及任务描述</strong></p>
+<ul>
+<li>标题文本绘制-drawText</li>
+<li>任务描述文本绘制-drawText</li>
+<li>文字居中显示</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="三-开始绘制">三、开始绘制</h1>
+<ul>
+<li>
+<p><strong>新建一个<code>CircleProgressBar</code>类，继承<code>View</code></strong></p>
+</li>
+<li>
+<p><strong>相关自定义属性的设置</strong></p>
+</li>
+<li>
+<p><strong>控件获取宽高、中心点、初始化画笔</strong></p>
+</li>
+<li>
+<p><strong>绘制圆环及进度</strong></p>
+<ul>
+<li>绘制圆环（背景色）</li>
+<li>绘制进度（前景色）</li>
+</ul>
+</li>
+<li>
+<p><strong>绘制显示的文本</strong></p>
+<ul>
+<li>绘制标题文本</li>
+<li>绘制描述文本</li>
+</ul>
+</li>
+<li>
+<p><strong>进度条展示动画效果设置</strong></p>
+</li>
+</ul>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【转】Android Paint 画笔的一些偏知识]]></title>
         <id>https://jgduan.github.io/post/zhuan-android-paint-hua-bi-de-yi-xie-pian-zhi-shi/</id>
@@ -1023,49 +1094,6 @@ Observable.timer(1, TimeUnit.SECONDS)
         LogUtil.e(TAG,&quot;start to MainActivity2...&quot;)
         startActivity(Intent(this@SplashActivity, MainActivity::class.java))
     }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Android】创建签名提示“迁移到行业标准格式PKCS12”问题]]></title>
-        <id>https://jgduan.github.io/post/android-chuang-jian-qian-ming-ti-shi-qian-yi-dao-xing-ye-biao-zhun-ge-shi-pkcs12wen-ti/</id>
-        <link href="https://jgduan.github.io/post/android-chuang-jian-qian-ming-ti-shi-qian-yi-dao-xing-ye-biao-zhun-ge-shi-pkcs12wen-ti/">
-        </link>
-        <updated>2021-06-28T14:21:52.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="背景">背景</h1>
-<p>Android Studio新建项目签名时创建签名文件时，提示“迁移到行业标准格式PKCS12”。</p>
-<hr>
-<h1 id="解决办法">解决办法</h1>
-<p>在Android Studio上，通过命令行创建签名文件。</p>
-<ol>
-<li>输入以下命令：</li>
-</ol>
-<pre><code class="language-java">keytool -genkey -alias 这里替换成你的应用别名 -keypass 这里填写你的别名密码 -keyalg RSA -keysize 2048 -validity 36500 -keystore 签名文件的存储路径\你得项目名称\app\xxx.jks -storepass 你的签名密码
-</code></pre>
-<p>你需要修改以下四处：</p>
-<ul>
-<li>应用别名（alias）</li>
-<li>别名密码（alias password）</li>
-<li>签名文件保存的路径（全路径，如：D:/TestProject/app/test.jks）</li>
-<li>签名密码</li>
-</ul>
-<ol start="2">
-<li>第1步完成后，回车，然后填写签名作者相关信息</li>
-</ol>
-<pre><code class="language-java">您的名字与姓氏是什么?
-  [Unknown]:  zihao
-您的组织单位名称是什么?
-  [Unknown]:  xxxx
-您的组织名称是什么?
-  [Unknown]:  xxxx
-您所在的城市或区域名称是什么?
-  [Unknown]:  HeFei
-您所在的省/市/自治区名称是什么?
-  [Unknown]:  AnHui
-该单位的双字母国家/地区代码是什么?
-  [Unknown]:  0086
-CN=zihao, OU=xxxx, O=xxxx L=HeFei, ST=AnHui, C=0086是否正确?
-  [否]:  y
 </code></pre>
 ]]></content>
     </entry>

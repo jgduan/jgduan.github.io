@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【初中数学】六、有理数的加法 | Zihao&#39;s blog</title>
+<title>【Android】自定义绘制一个圆环形进度条 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,17 +18,25 @@
 
 
 
-    <meta name="description" content="一、有理数的加法
+    <meta name="description" content="一、预期效果
 
 
-同号的两个有理数相加，取相同的符号，并把 绝对值 相加。
-
-例如：+3 + +4 = 7；-3 + -4 = -7.
-
+二、绘制分析
+根据预期图片可以看出：
 
 
-符号不同的两个有理数相加，若绝对值不相等的情况下，取绝对值较大的数的符号，并用 绝对值 大的数..." />
-    <meta name="keywords" content="数学" />
+需要绘制一个带有文本的圆环形进度条
+
+绘制圆环（进度条背景色）
+绘制圆环上的进度（进度条前景色）
+
+
+
+它的最大值、进度可自由设置
+
+自定义属性：maxValue
+自定义属性：pr..." />
+    <meta name="keywords" content="自定义View,Android" />
   </head>
   <body>
     <div id="app" class="main">
@@ -99,61 +107,87 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【初中数学】六、有理数的加法</h2>
-            <div class="post-date">2021-01-18</div>
+            <h2 class="post-title">【Android】自定义绘制一个圆环形进度条</h2>
+            <div class="post-date">2021-07-07</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-zi-ding-yi-hui-zhi-yi-ge-yuan-huan-xing-jin-du-tiao.png')">
+              </div>
             
             <div class="post-content" v-pre>
-              <h1 id="一-有理数的加法">一、有理数的加法</h1>
+              <h1 id="一-预期效果">一、预期效果</h1>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1625669223339.png" alt="" loading="lazy"></figure>
+<hr>
+<h1 id="二-绘制分析">二、绘制分析</h1>
+<p>根据预期图片可以看出：</p>
 <ul>
 <li>
-<p><strong>同号的两个有理数相加，取相同的符号，并把 <em>绝对值</em> 相加。</strong></p>
-<blockquote>
-<p>例如：+3 + +4 = 7；-3 + -4 = -7.</p>
-</blockquote>
+<p><strong>需要绘制一个带有文本的圆环形进度条</strong></p>
+<ul>
+<li>绘制圆环（进度条背景色）</li>
+<li>绘制圆环上的进度（进度条前景色）</li>
+</ul>
 </li>
 <li>
-<p><strong>符号不同的两个有理数相加，若绝对值不相等的情况下，取绝对值较大的数的符号，并用 <em>绝对值</em> 大的数取减去<em>绝对值</em>小的获取结果。</strong></p>
-<blockquote>
-<p>例如：+7 + -3 = +4；-7 + +4 = -3.</p>
-</blockquote>
+<p><strong>它的最大值、进度可自由设置</strong></p>
+<ul>
+<li>自定义属性：maxValue</li>
+<li>自定义属性：progress</li>
+</ul>
 </li>
 <li>
-<p><strong>符号不同的两个有理数相加，若两数绝对值相等，则结果为0。</strong></p>
-<blockquote>
-<p>例如：+2 + -2 = 0.</p>
-</blockquote>
+<p><strong>进度线条的形状为圆头</strong></p>
 </li>
 <li>
-<p><strong>一个数同0相加，结果仍然是这个数。</strong></p>
-<blockquote>
-<p>例如：-2 + 0 = -2；+2 + 0 = +2.</p>
-</blockquote>
+<p><strong>进度条中心位置显示标题及任务描述</strong></p>
+<ul>
+<li>标题文本绘制-drawText</li>
+<li>任务描述文本绘制-drawText</li>
+<li>文字居中显示</li>
+</ul>
 </li>
 </ul>
 <hr>
-<h1 id="二-有理数加法的交换律-结合律">二、有理数加法的交换律、结合律</h1>
-<blockquote>
-<p>有理数运算中，加法的交换律与结合律仍适用。</p>
-</blockquote>
+<h1 id="三-开始绘制">三、开始绘制</h1>
 <ul>
-<li><strong>加法交换律</strong><br>
-两个数相加，交换加数的位置，和不变。<br>
-例如：a + b = b + a。</li>
-<li><strong>加法结合律</strong><br>
-三个数相加，先把前两个数相加，或者先把后两个数相加，和不变。<br>
-例如：(a + b) + c = a + (b + c)。</li>
+<li>
+<p><strong>新建一个<code>CircleProgressBar</code>类，继承<code>View</code></strong></p>
+</li>
+<li>
+<p><strong>相关自定义属性的设置</strong></p>
+</li>
+<li>
+<p><strong>控件获取宽高、中心点、初始化画笔</strong></p>
+</li>
+<li>
+<p><strong>绘制圆环及进度</strong></p>
+<ul>
+<li>绘制圆环（背景色）</li>
+<li>绘制进度（前景色）</li>
 </ul>
-<blockquote>
-<p>一般的，任意若干个数相加，无论各数相加的先后次序如何，其和不变。</p>
-</blockquote>
+</li>
+<li>
+<p><strong>绘制显示的文本</strong></p>
+<ul>
+<li>绘制标题文本</li>
+<li>绘制描述文本</li>
+</ul>
+</li>
+<li>
+<p><strong>进度条展示动画效果设置</strong></p>
+</li>
+</ul>
 <hr>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://jgduan.github.io/tag/MiOedvmVf/" class="tag">
-                    数学
+                  <a href="https://jgduan.github.io/tag/YyjoISaNJ/" class="tag">
+                    自定义View
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
                   </a>
                 
               </div>
@@ -161,9 +195,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://jgduan.github.io/post/chu-zhong-shu-xue-wu-jue-dui-zhi/">
+                <a href="https://jgduan.github.io/post/zhuan-android-paint-hua-bi-de-yi-xie-pian-zhi-shi/">
                   <h3 class="post-title">
-                    【初中数学】五、绝对值
+                    【转】Android Paint 画笔的一些偏知识
                   </h3>
                 </a>
               </div>

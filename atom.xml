@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-18T17:04:41.889Z</updated>
+    <updated>2021-07-18T17:06:07.220Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -17,8 +17,8 @@
         </link>
         <updated>2021-07-18T16:38:05.000Z</updated>
         <content type="html"><![CDATA[<h1 id="前言">前言</h1>
-<p>最近升级<code>Android Studio</code>到4.2版本后，在项目的其它<code>Module</code>中添加了检查更新功能，本想通过统一配置<code>VersionCode、VersionName</code>然后在<code>Module</code>中直接获取本地的<code>VersionCode</code>来与服务器对比做更新判断的，结果发现<code>BuildConfig</code>文件中，没有这两个字段。最后通过<code>StackOverflow</code>查询后发现<a href="https://issuetracker.google.com/issues/154275579?pli=1#comment3"><strong>Google Issue Tracker</strong></a>文中对问题的原因进行了解释：<code>Google</code>认为<code>VersionCode、VersionName</code>字段在其它<code>Module</code>中不代表任何意义，还容易与<code>app</code>模块中的字段混淆概念，所以认定它不应该再出现在其它模块中。<br>
-<img src="https://jgduan.github.io//post-images/1626627606725.png" alt="" loading="lazy"><br>
+<p>最近升级<code>Android Studio</code>到4.2版本后，在项目的其它<code>Module</code>中添加了检查更新功能，本想通过统一配置<code>VersionCode、VersionName</code>然后在<code>Module</code>中直接获取本地的<code>VersionCode</code>来与服务器对比做更新判断的，结果发现<code>BuildConfig</code>文件中，没有这两个字段。最后通过<code>StackOverflow</code>查询后发现<a href="https://issuetracker.google.com/issues/154275579?pli=1#comment3"><strong>Google Issue Tracker</strong></a>文中对问题的原因进行了解释：<code>Google</code>认为<code>VersionCode、VersionName</code>字段在其它<code>Module</code>中不代表任何意义，还容易与<code>app</code>模块中的字段混淆概念，所以认定它不应该再出现在其它模块中。</p>
+<p><img src="https://jgduan.github.io//post-images/1626627606725.png" alt="" loading="lazy"><br>
 <img src="https://jgduan.github.io//post-images/1626627613034.png" alt="" loading="lazy"><br>
 <img src="https://jgduan.github.io//post-images/1626627621216.png" alt="" loading="lazy"></p>
 <hr>

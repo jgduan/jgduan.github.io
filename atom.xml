@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-07T15:24:10.748Z</updated>
+    <updated>2021-07-18T17:01:45.416Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,36 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Android】Android Studio 4.1+版本在Module-BuildConfig中找不到VERSION_CODE、VERSION_NAME字段]]></title>
+        <id>https://jgduan.github.io/post/android-android-studio-41ban-ben-zai-module-buildconfig-zhong-zhao-bu-dao-version_codeversion_name-zi-duan/</id>
+        <link href="https://jgduan.github.io/post/android-android-studio-41ban-ben-zai-module-buildconfig-zhong-zhao-bu-dao-version_codeversion_name-zi-duan/">
+        </link>
+        <updated>2021-07-18T16:38:05.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>最近升级<code>Android Studio</code>到4.2版本后，在项目的其它<code>Module</code>中添加了检查更新功能，本想通过统一配置<code>VersionCode、VersionName</code>然后在<code>Module</code>中直接获取本地的<code>VersionCode</code>来与服务器对比做更新判断的，结果发现<code>BuildConfig</code>文件中，没有这两个字段。最后通过<code>StackOverflow</code>查询后发现<a href="https://issuetracker.google.com/issues/154275579?pli=1#comment3"><strong>Google Issue Tracker</strong></a>文中对问题的原因进行了解释：<code>Google</code>认为<code>VersionCode、VersionName</code>字段在其它<code>Module</code>中不代表任何意义，还容易与<code>app</code>模块中的字段混淆概念，所以认定它不应该再出现在其它模块中。<br>
+<img src="https://jgduan.github.io//post-images/1626627606725.png" alt="" loading="lazy"><br>
+<img src="https://jgduan.github.io//post-images/1626627613034.png" alt="" loading="lazy"><br>
+<img src="https://jgduan.github.io//post-images/1626627621216.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="解决方法">解决方法</h1>
+<ul>
+<li><strong>使用App模块中的字段进行判断</strong></li>
+<li><strong>在Module中添加VersionCode的配置</strong><br>
+我们可以在<code>Module-build.gradle</code>文件中添加对应<code>VersionCode、VersionName</code>的配置，通过该方式，也可以达到目的，不过<em>个人不推荐这样做</em>，按照官方的做法即可。</li>
+</ul>
+<pre><code class="language-java">debug {
+    buildConfigField &quot;String&quot;, &quot;VERSION_NAME&quot;, &quot;1.0.1&quot;
+    buildConfigField &quot;int&quot;, &quot;VERSION_CODE&quot;, &quot;1&quot;
+}
+release {
+    buildConfigField &quot;String&quot;, &quot;VERSION_NAME&quot;, &quot;1.0.1&quot;
+    buildConfigField &quot;int&quot;, &quot;VERSION_CODE&quot;, &quot;1&quot;
+}
+</code></pre>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Android】自定义绘制一个圆环形进度条]]></title>
         <id>https://jgduan.github.io/post/android-zi-ding-yi-hui-zhi-yi-ge-yuan-huan-xing-jin-du-tiao/</id>
@@ -1051,50 +1081,6 @@ consumer-rules.pro文件则是会合并到app的混淆规则中，是给包括ap
 <p>后来想到对应Module的<code>build</code>目录下去查看是否已生成文件（BuildConfig默认的生成在<code>xx/ProjectName/ModuleName/build/generated/source/buildConfig/buildTypes(debug/release/xxx/包名、)</code>目录下），发现在Project预览模式下，无法找到build文件。</p>
 <p>最后各种尝试后，定位到可能是因为忽略文件配置导致Project无法预览build文件目录下的内容，导致编辑器报错找不到文件，<strong>直接取消setting-&gt;Editor-&gt;File Types-&gt;.gitignore中的build文件夹的忽略配置即可</strong>。</p>
 <hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Android】RxJava3实现倒计时功能]]></title>
-        <id>https://jgduan.github.io/post/android-rxjava3-shi-xian-dao-ji-shi-gong-neng/</id>
-        <link href="https://jgduan.github.io/post/android-rxjava3-shi-xian-dao-ji-shi-gong-neng/">
-        </link>
-        <updated>2021-06-28T14:52:30.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="一-导入rxjava3">一、导入RxJava3</h1>
-<p>在需要使用RxJava的Module中，打开<code>build.gradle</code>文件在<code>dependencies</code>标签内添加如下代码引入RxJava：</p>
-<pre><code class="language-java">implementation &quot;io.reactivex.rxjava3:rxjava:3.0.6&quot;
-implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-</code></pre>
-<hr>
-<h1 id="二-倒计时实现">二、倒计时实现</h1>
-<ul>
-<li><strong>使用<code>intervalRange</code>实现倒计时任务</strong></li>
-</ul>
-<pre><code class="language-java">/**
- * start：开始的数值
- * count：输出值的个数（执行几次）
- * initialDelay：延迟多久执行
- * period：间隔多久执行一次
- * TimeUnit：延迟/间隔数值单位，NANOSECONDS（纳秒），MICROSECONDS（微秒），MILLISECONDS（毫秒），
- * SECONDS（秒），MINUTES（分钟），HOURS（小时），DAYS（天）
- */
-Observable.intervalRange(0, 1, 5, 0, TimeUnit.SECONDS)
-    .observeOn(AndroidSchedulers.mainThread())
-    .doOnComplete {
-        LogUtil.e(TAG,&quot;start to MainActivity...&quot;)
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-    }.subscribe()
-</code></pre>
-<ul>
-<li><strong>使用<code>timer</code>实现倒计时任务</strong></li>
-</ul>
-<pre><code class="language-java">// 延时1s进入MainActivity
-Observable.timer(1, TimeUnit.SECONDS)
-    .observeOn(AndroidSchedulers.mainThread())
-    .subscribe {
-        LogUtil.e(TAG,&quot;start to MainActivity2...&quot;)
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-    }
-</code></pre>
 ]]></content>
     </entry>
 </feed>

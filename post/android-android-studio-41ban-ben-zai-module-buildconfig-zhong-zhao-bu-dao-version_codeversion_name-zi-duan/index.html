@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>【Android】创建签名提示“迁移到行业标准格式PKCS12”问题 | Zihao&#39;s blog</title>
+<title>【Android】Android Studio 4.1+版本在Module-BuildConfig中找不到VERSION_CODE、VERSION_NAME字段 | Zihao&#39;s blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,16 +18,9 @@
 
 
 
-    <meta name="description" content="背景
-Android Studio新建项目签名时创建签名文件时，提示“迁移到行业标准格式PKCS12”。
-
-解决办法
-在Android Studio上，通过命令行创建签名文件。
-
-输入以下命令：
-
-keytool -genkey -alia..." />
-    <meta name="keywords" content="Android" />
+    <meta name="description" content="前言
+最近升级Android Studio到4.2版本后，在项目的其它Module中添加了检查更新功能，本想通过统一配置VersionCode、VersionName然后在Module中直接获取本地的VersionCode来与服务器对比做更..." />
+    <meta name="keywords" content="AndroidStudio,Android" />
   </head>
   <body>
     <div id="app" class="main">
@@ -98,52 +91,43 @@ keytool -genkey -alia..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">【Android】创建签名提示“迁移到行业标准格式PKCS12”问题</h2>
-            <div class="post-date">2021-06-28</div>
+            <h2 class="post-title">【Android】Android Studio 4.1+版本在Module-BuildConfig中找不到VERSION_CODE、VERSION_NAME字段</h2>
+            <div class="post-date">2021-07-19</div>
             
-              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-chuang-jian-qian-ming-ti-shi-qian-yi-dao-xing-ye-biao-zhun-ge-shi-pkcs12wen-ti.jpg')">
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-android-studio-41ban-ben-zai-module-buildconfig-zhong-zhao-bu-dao-version_codeversion_name-zi-duan.png')">
               </div>
             
             <div class="post-content" v-pre>
-              <h1 id="背景">背景</h1>
-<p>Android Studio新建项目签名时创建签名文件时，提示“迁移到行业标准格式PKCS12”。</p>
+              <h1 id="前言">前言</h1>
+<p>最近升级<code>Android Studio</code>到4.2版本后，在项目的其它<code>Module</code>中添加了检查更新功能，本想通过统一配置<code>VersionCode、VersionName</code>然后在<code>Module</code>中直接获取本地的<code>VersionCode</code>来与服务器对比做更新判断的，结果发现<code>BuildConfig</code>文件中，没有这两个字段。最后通过<code>StackOverflow</code>查询后发现<a href="https://issuetracker.google.com/issues/154275579?pli=1#comment3"><strong>Google Issue Tracker</strong></a>文中对问题的原因进行了解释：<code>Google</code>认为<code>VersionCode、VersionName</code>字段在其它<code>Module</code>中不代表任何意义，还容易与<code>app</code>模块中的字段混淆概念，所以认定它不应该再出现在其它模块中。<br>
+<img src="https://jgduan.github.io//post-images/1626627606725.png" alt="" loading="lazy"><br>
+<img src="https://jgduan.github.io//post-images/1626627613034.png" alt="" loading="lazy"><br>
+<img src="https://jgduan.github.io//post-images/1626627621216.png" alt="" loading="lazy"></p>
 <hr>
-<h1 id="解决办法">解决办法</h1>
-<p>在Android Studio上，通过命令行创建签名文件。</p>
-<ol>
-<li>输入以下命令：</li>
-</ol>
-<pre><code class="language-java">keytool -genkey -alias 这里替换成你的应用别名 -keypass 这里填写你的别名密码 -keyalg RSA -keysize 2048 -validity 36500 -keystore 签名文件的存储路径\你得项目名称\app\xxx.jks -storepass 你的签名密码
-</code></pre>
-<p>你需要修改以下四处：</p>
+<h1 id="解决方法">解决方法</h1>
 <ul>
-<li>应用别名（alias）</li>
-<li>别名密码（alias password）</li>
-<li>签名文件保存的路径（全路径，如：D:/TestProject/app/test.jks）</li>
-<li>签名密码</li>
+<li><strong>使用App模块中的字段进行判断</strong></li>
+<li><strong>在Module中添加VersionCode的配置</strong><br>
+我们可以在<code>Module-build.gradle</code>文件中添加对应<code>VersionCode、VersionName</code>的配置，通过该方式，也可以达到目的，不过<em>个人不推荐这样做</em>，按照官方的做法即可。</li>
 </ul>
-<ol start="2">
-<li>第1步完成后，回车，然后填写签名作者相关信息</li>
-</ol>
-<pre><code class="language-java">您的名字与姓氏是什么?
-  [Unknown]:  zihao
-您的组织单位名称是什么?
-  [Unknown]:  xxxx
-您的组织名称是什么?
-  [Unknown]:  xxxx
-您所在的城市或区域名称是什么?
-  [Unknown]:  HeFei
-您所在的省/市/自治区名称是什么?
-  [Unknown]:  AnHui
-该单位的双字母国家/地区代码是什么?
-  [Unknown]:  0086
-CN=zihao, OU=xxxx, O=xxxx L=HeFei, ST=AnHui, C=0086是否正确?
-  [否]:  y
+<pre><code class="language-java">debug {
+    buildConfigField &quot;String&quot;, &quot;VERSION_NAME&quot;, &quot;1.0.1&quot;
+    buildConfigField &quot;int&quot;, &quot;VERSION_CODE&quot;, &quot;1&quot;
+}
+release {
+    buildConfigField &quot;String&quot;, &quot;VERSION_NAME&quot;, &quot;1.0.1&quot;
+    buildConfigField &quot;int&quot;, &quot;VERSION_CODE&quot;, &quot;1&quot;
+}
 </code></pre>
+<hr>
 
             </div>
             
               <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/eYvM3evtX/" class="tag">
+                    AndroidStudio
+                  </a>
                 
                   <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
                     Android
@@ -154,9 +138,9 @@ CN=zihao, OU=xxxx, O=xxxx L=HeFei, ST=AnHui, C=0086是否正确?
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://jgduan.github.io/post/dohenes-ji-yu-kotlin-de-v30-jia-gou-gui-fan/">
+                <a href="https://jgduan.github.io/post/android-zi-ding-yi-hui-zhi-yi-ge-yuan-huan-xing-jin-du-tiao/">
                   <h3 class="post-title">
-                    【DOHENES】基于Kotlin的v3.0架构规范
+                    【Android】自定义绘制一个圆环形进度条
                   </h3>
                 </a>
               </div>

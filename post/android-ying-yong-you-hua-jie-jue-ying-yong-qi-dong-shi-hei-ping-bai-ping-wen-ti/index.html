@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android应用优化】解决应用启动时黑屏/白屏问题 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1626713515432">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Android App的载入页
+什么是载入页？
+当前主流应用流行在启动时打开一个类似欢迎页的过度页面，我们一般称之为SplashActivity，中文一般用载入页来表示。
+
+一般来说，载入页都是以全屏的方式展示给用户的。
+
+载入页能做些什么..." />
+    <meta name="keywords" content="Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1626713515432" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android应用优化】解决应用启动时黑屏/白屏问题</h2>
+            <div class="post-date">2021-07-20</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/android-ying-yong-you-hua-jie-jue-ying-yong-qi-dong-shi-hei-ping-bai-ping-wen-ti.webp')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="android-app的载入页">Android App的载入页</h1>
+<h2 id="什么是载入页">什么是载入页？</h2>
+<p>当前主流应用流行在启动时打开一个类似欢迎页的过度页面，我们一般称之为<code>SplashActivity</code>，中文一般用载入页来表示。</p>
+<blockquote>
+<p>一般来说，载入页都是以全屏的方式展示给用户的。</p>
+</blockquote>
+<h2 id="载入页能做些什么">载入页能做些什么？</h2>
+<ol>
+<li>加深用户对产品的印象：通过在载入页进行应用 / 企业信息的展示来加深用户对产品的印象；</li>
+<li>启动过渡：避免主页初始化过慢给用户不友好的交互体验；</li>
+<li>开屏推荐信息 / 广告展示：简短的信息 / 广告展示，灵活利用<code>App</code>内容初始化的时间进行相关转化。</li>
+<li>临时预加载：提前为主页做一些不耗时的预加载工作。</li>
+</ol>
+<h2 id="载入页一般存在多久">载入页一般存在多久？</h2>
+<p>通常情况下，在用户点击桌面应用的icon后，会进入到<code>SplashActivity</code>载入页，然后一般是在<strong>3s内</strong>进入到应用的主页面（考虑到交互的友好性，载入页不应该存在太久，也不应该存在太多的耗时操作，否则会给用户<strong>很卡</strong>的感觉，它的存在，更多的是起到一些基础信息的展示、初始化及过度作用）。</p>
+<hr>
+<h1 id="载入页的黑屏-白屏问题">载入页的黑屏 / 白屏问题</h1>
+<p>在我们没有对应用进行特殊处理时，我们会发现在一些机型上（尤其是配置相对较差的机器），在桌面点击应用图标首次启动应用时，载入页出现前会出现黑屏 / 白屏的问题。</p>
+<h2 id="为什么会出现黑屏-白屏呢">为什么会出现黑屏 / 白屏呢？</h2>
+<p>因为在用户点击应用图标后，系统会进行一系列的<code>Framework</code>操作，其中就包括<code>Application</code>的初始化，如果我们在<code>Application</code>初始化的过程中做了过多的操作，就会导致应用明明已经启动了，却迟迟没有界面展示出来，这个时候，就会出现应用黑屏 / 白屏的情况。</p>
+<blockquote>
+<p><code>Application</code>初始化时注意：</p>
+<ol>
+<li>尽量不将一些业务逻辑放于<code>Application</code>中；</li>
+<li>不以静态变量的方式在<code>Application</code>中保存应用数据；</li>
+<li>不要把文件、数据库的操作放在<code>Application</code>中；</li>
+<li>不要再<code>Application</code>封装与初始化无关的其它事务。</li>
+</ol>
+</blockquote>
+<h2 id="什么时候出现黑屏什么时候出现白屏">什么时候出现黑屏？什么时候出现白屏？</h2>
+<p>App黑屏/白屏，实际上跟设置的主题（<code>Theme</code>）有关，设置<code>Light</code>系列的，会显示白屏，设置<code>Dark</code>系列的，会显示黑屏。</p>
+<hr>
+<h1 id="解决方法">解决方法</h1>
+<h2 id="设置透明的splashactivity">设置透明的SplashActivity</h2>
+<p>在应用<code>styles</code>文件内，为载入页（SplashActivity）新增自定义样式，设置Activity的主题样式背景为透明色、全屏、无标题栏、无ActionBar，具体代码如下：</p>
+<pre><code class="language-java">&lt;style name=&quot;AppTheme.Splash&quot; parent=&quot;AppTheme.xxx&quot;&gt;
+    &lt;item name=&quot;android:windowFullscreen&quot;&gt;true&lt;/item&gt;
+    &lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;
+    &lt;item name=&quot;android:colorBackgroundCacheHint&quot;&gt;@null&lt;/item&gt;
+    &lt;item name=&quot;android:windowIsTranslucent&quot;&gt;true&lt;/item&gt;
+    &lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;
+    &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+<p>在<code>AndroidManifest.xml</code>中为SplashActivity设置<code>Theme</code>样式：</p>
+<pre><code class="language-java">&lt;activity
+    android:name=&quot;.SplashActivity&quot;
+    android:theme=&quot;@style/AppTheme.Splash&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/android-android-studio-41ban-ben-zai-module-buildconfig-zhong-zhao-bu-dao-version_codeversion_name-zi-duan/">
+                  <h3 class="post-title">
+                    【Android】Android Studio 4.1+版本在Module-BuildConfig中找不到VERSION_CODE、VERSION_NAME字段
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

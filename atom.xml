@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-19T16:54:56.597Z</updated>
+    <updated>2021-07-19T16:56:32.344Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -24,10 +24,18 @@
 </blockquote>
 <h2 id="载入页能做些什么">载入页能做些什么？</h2>
 <ol>
-<li>**加深用户对产品的印象：**通过在载入页进行应用 / 企业信息的展示来加深用户对产品的印象；</li>
-<li>**启动过渡：**避免主页初始化过慢给用户不友好的交互体验；</li>
-<li>**开屏推荐信息 / 广告展示：**简短的信息 / 广告展示，灵活利用<code>App</code>内容初始化的时间进行相关转化。</li>
-<li>**临时预加载：**提前为主页做一些不耗时的预加载工作。</li>
+<li>
+<p>**加深用户对产品的印象：**通过在载入页进行应用 / 企业信息的展示来加深用户对产品的印象；</p>
+</li>
+<li>
+<p>**启动过渡：**避免主页初始化过慢给用户不友好的交互体验；</p>
+</li>
+<li>
+<p>**开屏推荐信息 / 广告展示：**简短的信息 / 广告展示，灵活利用<code>App</code>内容初始化的时间进行相关转化；</p>
+</li>
+<li>
+<p>**临时预加载：**提前为主页做一些不耗时的预加载工作。</p>
+</li>
 </ol>
 <h2 id="载入页一般存在多久">载入页一般存在多久？</h2>
 <p>通常情况下，在用户点击桌面应用的icon后，会进入到<code>SplashActivity</code>载入页，然后一般是在<strong>3s内</strong>进入到应用的主页面（考虑到交互的友好性，载入页不应该存在太久，也不应该存在太多的耗时操作，否则会给用户<strong>很卡</strong>的感觉，它的存在，更多的是起到一些基础信息的展示、初始化及过度作用）。</p>

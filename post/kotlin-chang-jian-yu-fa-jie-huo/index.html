@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Kotlin】常见语法解惑 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1627139911986">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、Kotlin中的'=='与'==='比较符号
+1.基础知识
+
+Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);
+Kotlin中的双等号 '=='  比较的是i盎格对象的值。
+
+2.示例..." />
+    <meta name="keywords" content="Kotlin" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1627139911986" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Kotlin】常见语法解惑</h2>
+            <div class="post-date">2021-07-24</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/kotlin-chang-jian-yu-fa-jie-huo.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-kotlin中的与比较符号">一、Kotlin中的'=='与'==='比较符号</h1>
+<h2 id="1基础知识">1.基础知识</h2>
+<ul>
+<li>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</li>
+<li>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</li>
+</ul>
+<h2 id="2示例">2.示例</h2>
+<blockquote>
+<p>代码源自<a href="https://kotlinlang.org/docs/basic-types.html">Kotlin官方-Basic types</a></p>
+</blockquote>
+<ul>
+<li>
+<p>三等号 '===' 的示例</p>
+<pre><code class="language-java">  val a: Int = 100
+  val boxedA: Int? = a
+  val anotherBoxedA: Int? = a
+
+  val b: Int = 10000
+  val boxedB: Int? = b
+  val anotherBoxedB: Int? = b
+
+  println(boxedA === anotherBoxedA) // true
+  println(boxedB === anotherBoxedB) // false
+</code></pre>
+</li>
+<li>
+<p>双等号 '=='  的示例</p>
+<pre><code class="language-java">  val b: Int = 10000
+  println(b == b) // Prints 'true'
+  val boxedB: Int? = b
+  val anotherBoxedB: Int? = b
+  println(boxedB == anotherBoxedB) // Prints 'true'
+</code></pre>
+</li>
+</ul>
+<p>在以上两个示例中，第二段代码可能比较好理解一点，它主要是表现比较两个对象的值是否相等；<br>
+对于第一段的代码，可能有人不太理解，同样是使用三等号去比较，为什么第一次比较的值是true，第二次比较的值是false呢？其实Kotlin官方就对此做出了如下解释：</p>
+<blockquote>
+<p>Numbers representation on the JVM<br>
+On the JVM platform, numbers are stored as primitive types: int, double, and so on. Exceptions are cases when you create a nullable number reference such as Int? or use generics. In these cases numbers are boxed in Java classes Integer, Double, and so on.<br>
+中文译：在 JVM 平台上，数字存储为原始类型：int、double等。创建可为空的数字引用（例如Int?或使用泛型）时的情况除外。在这些情况下，数字在 Java 类Integer、Double 等中被装箱。<br>
+All nullable references to a are actually the same object because of the memory optimization that JVM applies to Integer s between -128 and 127. It doesn't apply to the b references, so they are different objects.<br>
+中文译：由于VM对-128到127之间的整数应用了内存优化，因此对a的所有可为null的引用实际上都是同一个对象。而它并不适用于b，b的值已经超出了-128~127的范围，因此它们是不同的对象。</p>
+</blockquote>
+<p>JDK 从 1.5 版本开始，把 -128~127（high的默认值） 的数字缓存起来了，用于提升性能和节省内存，通过<code>-XX:AutoBoxCacheMax=&lt;size&gt;</code>来控制high的取值。所以，当数字在缓存范围内时，通过valueOf()方式拿到的对象引用全部来自于缓存列表，<strong>所以对于相同的值，对象引用相同；若是超过缓存范围，则是重新生成的对象，自然也就不相等了。</strong></p>
+<h2 id="3知识汇总">3.知识汇总</h2>
+<ul>
+<li>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</li>
+<li>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</li>
+<li>Kotlin中的非空数字类型对应到JVM平台是基本类型：int,double等等；</li>
+<li>Kotlin中的可空数字类型对应到JVM平台是封装类型：Integer，Double等等；</li>
+<li>Java中双等号 '==' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间)，与Kotlin中的三等号 '===' 等价。</li>
+</ul>
+<hr>
+<h1 id="二-kotlin中-let-运算符的区别">二、Kotlin中 ?. !!. ?.let ?: 运算符的区别</h1>
+<h2 id="1基础知识-2">1.基础知识</h2>
+<blockquote>
+<p>推荐访问<a href="https://kotlinlang.org/docs/null-safety.html">Kotlin官方-空安全</a></p>
+</blockquote>
+<p>Kotin支持非空类型与可空类型，同时为了消除空引用的危险，在IDE如果我们是同可空类型命名变量后，访问该变量的其它属性或者方法时，IDE会检测并提出警示，让用户通过<code>?./?.let</code>或者<code>!!./?:</code>运算符来进行安全访问。</p>
+<ul>
+<li>
+<p>对于一个不可为空类型：如果直接给不可为空类型赋值一个可能为空的对象就在编译阶段就不能通过;</p>
+</li>
+<li>
+<p>对于一个可空类型：通过<code>？</code>声明，在访问该类型的时候直接访问不能编译通过，需要通过<code>?.</code>或者<code>!!.</code></p>
+<ul>
+<li><code>?.</code>代表着如果该类型为空的话就返回null不做后续的操作，如果不为空的话才会去访问对应的方法或者属性；</li>
+<li><code>!!.</code>代表着如果该类型为空的话就抛出<code>NullPointerException</code>，如果不为空就去访问对应的方法或者属性， 所以只有在很少的特定场景才用这种符号，代表着程序不处理这种异常的case了，会像java代码一样抛出<code>NullPointerException</code>。 而且代码中一定不用出现下面这种代码，会让代码可读性很差而且如果有空指针异常，我们也不能马上发现是哪空了。</li>
+</ul>
+</li>
+<li>
+<p><code>let</code>语句简化对可空对象对访问：<code>let</code>函数默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return。</p>
+</li>
+<li>
+<p><code>?:</code>简化对空值的处理：<code>?:</code>符号会在符号左边为空的情况才会进行下面的处理，不为空则不会有任何操作。跟<code>?.let</code>正好相反，例如我们可以用两行代码来简化上面从操作：</p>
+</li>
+</ul>
+<h2 id="示例">示例</h2>
+<ul>
+<li>
+<p>不可为空类型</p>
+<pre><code class="language-java">var a: String = &quot;123&quot; // Regular initialization means non-null by default
+a = null // compilation error-编译错误
+</code></pre>
+</li>
+<li>
+<p>可为空类型</p>
+<pre><code class="language-java">var b: String? = &quot;123&quot; // can be set to null
+b = null // ok
+println(b) // print null
+println(b.length // print null
+</code></pre>
+<p>这个时候，如果你使用b的属性，那么会提示你使用<code>?.</code>或者<code>!!.</code>，<strong>只有在你需要NPE异常时，才推荐用!!.，否则，请使用?.来进行访问。</strong></p>
+</li>
+<li>
+<p>?.let (安全调用操作符)<br>
+通过let语句，在<code>?.let</code>之后，如果为空不会有任何操作，只有在非空的时候才会执行let之后的操作</p>
+<pre><code class="language-java">    val person:Person? = getPerson()
+    person?.let {
+        it.name
+        it.age
+    }
+</code></pre>
+</li>
+<li>
+<p>?: ( Elvis 运算符)<br>
+如果<code>?:</code>左侧表达式非空，Elvis 操作符就返回其左侧表达式，否则返回右侧表达式。 请注意，当且仅当左侧为空时，才会对右侧表达式求值。</p>
+<pre><code class="language-java">val b:Int? = 0
+val l = b?.length ?: -1
+</code></pre>
+</li>
+</ul>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/IUV0lXNw6/" class="tag">
+                    Kotlin
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/tuan-dui-guan-li-kpi-yu-okr/">
+                  <h3 class="post-title">
+                    【团队管理】KPI与OKR
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

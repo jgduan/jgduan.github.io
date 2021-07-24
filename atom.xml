@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-20T15:25:00.855Z</updated>
+    <updated>2021-07-24T15:18:37.733Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,128 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Kotlin】常见语法解惑]]></title>
+        <id>https://jgduan.github.io/post/kotlin-chang-jian-yu-fa-jie-huo/</id>
+        <link href="https://jgduan.github.io/post/kotlin-chang-jian-yu-fa-jie-huo/">
+        </link>
+        <updated>2021-07-24T14:13:12.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-kotlin中的与比较符号">一、Kotlin中的'=='与'==='比较符号</h1>
+<h2 id="1基础知识">1.基础知识</h2>
+<ul>
+<li>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</li>
+<li>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</li>
+</ul>
+<h2 id="2示例">2.示例</h2>
+<blockquote>
+<p>代码源自<a href="https://kotlinlang.org/docs/basic-types.html">Kotlin官方-Basic types</a></p>
+</blockquote>
+<ul>
+<li>
+<p>三等号 '===' 的示例</p>
+<pre><code class="language-java">  val a: Int = 100
+  val boxedA: Int? = a
+  val anotherBoxedA: Int? = a
+
+  val b: Int = 10000
+  val boxedB: Int? = b
+  val anotherBoxedB: Int? = b
+
+  println(boxedA === anotherBoxedA) // true
+  println(boxedB === anotherBoxedB) // false
+</code></pre>
+</li>
+<li>
+<p>双等号 '=='  的示例</p>
+<pre><code class="language-java">  val b: Int = 10000
+  println(b == b) // Prints 'true'
+  val boxedB: Int? = b
+  val anotherBoxedB: Int? = b
+  println(boxedB == anotherBoxedB) // Prints 'true'
+</code></pre>
+</li>
+</ul>
+<p>在以上两个示例中，第二段代码可能比较好理解一点，它主要是表现比较两个对象的值是否相等；<br>
+对于第一段的代码，可能有人不太理解，同样是使用三等号去比较，为什么第一次比较的值是true，第二次比较的值是false呢？其实Kotlin官方就对此做出了如下解释：</p>
+<blockquote>
+<p>Numbers representation on the JVM<br>
+On the JVM platform, numbers are stored as primitive types: int, double, and so on. Exceptions are cases when you create a nullable number reference such as Int? or use generics. In these cases numbers are boxed in Java classes Integer, Double, and so on.<br>
+中文译：在 JVM 平台上，数字存储为原始类型：int、double等。创建可为空的数字引用（例如Int?或使用泛型）时的情况除外。在这些情况下，数字在 Java 类Integer、Double 等中被装箱。<br>
+All nullable references to a are actually the same object because of the memory optimization that JVM applies to Integer s between -128 and 127. It doesn't apply to the b references, so they are different objects.<br>
+中文译：由于VM对-128到127之间的整数应用了内存优化，因此对a的所有可为null的引用实际上都是同一个对象。而它并不适用于b，b的值已经超出了-128~127的范围，因此它们是不同的对象。</p>
+</blockquote>
+<p>JDK 从 1.5 版本开始，把 -128~127（high的默认值） 的数字缓存起来了，用于提升性能和节省内存，通过<code>-XX:AutoBoxCacheMax=&lt;size&gt;</code>来控制high的取值。所以，当数字在缓存范围内时，通过valueOf()方式拿到的对象引用全部来自于缓存列表，<strong>所以对于相同的值，对象引用相同；若是超过缓存范围，则是重新生成的对象，自然也就不相等了。</strong></p>
+<h2 id="3知识汇总">3.知识汇总</h2>
+<ul>
+<li>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</li>
+<li>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</li>
+<li>Kotlin中的非空数字类型对应到JVM平台是基本类型：int,double等等；</li>
+<li>Kotlin中的可空数字类型对应到JVM平台是封装类型：Integer，Double等等；</li>
+<li>Java中双等号 '==' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间)，与Kotlin中的三等号 '===' 等价。</li>
+</ul>
+<hr>
+<h1 id="二-kotlin中-let-运算符的区别">二、Kotlin中 ?. !!. ?.let ?: 运算符的区别</h1>
+<h2 id="1基础知识-2">1.基础知识</h2>
+<blockquote>
+<p>推荐访问<a href="https://kotlinlang.org/docs/null-safety.html">Kotlin官方-空安全</a></p>
+</blockquote>
+<p>Kotin支持非空类型与可空类型，同时为了消除空引用的危险，在IDE如果我们是同可空类型命名变量后，访问该变量的其它属性或者方法时，IDE会检测并提出警示，让用户通过<code>?./?.let</code>或者<code>!!./?:</code>运算符来进行安全访问。</p>
+<ul>
+<li>
+<p>对于一个不可为空类型：如果直接给不可为空类型赋值一个可能为空的对象就在编译阶段就不能通过;</p>
+</li>
+<li>
+<p>对于一个可空类型：通过<code>？</code>声明，在访问该类型的时候直接访问不能编译通过，需要通过<code>?.</code>或者<code>!!.</code></p>
+<ul>
+<li><code>?.</code>代表着如果该类型为空的话就返回null不做后续的操作，如果不为空的话才会去访问对应的方法或者属性；</li>
+<li><code>!!.</code>代表着如果该类型为空的话就抛出<code>NullPointerException</code>，如果不为空就去访问对应的方法或者属性， 所以只有在很少的特定场景才用这种符号，代表着程序不处理这种异常的case了，会像java代码一样抛出<code>NullPointerException</code>。 而且代码中一定不用出现下面这种代码，会让代码可读性很差而且如果有空指针异常，我们也不能马上发现是哪空了。</li>
+</ul>
+</li>
+<li>
+<p><code>let</code>语句简化对可空对象对访问：<code>let</code>函数默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return。</p>
+</li>
+<li>
+<p><code>?:</code>简化对空值的处理：<code>?:</code>符号会在符号左边为空的情况才会进行下面的处理，不为空则不会有任何操作。跟<code>?.let</code>正好相反，例如我们可以用两行代码来简化上面从操作：</p>
+</li>
+</ul>
+<h2 id="示例">示例</h2>
+<ul>
+<li>
+<p>不可为空类型</p>
+<pre><code class="language-java">var a: String = &quot;123&quot; // Regular initialization means non-null by default
+a = null // compilation error-编译错误
+</code></pre>
+</li>
+<li>
+<p>可为空类型</p>
+<pre><code class="language-java">var b: String? = &quot;123&quot; // can be set to null
+b = null // ok
+println(b) // print null
+println(b.length // print null
+</code></pre>
+<p>这个时候，如果你使用b的属性，那么会提示你使用<code>?.</code>或者<code>!!.</code>，<strong>只有在你需要NPE异常时，才推荐用!!.，否则，请使用?.来进行访问。</strong></p>
+</li>
+<li>
+<p>?.let (安全调用操作符)<br>
+通过let语句，在<code>?.let</code>之后，如果为空不会有任何操作，只有在非空的时候才会执行let之后的操作</p>
+<pre><code class="language-java">    val person:Person? = getPerson()
+    person?.let {
+        it.name
+        it.age
+    }
+</code></pre>
+</li>
+<li>
+<p>?: ( Elvis 运算符)<br>
+如果<code>?:</code>左侧表达式非空，Elvis 操作符就返回其左侧表达式，否则返回右侧表达式。 请注意，当且仅当左侧为空时，才会对右侧表达式求值。</p>
+<pre><code class="language-java">val b:Int? = 0
+val l = b?.length ?: -1
+</code></pre>
+</li>
+</ul>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【团队管理】KPI与OKR]]></title>
         <id>https://jgduan.github.io/post/tuan-dui-guan-li-kpi-yu-okr/</id>
@@ -1023,133 +1145,6 @@ https://www.figma.com/@materialdesign</p>
 <li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808ce8fbb7fb61ede45fa93a0d8d5464935f48f28601f2db5d5ea8d60863fe2392f2361cffae&amp;idx=1&amp;mid=2652063934&amp;scene=21&amp;sn=caeaec14e70b7569c06503b1bb04138b#wechat_redirect">Android Material 组件 1.2.0 现已发布</a></li>
 </ul>
 <hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Android】Jetpack之Room]]></title>
-        <id>https://jgduan.github.io/post/android-jetpack-zhi-room/</id>
-        <link href="https://jgduan.github.io/post/android-jetpack-zhi-room/">
-        </link>
-        <updated>2021-06-29T14:50:46.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="简介">简介</h1>
-<p>Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能够在充分利用 SQLite 的强大功能的同时，获享更强健的数据库访问机制。</p>
-<hr>
-<h1 id="声明依赖-引入room到项目中">声明依赖--引入Room到项目中</h1>
-<p>在添加Room依赖前，我们需要在Project的<code>build.gradle</code>中，添加Google Maven代码库到项目中，示例如下：</p>
-<pre><code class="language-java">allprojects {
-    repositories {
-        google()
-
-        // 如果您使用的Gradle版本低于4.1，则必须使用：
-        // maven {
-        //     url 'https://maven.google.com'
-        // }
-        // 另一个URL是 'https://dl.google.com/dl/android/maven2/'
-    }
-}
-</code></pre>
-<p>在app或者使用Room的Module的<code>build.gradle</code>文件中，我这里添加了以下以代码来使用Room：</p>
-<pre><code class="language-java">dependencies {
-    def room_version = &quot;2.3.0&quot;
-
-    implementation(&quot;androidx.room:room-runtime:$room_version&quot;)
-    annotationProcessor &quot;androidx.room:room-compiler:$room_version&quot;
-
-    // To use Kotlin annotation processing tool (kapt) --使用Kotlin注释处理工具
-    kapt(&quot;androidx.room:room-compiler:$room_version&quot;)
-
-    // optional - Kotlin Extensions and Coroutines support for Room--可选项，在Room上Kotlin扩展和协程
-    implementation(&quot;androidx.room:room-ktx:$room_version&quot;)
-
-    // optional - RxJava3 support for Room--可选项，Room RxJava3支持
-    implementation &quot;androidx.room:room-rxjava3:$room_version&quot;
-}
-</code></pre>
-<hr>
-<h1 id="room库分析">Room库分析</h1>
-<p>Room 包含 3 个主要组件：</p>
-<ul>
-<li>
-<p><strong>数据库：</strong> 包含数据库持有者，并作为应用已保留的持久关系型数据的底层连接的主要接入点。<br>
-使用<code>@Database</code>注释的类应满足以下条件：</p>
-<ul>
-<li>
-<p>是扩展<code>RoomDatabase</code>的抽象类。</p>
-</li>
-<li>
-<p>在注释中添加与数据库关联的实体列表。</p>
-</li>
-<li>
-<p>包含具有 0 个参数且返回使用<code>@Dao</code>注释的类的抽象方法。</p>
-</li>
-</ul>
-<p>在运行时，您可以通过调用<code>Room.databaseBuilder()</code>或<code>Room.inMemoryDatabaseBuilder()</code>获取 Database 的实例。</p>
-</li>
-<li>
-<p><strong>Entity：</strong> 表示数据库中的表。</p>
-</li>
-<li>
-<p><strong>DAO：</strong> 包含用于访问数据库的方法。</p>
-</li>
-</ul>
-<p>应用使用 Room 数据库来获取与该数据库关联的数据访问对象 (DAO)。然后，应用使用每个 DAO 从数据库中获取实体，然后再将对这些实体的所有更改保存回数据库中。 最后，应用使用实体来获取和设置与数据库中的表列相对应的值。</p>
-<p>Room 不同组件之间的关系如图 1 所示：<br>
-<img src="https://developer.android.google.cn/images/training/data-storage/room_architecture.png" alt="" loading="lazy"></p>
-<hr>
-<h1 id="room使用示例">Room使用示例</h1>
-<h2 id="新建一个实体类user">新建一个实体类User</h2>
-<pre><code class="language-java">@Entity
-data class User(
-    @PrimaryKey val uid: Int,
-    @ColumnInfo(name = &quot;first_name&quot;) val firstName: String?,
-    @ColumnInfo(name = &quot;last_name&quot;) val lastName: String?
-)
-</code></pre>
-<h2 id="新建一个dao类">新建一个DAO类</h2>
-<pre><code class="language-java">@Dao
-interface UserDao {
-    @Query(&quot;SELECT * FROM user&quot;)
-    fun getAll(): List&lt;User&gt;
-
-    @Query(&quot;SELECT * FROM user WHERE uid IN (:userIds)&quot;)
-    fun loadAllByIds(userIds: IntArray): List&lt;User&gt;
-
-    @Query(&quot;SELECT * FROM user WHERE first_name LIKE :first AND &quot; +
-            &quot;last_name LIKE :last LIMIT 1&quot;)
-    fun findByName(first: String, last: String): User
-
-    @Insert
-    fun insertAll(vararg users: User)
-
-    @Delete
-    fun delete(user: User)
-}
-</code></pre>
-<h2 id="新建一个appdatabase类继承roomdatabase">新建一个AppDatabase类继承RoomDatabase</h2>
-<pre><code class="language-java">@Database(entities = arrayOf(User::class), version = 1)
-abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
-}
-</code></pre>
-<h2 id="数据库的使用">数据库的使用</h2>
-<blockquote>
-<p>创建完上述文件后，您可以使用以下代码获取已创建的数据库的实例了：</p>
-</blockquote>
-<pre><code class="language-java">val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, &quot;database-name&quot;
-        ).build()
-</code></pre>
-<blockquote>
-<p>注意：如果您的应用在单个进程中运行，在实例化 AppDatabase 对象时应遵循单例设计模式。每个 RoomDatabase 实例的成本相当高，而您几乎不需要在单个进程中访问多个实例。</p>
-</blockquote>
-<blockquote>
-<p>如果您的应用在多个进程中运行，请在数据库构建器调用中包含 <code>enableMultiInstanceInvalidation()</code>。这样，如果您在每个进程中都有一个 AppDatabase 实例，可以在一个进程中使共享数据库文件失效，并且这种失效会自动传播到其他进程中 AppDatabase 的实例。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>主要内容源自<a href="https://developer.android.google.cn/training/data-storage/room">官方开发者文档Room操作指南</a></p>
-</blockquote>
 ]]></content>
     </entry>
 </feed>

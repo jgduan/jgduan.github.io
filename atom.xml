@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-24T15:18:37.733Z</updated>
+    <updated>2021-07-24T15:19:42.528Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -94,7 +94,7 @@ All nullable references to a are actually the same object because of the memory 
 <p><code>?:</code>简化对空值的处理：<code>?:</code>符号会在符号左边为空的情况才会进行下面的处理，不为空则不会有任何操作。跟<code>?.let</code>正好相反，例如我们可以用两行代码来简化上面从操作：</p>
 </li>
 </ul>
-<h2 id="示例">示例</h2>
+<h2 id="2示例-2">2.示例</h2>
 <ul>
 <li>
 <p>不可为空类型</p>
@@ -124,8 +124,8 @@ println(b.length // print null
 <li>
 <p>?: ( Elvis 运算符)<br>
 如果<code>?:</code>左侧表达式非空，Elvis 操作符就返回其左侧表达式，否则返回右侧表达式。 请注意，当且仅当左侧为空时，才会对右侧表达式求值。</p>
-<pre><code class="language-java">val b:Int? = 0
-val l = b?.length ?: -1
+<pre><code class="language-java">    val b:Int? = 0
+    val l = b?.length ?: -1
 </code></pre>
 </li>
 </ul>

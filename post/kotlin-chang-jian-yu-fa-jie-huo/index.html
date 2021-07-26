@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1627309905133">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1627314293274">
 <link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
 
 
@@ -34,7 +34,7 @@ Kotlin中的双等号 '=='  比较的是i盎格对象的值。
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://jgduan.github.io/">
-        <img src="https://jgduan.github.io//images/avatar.png?v=1627309905133" class="site-logo">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1627314293274" class="site-logo">
         <h1 class="site-title">Zihao&#39;s blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -106,8 +106,8 @@ Kotlin中的双等号 '=='  比较的是i盎格对象的值。
               <h1 id="一-kotlin中的与比较符号">一、Kotlin中的'=='与'==='比较符号</h1>
 <h2 id="1基础知识">1.基础知识</h2>
 <ul>
-<li>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</li>
-<li>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</li>
+<li><strong>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</strong></li>
+<li><strong>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</strong></li>
 </ul>
 <h2 id="2示例">2.示例</h2>
 <blockquote>
@@ -115,7 +115,7 @@ Kotlin中的双等号 '=='  比较的是i盎格对象的值。
 </blockquote>
 <ul>
 <li>
-<p>三等号 '===' 的示例</p>
+<p><strong>三等号 '===' 的示例</strong></p>
 <pre><code class="language-java">  val a: Int = 100
   val boxedA: Int? = a
   val anotherBoxedA: Int? = a
@@ -129,7 +129,7 @@ Kotlin中的双等号 '=='  比较的是i盎格对象的值。
 </code></pre>
 </li>
 <li>
-<p>双等号 '=='  的示例</p>
+<p><strong>双等号 '=='  的示例</strong></p>
 <pre><code class="language-java">  val b: Int = 10000
   println(b == b) // Prints 'true'
   val boxedB: Int? = b
@@ -150,47 +150,51 @@ All nullable references to a are actually the same object because of the memory 
 <p>JDK 从 1.5 版本开始，把 -128~127（high的默认值） 的数字缓存起来了，用于提升性能和节省内存，通过<code>-XX:AutoBoxCacheMax=&lt;size&gt;</code>来控制high的取值。所以，当数字在缓存范围内时，通过valueOf()方式拿到的对象引用全部来自于缓存列表，<strong>所以对于相同的值，对象引用相同；若是超过缓存范围，则是重新生成的对象，自然也就不相等了。</strong></p>
 <h2 id="3知识汇总">3.知识汇总</h2>
 <ul>
-<li>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</li>
-<li>Kotlin中的双等号 '=='  比较的是i盎格对象的值。</li>
-<li>Kotlin中的非空数字类型对应到JVM平台是基本类型：int,double等等；</li>
-<li>Kotlin中的可空数字类型对应到JVM平台是封装类型：Integer，Double等等；</li>
-<li>Java中双等号 '==' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间)，与Kotlin中的三等号 '===' 等价。</li>
+<li><strong>Kotlin中的三等号 '===' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间);</strong></li>
+<li><strong>Kotlin中的双等号 '=='  比较的是i盎格对象的值；</strong></li>
+<li><strong>Kotlin中的非空数字类型对应到JVM平台是基本类型：int,double等等；</strong></li>
+<li><strong>Kotlin中的可空数字类型对应到JVM平台是封装类型：Integer，Double等等；</strong></li>
+<li><strong>Java中双等号 '==' 比较的是两个引用在内存中指向的是不是同一对象(即同一内存空间)，与Kotlin中的三等号 '===' 等价。</strong></li>
 </ul>
 <hr>
 <h1 id="二-kotlin中-let-运算符的区别">二、Kotlin中 ?. !!. ?.let ?: 运算符的区别</h1>
 <h2 id="1基础知识-2">1.基础知识</h2>
 <blockquote>
-<p>推荐访问<a href="https://kotlinlang.org/docs/null-safety.html">Kotlin官方-空安全</a></p>
+<p>推荐访问<a href="https://kotlinlang.org/docs/null-safety.html">Kotlin官方-空安全</a><br>
+<img src="https://jgduan.github.io//post-images/1627312046689.png" alt="" loading="lazy"></p>
 </blockquote>
 <p>Kotin支持非空类型与可空类型，同时为了消除空引用的危险，在IDE如果我们是同可空类型命名变量后，访问该变量的其它属性或者方法时，IDE会检测并提出警示，让用户通过<code>?./?.let</code>或者<code>!!./?:</code>运算符来进行安全访问。</p>
 <ul>
 <li>
-<p>对于一个不可为空类型：如果直接给不可为空类型赋值一个可能为空的对象就在编译阶段就不能通过;</p>
+<p><strong>对于一个不可为空类型：如果直接给不可为空类型赋值一个可能为空的对象就在编译阶段就不能通过;</strong></p>
 </li>
 <li>
-<p>对于一个可空类型：通过<code>？</code>声明，在访问该类型的时候直接访问不能编译通过，需要通过<code>?.</code>或者<code>!!.</code></p>
+<p><strong>对于一个可空类型：通过<code>？</code>声明，在访问该类型的时候直接访问不能编译通过，需要通过<code>?.</code>或者<code>!!.</code></strong></p>
 <ul>
-<li><code>?.</code>代表着如果该类型为空的话就返回null不做后续的操作，如果不为空的话才会去访问对应的方法或者属性；</li>
-<li><code>!!.</code>代表着如果该类型为空的话就抛出<code>NullPointerException</code>，如果不为空就去访问对应的方法或者属性， 所以只有在很少的特定场景才用这种符号，代表着程序不处理这种异常的case了，会像java代码一样抛出<code>NullPointerException</code>。 而且代码中一定不用出现下面这种代码，会让代码可读性很差而且如果有空指针异常，我们也不能马上发现是哪空了。</li>
+<li><code>?.</code>代表着如果该类型为空的话就返回null不做后续的操作，如果不为空的话才会去访问对应的方法或者属性；<br>
+<img src="https://jgduan.github.io//post-images/1627312078667.png" alt="" loading="lazy"></li>
+<li><code>!!.</code>代表着如果该类型为空的话就抛出<code>NullPointerException</code>，如果不为空就去访问对应的方法或者属性， 所以只有在很少的特定场景才用这种符号，代表着程序不处理这种异常的case了，会像java代码一样抛出<code>NullPointerException</code>。 而且代码中一定不用出现下面这种代码，会让代码可读性很差而且如果有空指针异常，我们也不能马上发现是哪空了。<br>
+<img src="https://jgduan.github.io//post-images/1627312112958.png" alt="" loading="lazy"></li>
 </ul>
 </li>
 <li>
-<p><code>let</code>语句简化对可空对象对访问：<code>let</code>函数默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return。</p>
+<p><strong>let<code>语句简化对可空对象对访问：</code>let`函数默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return。</strong></p>
 </li>
 <li>
-<p><code>?:</code>简化对空值的处理：<code>?:</code>符号会在符号左边为空的情况才会进行下面的处理，不为空则不会有任何操作。跟<code>?.let</code>正好相反，例如我们可以用两行代码来简化上面从操作：</p>
+<p><strong><code>?:</code>简化对空值的处理：<code>?:</code>符号会在符号左边为空的情况才会进行下面的处理，不为空则不会有任何操作。跟<code>?.let</code>正好相反，例如我们可以用两行代码来简化上面从操作：</strong><br>
+<img src="https://jgduan.github.io//post-images/1627312147195.png" alt="" loading="lazy"></p>
 </li>
 </ul>
 <h2 id="2示例-2">2.示例</h2>
 <ul>
 <li>
-<p>不可为空类型</p>
+<p><strong>不可为空类型</strong></p>
 <pre><code class="language-java">var a: String = &quot;123&quot; // Regular initialization means non-null by default
 a = null // compilation error-编译错误
 </code></pre>
 </li>
 <li>
-<p>可为空类型</p>
+<p><strong>可为空类型</strong></p>
 <pre><code class="language-java">var b: String? = &quot;123&quot; // can be set to null
 b = null // ok
 println(b) // print null
@@ -199,7 +203,7 @@ println(b.length // print null
 <p>这个时候，如果你使用b的属性，那么会提示你使用<code>?.</code>或者<code>!!.</code>，<strong>只有在你需要NPE异常时，才推荐用!!.，否则，请使用?.来进行访问。</strong></p>
 </li>
 <li>
-<p>?.let (安全调用操作符)<br>
+<p><strong>?.let (安全调用操作符)</strong><br>
 通过let语句，在<code>?.let</code>之后，如果为空不会有任何操作，只有在非空的时候才会执行let之后的操作</p>
 <pre><code class="language-java">    val person:Person? = getPerson()
     person?.let {
@@ -209,7 +213,7 @@ println(b.length // print null
 </code></pre>
 </li>
 <li>
-<p>?: ( Elvis 运算符)<br>
+<p><strong>?: ( Elvis 运算符)</strong><br>
 如果<code>?:</code>左侧表达式非空，Elvis 操作符就返回其左侧表达式，否则返回右侧表达式。 请注意，当且仅当左侧为空时，才会对右侧表达式求值。</p>
 <pre><code class="language-java">    val b:Int? = 0
     val l = b?.length ?: -1
@@ -217,6 +221,83 @@ println(b.length // print null
 </li>
 </ul>
 <hr>
+<h1 id="三-kotlin中is-is-as-as">三、Kotlin中is !is as as?</h1>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1627312290169.png" alt="" loading="lazy"></figure>
+<h2 id="1基础知识-3">1.基础知识</h2>
+<ul>
+<li>
+<p><strong>is与!is</strong><br>
+<code>kotlin</code>中<code>API</code>提供的<code>is</code>运算符类似于<code>Java</code>中的<code>instanceof</code>关键字的用法。<br>
+<code>is</code>运算符可以检查对象是否与特定的类型兼容(兼容：此对象是该类型，或者派生类)，同时也用来检查对象（变量）是否属于某数据类型（如<code>Int、String、Boolean</code>等）。<br>
+<code>!is</code>运算符是它的否定形式。</p>
+</li>
+<li>
+<p><strong>as与as?</strong><br>
+<code>as</code>运算符用于执行引用类型的显式类型转换。如果要转换的类型与指定的类型兼容，转换就会成功进行；如果要转换的类型与指定的类型不兼容，就会抛出<code>ClassCastException</code>异常；<br>
+<code>as?</code>与<code>as</code>运算符的不同是，如果类型不兼容，使用<code>as?</code>运算符就会返回值<code>null</code>。<br>
+在<code>Kotlin</code>中，父类是禁止转换为子类型的。</p>
+</li>
+</ul>
+<h2 id="2示例-3">2.示例</h2>
+<ul>
+<li>
+<p><strong>is与!is</strong></p>
+<pre><code class="language-java">  val name = &quot;张三&quot;
+  println(name is String)// print true
+
+  val name2 = &quot;张三2&quot;
+  println(name !is String)// print false
+</code></pre>
+</li>
+<li>
+<p><strong>as与as?</strong></p>
+<pre><code class="language-java">  open class Person
+  open class Children : Person()
+
+  println(Children as Person)// print Person@xxxxx
+  println(Children as Student) 或者 println(Person as Children)// ClassCastException
+  println(Children as? Student) 或者 println(Person as? Children)// print null
+</code></pre>
+</li>
+</ul>
+<hr>
+<h1 id="四-kotlin中的until和">四、Kotlin中的until和..</h1>
+<ul>
+<li>
+<p><strong>until</strong><br>
+当我们遍历内容可能并不需要包括结束区间时，使用<code>until</code>来进行内容的遍历；</p>
+<pre><code class="language-java">for (i in 1..5) {   // 等价于 for (int i = 1 ; i &lt;= 5 ; i++) { print(i) }
+  print(i)  // 12345
+}
+</code></pre>
+<blockquote>
+<p>半开半闭区间（<code>Semi open closed interval</code>）是高中数学中函数的一种定义域，常简称为“半开区间”或“半闭区间”。半开半闭区间用“（ ]或[ )”表示，这里的until是指<code>[ )</code>区间，即不包含结束区间。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>..</strong><br>
+当我们遍历内容需要左右都是闭区间时，使用<code>..</code>来进行内容的遍历；</p>
+<pre><code class="language-java">for (i in 1 until 5) {  // 等价于 for (int i = 1 ; i &lt; 5 ; i++) { print(i) }
+  print(i) // 1234
+}
+</code></pre>
+<blockquote>
+<p>闭区间是直线上的连通的闭集，是直线上介于固定两点间的所有点的集合（包括给定的两点），用[a，b]来表示(包含两个端点a和b）（且<code>a&lt;b</code>）。由于它是有界闭集，所以它是紧致的。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>设<code>a</code>和<code>b</code>是两个不同的实数，且<code>a&lt;b</code>，<br>
+满足不等式<code>a&lt;X&lt;b</code>的所有实数<code>X</code>所组成的集合叫开区间，用记号<code>（a，b）</code>表示；<br>
+满足不等式<code>a≤X≤b</code>的所有实数<code>X</code>所组成的集合叫闭区间，用记号<code>[a,b]</code>表示；<br>
+满足不等式<code>a≤X&lt;b</code>或<code>a&lt;X≤b</code>的所有实数<code>X</code>所组成的集合叫半开半闭区间，分别表示为<code>[a,b),(a,b]</code>。</p>
+</blockquote>
+<hr>
+<h1 id="其它">其它</h1>
+<ul>
+<li><strong>图片内容引用<a href="https://blog.csdn.net/lckj686/article/details/80448471">Kotlin (一) 复合符号( '?.' '?:' '!!' 'as?' '?' )</a>，侵删</strong></li>
+<li><strong><a href="https://kotlinlang.org/docs/null-safety.html">Kotlin官方-空安全</a></strong></li>
+</ul>
 
             </div>
             

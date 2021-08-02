@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-07-26T15:45:48.215Z</updated>
+    <updated>2021-08-02T15:44:32.779Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,260 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【InterView】Android基础知识回顾]]></title>
+        <id>https://jgduan.github.io/post/interview-android-ji-chu-zhi-shi-hui-gu/</id>
+        <link href="https://jgduan.github.io/post/interview-android-ji-chu-zhi-shi-hui-gu/">
+        </link>
+        <updated>2021-08-02T14:44:05.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-android基础架构">一、Android基础架构</h1>
+<ul>
+<li>
+<p><strong>Android 系统架构</strong><br>
+<img src="https://jgduan.github.io//post-images/1627916220584.jpg" alt="" loading="lazy"><br>
+Android的系统架构采用分层架构的思想，架构清晰，层次分明，协同工作且各模块之间进行了高度解耦。</p>
+<ul>
+<li>
+<p>Linux Kernel<br>
+Linux内核层：Android最底层最核心的部分，为Android提供了核心的系统服务，如：安全系统、内存管理、进程管理、硬件驱动等。</p>
+</li>
+<li>
+<p>Libraries、Android Runtime<br>
+系统运行库层：当使用Android应用框架时，Android系统会通过一些C/C++库来支持我们使用的各个组件，使其更好的为我们服务，比如其中的SQLite（关系数据库），Webkit（Web浏览器引擎）。</p>
+</li>
+<li>
+<p>Application Framework<br>
+应用框架层：这一层是编写Google发布的核心应用时所使用的API框架，开发人员同样可以使用这些框架来开发自己的应用，这样便简化了程序开发的结构设计，但是必须要遵守其框架的开发原则。</p>
+</li>
+<li>
+<p>Applications<br>
+应用层：应用是用java语言编写的运行在虚拟机上的程序，比如Email客户端，SMS短消息程序，日历等。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Android 架构总览</strong><br>
+<img src="https://jgduan.github.io//post-images/1627916089526.png" alt="" loading="lazy"><br>
+详细解析请移步：<a href="https://source.android.google.cn/devices/architecture">Google官方文档</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="二-android四大组件">二、Android四大组件</h1>
+<ul>
+<li>
+<p><strong>Activity</strong><br>
+活动，作为Android系统中的人机交互的第一界面，负责向用户展示信息和处理结果。<br>
+一个App中，至少要有一个Activity。</p>
+</li>
+<li>
+<p><strong>ContentProvider</strong><br>
+内容提供者，为不同的应用之间的数据共享提供统一的接口。</p>
+<blockquote>
+<p>Android系统中，处于安全性的考虑，应用内的数据是对外隔离的，要想让其它应用能够使用自己的数据（如：通讯录等），这个时候就需要使用ContentProvider来进行应用间数据的共享。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Service</strong><br>
+服务，可以在后台长时间的运行，不提供用户界面。一个应用程序组件可以启动一个服务，它可以在后台/前台运行。此外，一个组件可以绑定到一个服务与它交互，甚至执行进程间通信(IPC)。例如，一个服务可能处理网络通信、播放音乐、计时操作或与一个内容提供者交互，都在后台执行。</p>
+<p>服务从大方向可分为系统服务与应用本地服务（LocalService）。</p>
+</li>
+<li>
+<p><strong>BroadCastReceiver</strong><br>
+广播接收器，用于接收应用内、外发出的广播消息。<br>
+广播同样可以分为系统广播与应用内广播。</p>
+</li>
+</ul>
+<hr>
+<h1 id="三-contenxt">三、Contenxt</h1>
+<p><img src="https://jgduan.github.io//post-images/1627917516063.webp" alt="" loading="lazy"><br>
+Android上下文对象，用于联系Android应用内的上下沟通，通过它，我们可以获取到应用程序的资源（字符串、图片等），也可以进行广播的收发、服务的启动、接受Intent等。</p>
+<p>Application、Activity、Service都继承自Context，在其onCreate时，都会创建对应的Context对象，它们所创建的Context对象的生命周期与其本身相关联。</p>
+<hr>
+<h1 id="四-android视图架构">四、Android视图架构</h1>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1627917650204.png" alt="" loading="lazy"></figure>
+<ul>
+<li>
+<p>一个Activity对应一个Window（一般为PhoneWindow，这个时候，Activity还没有任何东西展示给用户看）；</p>
+</li>
+<li>
+<p>DecorView实际上才是我们真正看得见摸得着的视图范围，一个Decor View一般包括一个TitleView与一个ContentView，DecorView的所有点击时间，都是通过WMS进行接收，并通过Activity对象来响应对应的OnClickListener；</p>
+</li>
+<li>
+<p>ContentView是一个id为content的FragmentLayout，只有我们在Activity的onCreate中调用setContentView方法设置要显示的View后，ContentView才有内容展示给用户。</p>
+</li>
+</ul>
+<hr>
+<h1 id="五-android控件树">五、Android控件树</h1>
+<p><img src="https://jgduan.github.io//post-images/1627917712990.png" alt="" loading="lazy"><br>
+当Activity在onCreate中调用setContentView后，AMS会调用Activity的onResume方法，这是系统会把DecorView添加到PhoneWindow中，这时界面内容才会展示给用户看到。</p>
+<hr>
+<h1 id="六-view相关">六、View相关</h1>
+<ul>
+<li>
+<p><strong>View的测量</strong><br>
+View的测量，一般在onMeasure中进行，自定义View如果想要适配warp_content的话，一定要重写onMeasure方法对View大小进行测量；</p>
+<p>View测量的关键是MeasureSpec，它是一个32位的数据，高两位表示对应的测量模式，总共有以下三种测量模式：</p>
+<ul>
+<li>EXACFLY<br>
+精确模式：只有在指定View宽高数值或match_parent的情况下，才会使用。<br>
+它也是默认的测量模式，不重写onMeasure方法，是不能使用其它测量模式的。</li>
+<li>AL_MOST<br>
+最大值模式：只有设置warp_content的情况下，才会使用这种测量模式。</li>
+<li>UNSPECIFIED<br>
+不指定大小的测量模式，这个模式比较奇怪，View想多大就可以多大，通常只有在绘制自定义View的时候才有可能会用到。</li>
+</ul>
+</li>
+<li>
+<p><strong>View的绘制</strong><br>
+View的绘制在onDraw(Canvas canvas)方法中进行，绘制View必须在画布（Canvas）上进行。</p>
+</li>
+</ul>
+<hr>
+<h1 id="七-viewgroup相关">七、ViewGroup相关</h1>
+<ul>
+<li>
+<p><strong>ViewGroup测量</strong><br>
+当ViewGroup的大小为warp_content时，ViewGroup就需要对其子View进行遍历，以便获得所有子View的大小，通过计算从而决定自己的大小。而在其它情况下，会通过具体的指定值来设置自身的大小。</p>
+<p>ViewGroup在测量时通过遍历所有的子View，从而调用子View的Measure方法来获得每一个子View的测量结果。</p>
+<p>当子View完成测量后，ViewGroup在执行Layout的过程时，同样会通过遍历子View的Layout方法，来指定其具体的显示位置，从而决定其布局位置。</p>
+<p>在自定义ViewGroup时，通常会重写onLayout方法来控制子View的显示逻辑，如果需要支持warp_content的话，还需要重写onMeasure方法。</p>
+</li>
+<li>
+<p><strong>ViewGroup的绘制</strong><br>
+ViewGroup通常情况下不需要绘制，因为它本身没有需要绘制的东西。</p>
+<p>ViewGroup会通过dispatchDraw方法来绘制其子View，其过程同样是遍历子View，并调用子View的绘制方法来完成绘制工作。</p>
+</li>
+</ul>
+<hr>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【InterView】Android知识回顾]]></title>
+        <id>https://jgduan.github.io/post/interview-android-zhi-shi-hui-gu/</id>
+        <link href="https://jgduan.github.io/post/interview-android-zhi-shi-hui-gu/">
+        </link>
+        <updated>2021-08-02T14:44:05.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-android基础架构">一、Android基础架构</h1>
+<ul>
+<li>
+<p><strong>Android 系统架构</strong><br>
+<img src="https://jgduan.github.io//post-images/1627916220584.jpg" alt="" loading="lazy"><br>
+Android的系统架构采用分层架构的思想，架构清晰，层次分明，协同工作且各模块之间进行了高度解耦。</p>
+<ul>
+<li>
+<p>Linux Kernel<br>
+Linux内核层：Android最底层最核心的部分，为Android提供了核心的系统服务，如：安全系统、内存管理、进程管理、硬件驱动等。</p>
+</li>
+<li>
+<p>Libraries、Android Runtime<br>
+系统运行库层：当使用Android应用框架时，Android系统会通过一些C/C++库来支持我们使用的各个组件，使其更好的为我们服务，比如其中的SQLite（关系数据库），Webkit（Web浏览器引擎）。</p>
+</li>
+<li>
+<p>Application Framework<br>
+应用框架层：这一层是编写Google发布的核心应用时所使用的API框架，开发人员同样可以使用这些框架来开发自己的应用，这样便简化了程序开发的结构设计，但是必须要遵守其框架的开发原则。</p>
+</li>
+<li>
+<p>Applications<br>
+应用层：应用是用java语言编写的运行在虚拟机上的程序，比如Email客户端，SMS短消息程序，日历等。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Android 架构总览</strong><br>
+<img src="https://jgduan.github.io//post-images/1627916089526.png" alt="" loading="lazy"><br>
+详细解析请移步：<a href="https://source.android.google.cn/devices/architecture">Google官方文档</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="二-android四大组件">二、Android四大组件</h1>
+<ul>
+<li>
+<p><strong>Activity</strong><br>
+活动，作为Android系统中的人机交互的第一界面，负责向用户展示信息和处理结果。<br>
+一个App中，至少要有一个Activity。</p>
+</li>
+<li>
+<p><strong>ContentProvider</strong><br>
+内容提供者，为不同的应用之间的数据共享提供统一的接口。</p>
+<blockquote>
+<p>Android系统中，处于安全性的考虑，应用内的数据是对外隔离的，要想让其它应用能够使用自己的数据（如：通讯录等），这个时候就需要使用ContentProvider来进行应用间数据的共享。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Service</strong><br>
+服务，可以在后台长时间的运行，不提供用户界面。一个应用程序组件可以启动一个服务，它可以在后台/前台运行。此外，一个组件可以绑定到一个服务与它交互，甚至执行进程间通信(IPC)。例如，一个服务可能处理网络通信、播放音乐、计时操作或与一个内容提供者交互，都在后台执行。</p>
+<p>服务从大方向可分为系统服务与应用本地服务（LocalService）。</p>
+</li>
+<li>
+<p><strong>BroadCastReceiver</strong><br>
+广播接收器，用于接收应用内、外发出的广播消息。<br>
+广播同样可以分为系统广播与应用内广播。</p>
+</li>
+</ul>
+<hr>
+<h1 id="三-contenxt">三、Contenxt</h1>
+<p><img src="https://jgduan.github.io//post-images/1627917516063.webp" alt="" loading="lazy"><br>
+Android上下文对象，用于联系Android应用内的上下沟通，通过它，我们可以获取到应用程序的资源（字符串、图片等），也可以进行广播的收发、服务的启动、接受Intent等。</p>
+<p>Application、Activity、Service都继承自Context，在其onCreate时，都会创建对应的Context对象，它们所创建的Context对象的生命周期与其本身相关联。</p>
+<hr>
+<h1 id="四-android视图架构">四、Android视图架构</h1>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1627917650204.png" alt="" loading="lazy"></figure>
+<ul>
+<li>
+<p>一个Activity对应一个Window（一般为PhoneWindow，这个时候，Activity还没有任何东西展示给用户看）；</p>
+</li>
+<li>
+<p>DecorView实际上才是我们真正看得见摸得着的视图范围，一个Decor View一般包括一个TitleView与一个ContentView，DecorView的所有点击时间，都是通过WMS进行接收，并通过Activity对象来响应对应的OnClickListener；</p>
+</li>
+<li>
+<p>ContentView是一个id为content的FragmentLayout，只有我们在Activity的onCreate中调用setContentView方法设置要显示的View后，ContentView才有内容展示给用户。</p>
+</li>
+</ul>
+<hr>
+<h1 id="五-android控件树">五、Android控件树</h1>
+<p><img src="https://jgduan.github.io//post-images/1627917712990.png" alt="" loading="lazy"><br>
+当Activity在onCreate中调用setContentView后，AMS会调用Activity的onResume方法，这是系统会把DecorView添加到PhoneWindow中，这时界面内容才会展示给用户看到。</p>
+<hr>
+<h1 id="六-view相关">六、View相关</h1>
+<ul>
+<li>
+<p><strong>View的测量</strong><br>
+View的测量，一般在onMeasure中进行，自定义View如果想要适配warp_content的话，一定要重写onMeasure方法对View大小进行测量；</p>
+<p>View测量的关键是MeasureSpec，它是一个32位的数据，高两位表示对应的测量模式，总共有以下三种测量模式：</p>
+<ul>
+<li>EXACFLY<br>
+精确模式：只有在指定View宽高数值或match_parent的情况下，才会使用。<br>
+它也是默认的测量模式，不重写onMeasure方法，是不能使用其它测量模式的。</li>
+<li>AL_MOST<br>
+最大值模式：只有设置warp_content的情况下，才会使用这种测量模式。</li>
+<li>UNSPECIFIED<br>
+不指定大小的测量模式，这个模式比较奇怪，View想多大就可以多大，通常只有在绘制自定义View的时候才有可能会用到。</li>
+</ul>
+</li>
+<li>
+<p><strong>View的绘制</strong><br>
+View的绘制在onDraw(Canvas canvas)方法中进行，绘制View必须在画布（Canvas）上进行。</p>
+</li>
+</ul>
+<hr>
+<h1 id="七-viewgroup相关">七、ViewGroup相关</h1>
+<ul>
+<li>
+<p><strong>ViewGroup测量</strong><br>
+当ViewGroup的大小为warp_content时，ViewGroup就需要对其子View进行遍历，以便获得所有子View的大小，通过计算从而决定自己的大小。而在其它情况下，会通过具体的指定值来设置自身的大小。</p>
+<p>ViewGroup在测量时通过遍历所有的子View，从而调用子View的Measure方法来获得每一个子View的测量结果。</p>
+<p>当子View完成测量后，ViewGroup在执行Layout的过程时，同样会通过遍历子View的Layout方法，来指定其具体的显示位置，从而决定其布局位置。</p>
+<p>在自定义ViewGroup时，通常会重写onLayout方法来控制子View的显示逻辑，如果需要支持warp_content的话，还需要重写onMeasure方法。</p>
+</li>
+<li>
+<p><strong>ViewGroup的绘制</strong><br>
+ViewGroup通常情况下不需要绘制，因为它本身没有需要绘制的东西。</p>
+<p>ViewGroup会通过dispatchDraw方法来绘制其子View，其过程同样是遍历子View，并调用子View的绘制方法来完成绘制工作。</p>
+</li>
+</ul>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Kotlin】常见语法解惑]]></title>
         <id>https://jgduan.github.io/post/kotlin-chang-jian-yu-fa-jie-huo/</id>
@@ -742,489 +996,6 @@ fun FragmentActivity/*(or Fragment)*/.constructSystemAlertWindowPermissionReques
     onPermissionDenied: Func? = null,
     requiresPermission: Func): PermissionsRequester
 </code></pre>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【转】打造 Material 颜色主题 | 实现篇]]></title>
-        <id>https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-shi-xian-pian/</id>
-        <link href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-shi-xian-pian/">
-        </link>
-        <updated>2021-07-04T15:57:00.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>本文转自<a href="https://blog.csdn.net/jILRvRTrc/article/details/109567406">CSDN-谷歌开发者 打造 Material 颜色主题 | 实现篇</a><br>
-<em>作者 / Nick Rout, Material Developer Advocate</em></p>
-</blockquote>
-<p>使用 Material 主题自定义 Material 组件，目的是让组件观感与品牌保持一致。Material 主题包括颜色、字体和形状参数，您可以对这些参数进行调整来获得近乎无限的组件变体，同时保持其核心结构和易用性。</p>
-<ul>
-<li>
-<p>Material 主题<br>
-https://material.io/design/material-theming/overview.html#material-theming</p>
-</li>
-<li>
-<p>Material 组件<br>
-https://material.io/components</p>
-</li>
-<li>
-<p>Material 颜色<br>
-https://material.io/design/color/</p>
-</li>
-<li>
-<p>Material 字体<br>
-https://material.io/design/typography/</p>
-</li>
-<li>
-<p>Material 形状<br>
-https://material.io/design/shape/<br>
-<img src="https://jgduan.github.io//post-images/1625414383767.gif" alt="" loading="lazy"></p>
-</li>
-</ul>
-<p>在 Android 上可使用 1.1.0 版本及以上的 Material 组件 (Material Design Components, MDC) 库来实现 Material 主题。如果您希望从 Design Support Library 或 MDC 1.0.0 迁移到新版本的 MDC，请参阅我们的迁移指南。</p>
-<ul>
-<li>
-<p>Material 组件<br>
-https://github.com/material-components/material-components-android</p>
-</li>
-<li>
-<p>迁移指南<br>
-https://medium.com/androiddevelopers/migrating-to-material-components-for-android-ec6757795351</p>
-</li>
-</ul>
-<p>继上次我们发布<a href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-she-ji-pian/">《打造 Material 颜色主题 | 设计篇》</a>之后，本文为大家介绍如何实现颜色主题。</p>
-<hr>
-<h2 id="颜色属性">颜色属性</h2>
-<p>Material Design 提供可供填充的 12 个颜色 &quot;槽 (slots)&quot;，这些色值构成应用的整体调色板。每个 &quot;槽&quot; 都有一个设计术语 (如 Primary)，该术语则对应一个可在应用主题中覆盖的颜色属性 (如 Primary 这个术语对应 colorPrimary 这个颜色属性)。这些是您的浅色和深色主题默认的基准色值。</p>
-<p><img src="https://jgduan.github.io//post-images/1625414532132.png" alt="" loading="lazy"><br>
-△ 浅色主题的基准 MDC 颜色属性</p>
-<p><img src="https://jgduan.github.io//post-images/1625414555733.png" alt="" loading="lazy"><br>
-△ 深色主题的基准 MDC 颜色属性</p>
-<p>Material 组件使用这些颜色属性为各个 widget 着色。<br>
-<img src="https://jgduan.github.io//post-images/1625414580741.png" alt="" loading="lazy"><br>
-△ 一个按钮中用到的颜色属性</p>
-<p>例如，将颜色属性用于布局和 widget 样式中，写法如下所示:<br>
-<code>app:backgroundTint=”?attr/colorSecondary”</code><br>
-您可能会认得下表中的一些颜色属性，如 colorPrimary。这些因为一些颜色属性继承自 AppCompat 和平台本身，而其余属性则来由 MDC。每个颜色属性的完整来源见下表。<br>
-<img src="https://jgduan.github.io//post-images/1625414617487.png" alt="" loading="lazy"></p>
-<hr>
-<h2 id="挑选颜色">挑选颜色</h2>
-<p>主题里每个颜色槽应该使用的具体颜色值由设计师负责给出，或是取自您的产品品牌。但是，了解每个颜色的作用、颜色之间的关系以及如何满足无障碍功能要求仍非常有用:</p>
-<ul>
-<li>
-<p>colorPrimary 和 colorSecondary 是用于呈现品牌的颜色</p>
-</li>
-<li>
-<p>colorPrimaryVariant 和 colorSecondaryVariant 是品牌颜色较浅或较深的阴影色</p>
-</li>
-<li>
-<p>colorSurface 用于表单或表面 (如卡片颜色和应用的底部弹出菜单颜色)</p>
-</li>
-<li>
-<p>android:colorBackground 是应用的窗口背景颜色</p>
-</li>
-<li>
-<p>顾名思义，colorError 用于错误和警告</p>
-</li>
-<li>
-<p>各种各样的 &quot;On&quot; 颜色 (colorOnPrimary、colorOnSecondary、colorOnSurface 等) 用于<br>
-为显示在其他颜色上方的前景内容 (如文本和图标) 进行着色。这些颜色需要满足无障碍功能要求并与所在表面的颜色有足够的对比度。</p>
-</li>
-</ul>
-<hr>
-<h2 id="颜色工具">颜色工具</h2>
-<p>Material Design 为大家提供了丰富的工具，用于预览颜色、确定合适的变体颜色以及 &quot;On&quot; 颜色:</p>
-<ul>
-<li>
-<p>Material 颜色工具: 获得主色和辅色的浅色/深色变体以及合适的 &quot;On&quot; 颜色。并能在示例界面中预览这些颜色的效果。<br>
-https://material.io/resources/color/</p>
-</li>
-<li>
-<p>Material 调色板生成器: 生成完整的色调调色板 (即包含 Material 色值编号 50 - 900)。另外您还能获得互补色、近似色和三等分配色的建议。<br>
-https://material.io/design/color/the-color-system.html#tools-for-picking-colors</p>
-</li>
-</ul>
-<p><img src="https://jgduan.github.io//post-images/1625414775321.png" alt="" loading="lazy"><br>
-△ Material 颜色工具 (左) 和 Material 调色板生成器 (右)</p>
-<hr>
-<h2 id="注意事项">注意事项</h2>
-<ul>
-<li>除非您的品牌恰巧使用和基准 Material 主题色完全相同的紫色和蓝绿色，否则请您务必覆盖 colorPrimary、colorSecondary 及其变体色。</li>
-<li>您无需覆盖所有颜色。一些颜色 (如 colorSurface) 默认使用的就是中性颜色，因此使用默认值不会有什么问题。</li>
-<li>如果您的品牌没有定义任何种类的辅色或强调色，那么可以将一种颜色同时用于 colorPrimary 和 colorSecondary。变体色也可以和主色相同 (即 colorPrimary 和 colorPrimaryVariant 可以相同)。</li>
-<li>一个颜色和其变体颜色以及 &quot;On&quot; 颜色尽管是三个单独的颜色属性 (如 colorPrimary、colorPrimaryVariant 和 colorOnPrimary)，但它们之间依然存在紧密的联系。因此如果您覆盖了其中一个，请检查其他颜色属性，以查看是否可行且满足无障碍功能要求。</li>
-</ul>
-<hr>
-<h2 id="其他颜色槽">其他颜色槽</h2>
-<p>除 Material 主题指定的 12 个颜色槽以外，您的设计系统可能还会用到其他颜色槽。幸运的是，在 Android 上声明颜色属性的操作很简单:</p>
-<pre><code class="language-java">&lt;!-- In res/values/attrs.xml --&gt;
-&lt;attr name=&quot;colorCustom&quot; format=&quot;color&quot; /&gt;
- 
-&lt;!-- In res/values/themes.xml --&gt;
-&lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.MaterialComponents.*&quot;&gt;
-    ...
-    &lt;item name=&quot;colorCustom&quot;&gt;@color/...&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
-<hr>
-<h2 id="颜色资源">颜色资源</h2>
-<p>颜色值会被定义为 <code>&lt;color&gt;</code> 资源。对于自定义颜色，我们建议使用以下两种方法，以帮助区分关注点，并在应用中为颜色主题中的色值创建单一来源:</p>
-<ul>
-<li>将浅色和深色主题用到的全部<code>&lt;color&gt;</code>存储在一个 res/values/colors.xml 文件中</li>
-<li><code>&lt;color&gt;</code>色值使用字面名称命名 (而不是基于使用方式命名):
-<ul>
-<li>如此一来，便可以在使用颜色时更自然地用到 ?attr/ 语法。支持深色主题时也推荐采用此种方法</li>
-<li>使用 green_500 或 brand_name_yellow 等名称</li>
-<li>避免使用语义名称，如 color_primary<pre><code class="language-java">&lt;!-- In res/values/colors.xml --&gt;
-&lt;color name=&quot;navy_500&quot;&gt;#64869B&lt;/color&gt;
-&lt;color name=&quot;navy_700&quot;&gt;#37596D&lt;/color&gt;
-&lt;color name=&quot;navy_900&quot;&gt;#073042&lt;/color&gt;
-&lt;color name=&quot;green_300&quot;&gt;#3DDC84&lt;/color&gt;
-&lt;color name=&quot;green_500&quot;&gt;#00A956&lt;/color&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="覆盖应用主题中的颜色">覆盖应用主题中的颜色</h2>
-<p>让我们了解一下如何通过覆盖相关属性将您自己的调色板应用到主题中。</p>
-<p>首先，您的主题需要在妥善处理浅色和深色调色板的同时减少与基础主题的重复。有关这方面的更多信息，请参阅 Chris Banes 关于深色主题的文章以及 Chris Banes 和 Nick Butcher 的 &quot;如何正确开发外观样式&quot; 演讲。</p>
-<p>设置好主题后，覆盖您希望在浅色和深色主题中更改的颜色属性即可:</p>
-<pre><code class="language-java">&lt;!-- In res/values/themes.xml --&gt;
-&lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.App.Base&quot;&gt;
-    ...
-    &lt;item name=&quot;colorPrimary&quot;&gt;@color/navy_700&lt;/item&gt;
-    &lt;item name=&quot;colorPrimaryVariant&quot;&gt;@color/navy_900&lt;/item&gt;
-    &lt;item name=&quot;colorSecondary&quot;&gt;@color/green_300&lt;/item&gt;
-    &lt;item name=&quot;colorSecondaryVariant&quot;&gt;@color/green_900&lt;/item&gt;
-    &lt;!-- Using default values for colorOnPrimary, colorSurface, colorError, etc. --&gt;
-&lt;/style&gt;
- 
- 
-&lt;!-- In res/values-night/themes.xml --&gt;
-&lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.App.Base&quot;&gt;
-    ...
-    &lt;item name=&quot;colorPrimary&quot;&gt;@color/navy_500&lt;/item&gt;
-    &lt;item name=&quot;colorPrimaryVariant&quot;&gt;@color/navy_900&lt;/item&gt;
-    &lt;item name=&quot;colorSecondary&quot;&gt;@color/green_300&lt;/item&gt;
-    &lt;item name=&quot;colorSecondaryVariant&quot;&gt;@color/green_300&lt;/item&gt;
-    &lt;!-- Using default values for colorOnPrimary, colorSurface, colorError, etc. --&gt;
-&lt;/style&gt;
-</code></pre>
-<p>Material 组件将根据主题全局应用您覆盖好的颜色:<br>
-<img src="https://jgduan.github.io//post-images/1625415001473.gif" alt="" loading="lazy"></p>
-<hr>
-<h2 id="颜色复用性和最佳实践">颜色复用性和最佳实践</h2>
-<p>在许多情况下，都要在布局、可绘制对象、样式和其他位置使用颜色。我们将介绍一些可尽量复用代码的方法，而且不会影响您在应用主题中指定的色值。</p>
-<hr>
-<h2 id="首选属性">首选属性</h2>
-<p>我们强烈建议使用 ?attr/ 语法来设置颜色。在创建可复用的布局和支持多个模式 (如浅色/深色) 的默认样式时，尤其推荐使用这种语法。</p>
-<pre><code class="language-java">&lt;Button
-    ...
--    app:backgroundTint=&quot;@color/green_300&quot;
-+    app:backgroundTint=&quot;?attr/colorPrimary&quot;
--    android:textColor=&quot;@color/black&quot;
-+    android:textColor=&quot;?attr/colorOnPrimary&quot;
-/&gt;
-</code></pre>
-<p>请参阅 Nick Butcher 的<a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808ce90bb7fb601dd9e144ae796eb466a2ed805bf14dbc0906543509d95c24733b05bd7fc12c&amp;idx=2&amp;mid=2652064078&amp;scene=21&amp;sn=884a85bfa4f9e19ec531b8245dca6314#wechat_redirect">《Android 样式系统 | 主题背景属性》</a>，以了解更多说明和此规则的一些例外情况。</p>
-<hr>
-<h2 id="带有-alpha-的颜色">带有 alpha 的颜色</h2>
-<p>有时，您可能希望使用 MDC 主题中的一种颜色，但带上 alpha 值 (例如 60% 的 colorPrimary)。例如，触发点击时的波纹动画和项目被选中的状态。</p>
-<p>Android<code>&lt;color&gt;</code>资源支持 alpha 通道:</p>
-<pre><code class="language-java">&lt;!-- 60% alpha = 99 --&gt;
- 
- 
-&lt;color name=”navy_700_alpha_60”&gt;#9937596D&lt;/color&gt;
-</code></pre>
-<p>但是，在使用此方法时，我们需要将每个带 alpha 的色值视作颜色资源。这也意味着我们不能用 ?attr/ 来使用这些颜色资源，因为这种做法违背了上文提及的唯一来源准则。</p>
-<p>因此，我们建议使用 res/color 目录中存储的 ColorStateList (CSL)。CSL 里的项目可以包含一个颜色引用和 alpha 值，这非常适合我们的用例:</p>
-<pre><code class="language-java">&lt;!-- In res/color/primary_60.xml --&gt;
-&lt;selector ...&gt;
-    &lt;item android:alpha=&quot;0.6&quot; android:color=&quot;?attr/colorPrimary&quot; /&gt;
-&lt;/selector&gt;
-</code></pre>
-<p>使用这些 CSL (通过 @color/primary_60 语法进行引用) 可能会让您感到惊讶，但考虑到 CSL 本身也使用 ?attr/ 来引用底层的主题颜色，因此这样做不会有什么问题。</p>
-<hr>
-<h2 id="每种状态的颜色和主题叠加">每种状态的颜色和主题叠加</h2>
-<p>更为常见的情况是根据视图状态使用 ColorStateList 切换颜色 (和 alpha 值)。MDC widget 大量将其用于禁用状态、悬停状态和按压状态等。比如下面是一个 MDC 按钮的背景色源代码:</p>
-<pre><code class="language-java">&lt;!-- In button/res/color/mtrl_btn_bg_color_selector.xml --&gt;
-&lt;selector ...&gt;
-    &lt;item android:color=&quot;?attr/colorPrimary&quot; android:state_enabled=&quot;true&quot; /&gt;
-    &lt;item android:alpha=&quot;0.12&quot; android:color=&quot;?attr/colorOnSurface&quot; /&gt;
-&lt;/selector&gt;
-</code></pre>
-<ul>
-<li>完整源代码<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/res/color/mtrl_btn_bg_color_selector.xml</li>
-</ul>
-<p>和上面这个按钮的示例类似，假设您希望将主背景色从主色改为辅色:<br>
-<img src="https://jgduan.github.io//post-images/1625415175159.png" alt="" loading="lazy"><br>
-△ 主色按钮 (左) 和辅色按钮 (右)</p>
-<p>您当然可以将以上源文件复制一份，然后将 colorPrimary 改为 colorSecondary，但如果源代码恰巧发生更改，那么此操作会很繁琐且会出现问题。</p>
-<p>一种更好的方式是使用主题叠加。Nick Butcher 在他的<a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808cf83fb7fb71294558ac5b10882278fb1f53ed3fd7038013c19d2554ff85e20b014fe9ac4b&amp;idx=1&amp;mid=2652067962&amp;scene=21&amp;sn=71a1bc1726c40ccda245f366ae4a51bb#wechat_redirect">《Android 样式系统 | 主题背景覆盖》</a>一文中对此有详细的介绍。基本上，我们可以替换 View 或 ViewGroup 的主题属性值 (在我们例子中为 colorPrimary) 以及所有依赖它的项目 (在我们的例子中为按钮)。</p>
-<p>下面是一个主题叠加的简单例子。请注意 parent 为空，其作用是确保我们仅覆盖希望更改的属性:</p>
-<pre><code class="language-java">&lt;!-- In res/values/themes.xml --&gt;
-&lt;style name=&quot;ThemeOverlay.App.PrimarySecondary&quot; parent=&quot;&quot;&gt;
-    &lt;item name=&quot;colorPrimary&quot;&gt;?attr/colorSecondary&lt;/item&gt;
-    &lt;item name=&quot;colorOnPrimary&quot;&gt;?attr/colorOnSecondary&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
-<p>在 XML 中应用主题叠加时，应考虑两个选项:</p>
-<ul>
-<li>android:theme - 用于所有 widget，不会以默认样式工作</li>
-<li>app:materialThemeOverlay - 仅用于 MDC widget，以默认样式工作</li>
-</ul>
-<pre><code class="language-java">&lt;Button
-    ...
-    &lt;!-- Alternatively apply with android:theme --&gt;
-+    app:materialThemeOverlay=&quot;@style/ThemeOverlay.App.PrimarySecondary&quot;
-/&gt;
-</code></pre>
-<hr>
-<h2 id="api-兼容性">API 兼容性</h2>
-<p>平台是在 API 23 才开始在 CSL 等处增加对 ?attr/ 语法的支持。如果您的 minSdk 是更早的版本，也不要担心: 有兼容性类！事实上，MDC 和 AppCompat widget 都有在底层使用这些兼容性类，因此在使用时无需其他操作。</p>
-<p>对于需要以编程方式使用 CSL 的场景，请使用 AppCompatResources:</p>
-<pre><code class="language-java">val primary60 = AppCompatResources#getColorStateList(
-    context, R.color.primary60
-)
-</code></pre>
-<ul>
-<li>AppCompatResources<br>
-https://developer.android.google.cn/reference/androidx/appcompat/content/res/AppCompatResources</li>
-</ul>
-<hr>
-<h2 id="mdc-widget-中的颜色">MDC widget 中的颜色</h2>
-<p>之前我们曾说过，MDC widget 会响应主题级别的颜色属性覆盖。但是，您是如何知道按钮会将 colorPrimary 用作其背景着色并将 colorOnPrimary 用于其图标和文本呢？让我们来看一下几个选项。</p>
-<hr>
-<h2 id="构建-material-主题">构建 Material 主题</h2>
-<p>构建 Material 主题是一个交互式 Android 项目，支持您通过自定义颜色、字体和形状来创建自己的 Material 主题。项目还包含所有主题中用到的参数和组件的目录。可通过执行以下操作确定哪些 widget 会对主题颜色属性的更改作出响应:</p>
-<ul>
-<li>
-<p>复制这个项目并在 Android Studio 中运行应用</p>
-</li>
-<li>
-<p>调整 res/values/color.xml 以及 res/values/themes.xml 和 res/values-night/themes.xml 中的色值</p>
-</li>
-<li>
-<p>重新运行应用，观察视觉变化</p>
-</li>
-<li>
-<p>构建 Material 主题<br>
-https://material.io/resources/build-a-material-theme</p>
-</li>
-<li>
-<p>项目源代码<br>
-https://github.com/material-components/material-components-android-examples/tree/develop/MaterialThemeBuilder</p>
-</li>
-</ul>
-<p><img src="https://jgduan.github.io//post-images/1625415351635.png" alt="" loading="lazy"><br>
-△ 构建 Material 主题中的色值变化</p>
-<hr>
-<h2 id="mdc-开发者文档">MDC 开发者文档</h2>
-<p>最近我们更新了 MDC 开发者文档。在本次更新中，我们加入了属性表，涵盖了开发库中所使用的设计术语和默认值。例如下面是更新的按钮文档的 &quot;Anatomy and key properties&quot; (详解和关键属性) 部分。<br>
-<img src="https://jgduan.github.io//post-images/1625415378990.png" alt="" loading="lazy"><br>
-△ MDC 按钮开发文档的属性表中提供了默认色值</p>
-<ul>
-<li>按钮文档<br>
-https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md</li>
-</ul>
-<hr>
-<h2 id="源代码">源代码</h2>
-<ul>
-<li>
-<p>MaterialButton 样式<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/res/values/styles.xml</p>
-</li>
-<li>
-<p>MaterialButton 属性<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/res/values/attrs.xml</p>
-</li>
-<li>
-<p>MaterialButton 源文件<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/MaterialButton.java</p>
-</li>
-</ul>
-<p><img src="https://jgduan.github.io//post-images/1625415449219.png" alt="" loading="lazy"><br>
-△ MDC 按钮的默认样式和色值</p>
-<hr>
-<h2 id="自定义视图中的颜色">自定义视图中的颜色</h2>
-<p>您的应用可能包含您自己构建或从现有库中获得的自定义 widget。在和 MDC 一起使用时，使这些视图对 Material 主题作出响应非常必要。让我们看一看在将颜色主题用于自定义 widget 时需要牢记的事项。</p>
-<p>在<code>&lt;declare-styleable&gt;</code>和默认样式中使用 MDC 属性</p>
-<p>为自定义视图设置样式需要使用<code>&lt;declare-styleable&gt;</code>。在保持一致性方面，复用 MDC 中的属性名称非常有用。使用<code>&lt;declare-styleable&gt;</code>的默认样式还可以使用 MDC 主题颜色属性:</p>
-<pre><code class="language-java">&lt;!-- In res/values/attrs.xml --&gt;
-&lt;declare-styleable name=&quot;AppCustomView&quot;&gt;
-    &lt;attr name=&quot;backgroundTint&quot; /&gt;
-    &lt;attr name=&quot;titleTextColor&quot; /&gt;
-    ...
-&lt;/declare-styleable&gt;
- 
- 
-&lt;!-- In res/values/styles.xml --&gt;
-&lt;style name=&quot;Widget.App.CustomView&quot; parent=&quot;android:Widget&quot;&gt;
-    &lt;item name=&quot;backgroundTint&quot;&gt;?attr/colorSurface&lt;/item&gt;
-    &lt;item name=&quot;titleTextColor&quot;&gt;
-        @color/material_on_surface_emphasis_high_type
-    &lt;/item&gt;
-    ...
-&lt;/style&gt;
-</code></pre>
-<hr>
-<h2 id="materialcolors-实用程序类">MaterialColors 实用程序类</h2>
-<p>可以通过便利的新 MDC 类 (MaterialColors) 以编程方式处理主题的颜色属性，这对于自定义视图也非常有用:</p>
-<pre><code class="language-java">// Resolve color from theme attr
-val primaryColor = MaterialColors.getColor(
-    view, R.attr.colorPrimary
-)
- 
- 
-// Layer background color with overlay color + alpha
-val overlayedColor = MaterialColors.layer(
-    view, R.attr.colorSurface, R.attr.colorPrimary, 0.38f
-)
-</code></pre>
-<hr>
-<h2 id="下一步">下一步</h2>
-<p>现在，我们已经在 Android 应用中使用 MDC 实现了颜色主题。有关 Material 主题的其他课题，请阅读我们相关的介绍文章。</p>
-<ul>
-<li>
-<p>为什么推荐使用 MDC<br>
-https://medium.com/androiddevelopers/we-recommend-material-design-components-81e6d165c2dd</p>
-</li>
-<li>
-<p>字体主题<br>
-https://material.io/blog/android-material-theme-type</p>
-</li>
-<li>
-<p>形状主题<br>
-https://material.io/blog/android-material-theme-shape</p>
-</li>
-<li>
-<p>深色主题<br>
-https://medium.com/androiddevelopers/dark-theme-with-mdc-4c6fc357d956</p>
-</li>
-<li>
-<p>动效系统<br>
-https://material.io/blog/android-material-motion</p>
-</li>
-</ul>
-<p>我们一如既往地期待您在 GitHub 上提交错误报告和功能需求。另外，请务必查看 Android 组件示例应用。</p>
-<ul>
-<li>
-<p>提交错误报告<br>
-https://github.com/material-components/material-components-android/issues/new?assignees=&amp;labels=bug&amp;template=bug_report.md&amp;title=%5BComponent+name%5D+Short+description+of+issue</p>
-</li>
-<li>
-<p>提交功能需求<br>
-https://github.com/material-components/material-components-android/issues/new?assignees=&amp;labels=feature+request&amp;template=feature_request.md&amp;title=%5BComponent+name%5D+Short+description+of+request</p>
-</li>
-<li>
-<p>Android 组件示例应用<br>
-https://github.com/material-components/material-components-android-examples</p>
-</li>
-</ul>
-<p>如果您已成功实现颜色主题或您在实现期间遇到问题，欢迎在下方评论区和我们分享。</p>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【转】打造 Material 颜色主题 | 设计篇]]></title>
-        <id>https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-she-ji-pian/</id>
-        <link href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-she-ji-pian/">
-        </link>
-        <updated>2021-07-01T15:02:38.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>本文转自<a href="https://blog.csdn.net/jILRvRTrc/article/details/109475532">CSDN-谷歌开发者 打造 Material 颜色主题 | 设计篇</a><br>
-<em>作者 / Liam Spradlin, Material Design Advocate</em></p>
-</blockquote>
-<p>颜色是设计中最清晰的表现形式之一，尤其是当您需要在人们的各种活动场合中传播您的品牌或产品形象时。应用的界面可容纳丰富的颜色，不仅可以用于打造产品形象，而且由于用户可以直接触摸和操作界面，因此在传播产品形象的同时又能与用户的生活和体验紧密联系，并增强产品的功能、实用性和个性。</p>
-<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzAwODY4OTk2Mg%3D%3D&amp;action=getalbum&amp;album_id=1340817101657014273#wechat_redirect">Material Design</a> 包含全面的颜色系统，可以让设计师和开发者制定全局颜色决策，并能够有效管理界面状态、强调重点和对比度等问题，使这些颜色决策贯穿于产品的各个层级。</p>
-<hr>
-<h1 id="material-中的颜色">Material 中的颜色</h1>
-<p>为了实现上述目标，Material 使用一组定义好的颜色取值，构成 &quot;颜色主题&quot;。颜色主题包含主要 (Primary) 颜色和次要 (Secondary) 颜色，它们可用于关键组件，另外还包含用于自定义背景 (Background) 色、表面 (Surface) 颜色 (用于呈现抬升的表面或 &quot;纸张&quot;) 和错误 (Error) 颜色的色值。<br>
-<img src="https://jgduan.github.io//post-images/1625152307401.png" alt="基准 Material 颜色主题" loading="lazy"><br>
-△ 基准 Material 颜色主题</p>
-<p>还有一些色值用于 &quot;On&quot; 颜色，顾名思义，它们是出现在其他元素上方的颜色。例如，On Primary 可用于呈现在应用的主要颜色上方显示的文本、图标或其他元素。比如下图展示了带有菜单图标和标题的应用栏，其中的图表和文字都使用 &quot;On&quot; 颜色来确保内容具备适当的对比度和可读性。<br>
-<img src="https://jgduan.github.io//post-images/1625152360593.png" alt="" loading="lazy"></p>
-<p>对于诸如状态等更加细微的颜色使用场景，Material 使用 &quot;色调调色板&quot;。色调调色板会基于您所选择的颜色提供一组十个值，提供了减淡和加深的选项，可使您的颜色主题更加灵活。<br>
-<img src="https://jgduan.github.io//post-images/1625152382453.png" alt="" loading="lazy"></p>
-<p>△ 上图中的界面使用主要颜色以及两个主要颜色变体，并应用到所有组件中</p>
-<hr>
-<h1 id="选择品牌颜色">选择品牌颜色</h1>
-<h2 id="从头开始">从头开始</h2>
-<p>如果您要从头开始构建颜色主题，也就是说如果您没有现成的品牌调色板，那么最好先充分思考您应用的特质。在我们的 Material Studies 专栏 (基于现实用例和产品约束设计的示例应用) 中，您可以看到根据各种应用的功能和个性所采用的多种基于颜色的品牌化方案。</p>
-<ul>
-<li>
-<p>Material Studies<br>
-https://material.io/design/material-studies/about-our-material-studies.html</p>
-<p>您的应用是否像暗色调的个人理财应用 Rally 一样，是一款可以帮助人们高效解析信息的实用工具？是否像现代而精致的购物应用 Shrine 一样，能够以精致的美学和粉红色调激发用户的兴趣？或者，也许像教育应用 Owl 一样，能够通过生动的配色来提供更加有趣的教学体验。在每个用例中，颜色在打造和增强应用的个性方面都起着重要作用。<br>
-<img src="https://jgduan.github.io//post-images/1625152528876.png" alt="" loading="lazy"><br>
-△ Rally 的每个信息图表都使用了两种取自其颜色主题的颜色</p>
-<p>对于像 Rally 这样的应用而言，其功能旨在查看和管理个人财务数据，因此必须选用一种深沉的配色方案。该应用的主要颜色为绿色，On 颜色为白色，背景色则为深灰色调。其他颜色均极为深沉，用于在各种信息展示界面中以实用的方式呈现数据。</p>
-</li>
-<li>
-<p>Rally<br>
-https://material.io/design/material-studies/rally.html</p>
-<p><img src="https://jgduan.github.io//post-images/1625152585442.png" alt="" loading="lazy"><br>
-△ Owl 使用三种颜色主题来区分应用中的不同部分</p>
-<p>与 Rally 截然相反，Owl 通过在其颜色主题中使用三种不同的主要颜色，打造出鲜活有趣的使用氛围。尽管 Owl 事实上可以被视为在同一个应用中采用了三种不同的颜色主题，但这些颜色却因生动鲜明的共同特征而紧密关联 (它们各自趋近色轮中的三原色: 红、黄、蓝)。</p>
-</li>
-<li>
-<p>Owl<br>
-https://material.io/design/material-studies/owl.html</p>
-<p><img src="https://jgduan.github.io//post-images/1625152619523.png" alt="" loading="lazy"><br>
-△ Shrine 在关健组件和版面设计中采用了简单的颜色主题</p>
-<p>Shrine 则介于以上两款应用之间。这款应用具有个性鲜明的色彩表现，使用奶油粉色调作为主要颜色和次要颜色，并使用深棕色作为 On 颜色。虽然 Shrine 的调色板十分独特，但在应用中以专注而精致的方式应用这种色调，能够体现出 Shrine 想要展现的个性形象，打造出一个现代而优雅的时尚和生活购物助手。</p>
-</li>
-<li>
-<p>Shrine<br>
-https://material.io/design/material-studies/shrine.html</p>
-<p>从头开始制作自己的主题时，请考虑您的应用在上述示例所覆盖的范围中所处的位置。首先，请选择一种能够最贴切地表达应用个性和用途的主要颜色。然后，根据您对应用观感的设想，选择可以增强或调节这些特质的次要颜色。请考虑如何使用 On 颜色，或对表面或背景应用新的颜色以增强表现力。</p>
-</li>
-</ul>
-<h2 id="如果您已有品牌调色板">如果您已有品牌调色板</h2>
-<p>在为您的应用构建颜色主题时，您可能已经具有可以轻松转换为 Material 颜色主题的品牌调色板。这种情况下，您可能已经拥有品牌指南，其中涵盖了应优先考虑的颜色以及如何概念化品牌个性或色调方面的内容。您可以将指南内容与前文提到的信息相结合，确定要在颜色主题中包含哪些颜色。</p>
-<p>如果您已有品牌调色板但没有指南，请浏览现有的品牌物料或界面设计，然后与调色板进行对比，确定应优先考虑采用哪些颜色作为主要颜色和次要颜色。测试这些颜色以确定它们是否能带来方便阅读的对比度。如果效果不佳，您可以从色调调色板中选择效果理想的颜色变体。</p>
-<ul>
-<li>测试颜色<br>
-https://material.io/tools/color</li>
-</ul>
-<h2 id="使用调色板生成器扩展调色板">使用调色板生成器扩展调色板</h2>
-<p>基于确定下来的几种颜色，可以使用调色板生成器对颜色取值进行扩展，从而满足更多场合的需求。只需在生成器右侧添加所选颜色，然后点击每个生成的色样即可复制其十六进制色值。</p>
-<ul>
-<li>
-<p>调色板生成器<br>
-https://material.io/design/color/the-color-system.html#tools-for-picking-colors</p>
-<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1625152728551.png" alt="" loading="lazy"></figure>
-</li>
-</ul>
-<h2 id="呈现主题">呈现主题</h2>
-<p>选择一些颜色并将其扩展为色调调色板后，您就可以通过将颜色代入到 Material Design 提供的色谱中来实际创建颜色主题了。</p>
-<ul>
-<li>
-<p>色调调色板<br>
-https://material.io/design/color/the-color-system.html#tools-for-picking-colors</p>
-<p>要在设计工具中进行此操作 (并在 Material Components 上获得主题的即时预览)，请下载我们的 Figma 基准设计工具包。在工具包内的 Material Theme 页面中，您将看到一个名为 Color 的框架，该框架全面展示了您的颜色主题，包括了色调调色板。</p>
-</li>
-<li>
-<p>Figma 基准设计工具包<br>
-https://www.figma.com/@materialdesign</p>
-<figure data-type="image" tabindex="2"><img src="https://jgduan.github.io//post-images/1625152787143.png" alt="" loading="lazy"></figure>
-<p>在上图右侧，您会看到一个面板，在 Color Styles 下方包含了与主题中的颜色相符的全局样式。要开始将颜色插入到主题中，请点击每种颜色样式旁边的编辑图标。返回到生成器中的色调调色板，然后点击工具中的每个色样以复制其十六进制色值，然后将其输入到 Figma 中您选择的样式中。</p>
-</li>
-</ul>
-<figure data-type="image" tabindex="3"><img src="https://jgduan.github.io//post-images/1625152807417.png" alt="" loading="lazy"></figure>
-<p>当主要颜色和次要颜色的色样处理完成后，请查看 Figma 界面左边的 Stickersheet 页面以查看主题在每个组件上的显示效果。</p>
-<hr>
-<h1 id="下一步-实现">下一步: 实现</h1>
-<p>完成了上述操作后，您还可以尝试调整表面、背景和错误颜色来优化这个全新的颜色主题。您也可以尝试通过创建多个主题 (例如上文中的 Owl 示例) 来利用颜色系统实现更多创意。</p>
-<p>在创建出完美的颜色主题后，您就可以准备实现它了。请大家关注我们接下来会发布的文章<a href="https://blog.csdn.net/jILRvRTrc/article/details/109567406">《打造 Material 颜色主题 | 实现篇》</a>。</p>
-<hr>
-<h1 id="推荐阅读">推荐阅读</h1>
-<ul>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808cf031b7fb79276e6792f13b342073c99a0b8118a9bb2b6b995a5cad6fa57dc58b55993e07&amp;idx=1&amp;mid=2652065908&amp;scene=21&amp;sn=8af70145ec89870c138818a38f005ed0#wechat_redirect">跨设备设计基础 | 如何确定任意屏幕的分辨率指标</a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808cec31b7fb65275fa39b276c69cf670cfcd8f2395b532953c27bb48d368fe40638a225d4f1&amp;idx=1&amp;mid=2652064884&amp;scene=21&amp;sn=e407e1d047f415309b7b120e1265ce9c#wechat_redirect">使用 Material Design 组件实现深色主题</a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808ce8fbb7fb61ede45fa93a0d8d5464935f48f28601f2db5d5ea8d60863fe2392f2361cffae&amp;idx=1&amp;mid=2652063934&amp;scene=21&amp;sn=caeaec14e70b7569c06503b1bb04138b#wechat_redirect">Android Material 组件 1.2.0 现已发布</a></li>
-</ul>
 <hr>
 ]]></content>
     </entry>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【InterView】Android基础知识回顾 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1627919066235">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="一、Android基础架构
+
+
+Android 系统架构
+
+Android的系统架构采用分层架构的思想，架构清晰，层次分明，协同工作且各模块之间进行了高度解耦。
+
+
+Linux Kernel
+Linux内核层：Android最底层最核心的部..." />
+    <meta name="keywords" content="面试" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1627919066235" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【InterView】Android基础知识回顾</h2>
+            <div class="post-date">2021-08-02</div>
+            
+              <div class="feature-container" style="background-image: url('https://jgduan.github.io//post-images/interview-android-ji-chu-zhi-shi-hui-gu.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-android基础架构">一、Android基础架构</h1>
+<ul>
+<li>
+<p><strong>Android 系统架构</strong><br>
+<img src="https://jgduan.github.io//post-images/1627916220584.jpg" alt="" loading="lazy"><br>
+Android的系统架构采用分层架构的思想，架构清晰，层次分明，协同工作且各模块之间进行了高度解耦。</p>
+<ul>
+<li>
+<p>Linux Kernel<br>
+Linux内核层：Android最底层最核心的部分，为Android提供了核心的系统服务，如：安全系统、内存管理、进程管理、硬件驱动等。</p>
+</li>
+<li>
+<p>Libraries、Android Runtime<br>
+系统运行库层：当使用Android应用框架时，Android系统会通过一些C/C++库来支持我们使用的各个组件，使其更好的为我们服务，比如其中的SQLite（关系数据库），Webkit（Web浏览器引擎）。</p>
+</li>
+<li>
+<p>Application Framework<br>
+应用框架层：这一层是编写Google发布的核心应用时所使用的API框架，开发人员同样可以使用这些框架来开发自己的应用，这样便简化了程序开发的结构设计，但是必须要遵守其框架的开发原则。</p>
+</li>
+<li>
+<p>Applications<br>
+应用层：应用是用java语言编写的运行在虚拟机上的程序，比如Email客户端，SMS短消息程序，日历等。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Android 架构总览</strong><br>
+<img src="https://jgduan.github.io//post-images/1627916089526.png" alt="" loading="lazy"><br>
+详细解析请移步：<a href="https://source.android.google.cn/devices/architecture">Google官方文档</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="二-android四大组件">二、Android四大组件</h1>
+<ul>
+<li>
+<p><strong>Activity</strong><br>
+活动，作为Android系统中的人机交互的第一界面，负责向用户展示信息和处理结果。<br>
+一个App中，至少要有一个Activity。</p>
+</li>
+<li>
+<p><strong>ContentProvider</strong><br>
+内容提供者，为不同的应用之间的数据共享提供统一的接口。</p>
+<blockquote>
+<p>Android系统中，处于安全性的考虑，应用内的数据是对外隔离的，要想让其它应用能够使用自己的数据（如：通讯录等），这个时候就需要使用ContentProvider来进行应用间数据的共享。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Service</strong><br>
+服务，可以在后台长时间的运行，不提供用户界面。一个应用程序组件可以启动一个服务，它可以在后台/前台运行。此外，一个组件可以绑定到一个服务与它交互，甚至执行进程间通信(IPC)。例如，一个服务可能处理网络通信、播放音乐、计时操作或与一个内容提供者交互，都在后台执行。</p>
+<p>服务从大方向可分为系统服务与应用本地服务（LocalService）。</p>
+</li>
+<li>
+<p><strong>BroadCastReceiver</strong><br>
+广播接收器，用于接收应用内、外发出的广播消息。<br>
+广播同样可以分为系统广播与应用内广播。</p>
+</li>
+</ul>
+<hr>
+<h1 id="三-contenxt">三、Contenxt</h1>
+<p><img src="https://jgduan.github.io//post-images/1627917516063.webp" alt="" loading="lazy"><br>
+Android上下文对象，用于联系Android应用内的上下沟通，通过它，我们可以获取到应用程序的资源（字符串、图片等），也可以进行广播的收发、服务的启动、接受Intent等。</p>
+<p>Application、Activity、Service都继承自Context，在其onCreate时，都会创建对应的Context对象，它们所创建的Context对象的生命周期与其本身相关联。</p>
+<hr>
+<h1 id="四-android视图架构">四、Android视图架构</h1>
+<figure data-type="image" tabindex="1"><img src="https://jgduan.github.io//post-images/1627917650204.png" alt="" loading="lazy"></figure>
+<ul>
+<li>
+<p>一个Activity对应一个Window（一般为PhoneWindow，这个时候，Activity还没有任何东西展示给用户看）；</p>
+</li>
+<li>
+<p>DecorView实际上才是我们真正看得见摸得着的视图范围，一个Decor View一般包括一个TitleView与一个ContentView，DecorView的所有点击时间，都是通过WMS进行接收，并通过Activity对象来响应对应的OnClickListener；</p>
+</li>
+<li>
+<p>ContentView是一个id为content的FragmentLayout，只有我们在Activity的onCreate中调用setContentView方法设置要显示的View后，ContentView才有内容展示给用户。</p>
+</li>
+</ul>
+<hr>
+<h1 id="五-android控件树">五、Android控件树</h1>
+<p><img src="https://jgduan.github.io//post-images/1627917712990.png" alt="" loading="lazy"><br>
+当Activity在onCreate中调用setContentView后，AMS会调用Activity的onResume方法，这是系统会把DecorView添加到PhoneWindow中，这时界面内容才会展示给用户看到。</p>
+<hr>
+<h1 id="六-view相关">六、View相关</h1>
+<ul>
+<li>
+<p><strong>View的测量</strong><br>
+View的测量，一般在onMeasure中进行，自定义View如果想要适配warp_content的话，一定要重写onMeasure方法对View大小进行测量；</p>
+<p>View测量的关键是MeasureSpec，它是一个32位的数据，高两位表示对应的测量模式，总共有以下三种测量模式：</p>
+<ul>
+<li>EXACFLY<br>
+精确模式：只有在指定View宽高数值或match_parent的情况下，才会使用。<br>
+它也是默认的测量模式，不重写onMeasure方法，是不能使用其它测量模式的。</li>
+<li>AL_MOST<br>
+最大值模式：只有设置warp_content的情况下，才会使用这种测量模式。</li>
+<li>UNSPECIFIED<br>
+不指定大小的测量模式，这个模式比较奇怪，View想多大就可以多大，通常只有在绘制自定义View的时候才有可能会用到。</li>
+</ul>
+</li>
+<li>
+<p><strong>View的绘制</strong><br>
+View的绘制在onDraw(Canvas canvas)方法中进行，绘制View必须在画布（Canvas）上进行。</p>
+</li>
+</ul>
+<hr>
+<h1 id="七-viewgroup相关">七、ViewGroup相关</h1>
+<ul>
+<li>
+<p><strong>ViewGroup测量</strong><br>
+当ViewGroup的大小为warp_content时，ViewGroup就需要对其子View进行遍历，以便获得所有子View的大小，通过计算从而决定自己的大小。而在其它情况下，会通过具体的指定值来设置自身的大小。</p>
+<p>ViewGroup在测量时通过遍历所有的子View，从而调用子View的Measure方法来获得每一个子View的测量结果。</p>
+<p>当子View完成测量后，ViewGroup在执行Layout的过程时，同样会通过遍历子View的Layout方法，来指定其具体的显示位置，从而决定其布局位置。</p>
+<p>在自定义ViewGroup时，通常会重写onLayout方法来控制子View的显示逻辑，如果需要支持warp_content的话，还需要重写onMeasure方法。</p>
+</li>
+<li>
+<p><strong>ViewGroup的绘制</strong><br>
+ViewGroup通常情况下不需要绘制，因为它本身没有需要绘制的东西。</p>
+<p>ViewGroup会通过dispatchDraw方法来绘制其子View，其过程同样是遍历子View，并调用子View的绘制方法来完成绘制工作。</p>
+</li>
+</ul>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/PIRHmYVa-/" class="tag">
+                    面试
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/interview-android-zhi-shi-hui-gu/">
+                  <h3 class="post-title">
+                    【InterView】Android知识回顾
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1627919066235">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1628003153067">
 <link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@ Linux内核层：Android最底层最核心的部..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://jgduan.github.io/">
-        <img src="https://jgduan.github.io//images/avatar.png?v=1627919066235" class="site-logo">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1628003153067" class="site-logo">
         <h1 class="site-title">Zihao&#39;s blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -222,6 +222,101 @@ View的绘制在onDraw(Canvas canvas)方法中进行，绘制View必须在画布
 <p><strong>ViewGroup的绘制</strong><br>
 ViewGroup通常情况下不需要绘制，因为它本身没有需要绘制的东西。</p>
 <p>ViewGroup会通过dispatchDraw方法来绘制其子View，其过程同样是遍历子View，并调用子View的绘制方法来完成绘制工作。</p>
+</li>
+<li>
+<p><strong>自定义一个可滑动的ViewGroup</strong></p>
+<ul>
+<li>重写<code>onMeasure()</code>方法来对所有的子View进行测量；</li>
+<li>重写<code>onLayout()</code>方法来确定调整子View的位置；</li>
+<li>重写<code>onTouchEvent()</code>方法来添加对应的滑动响应时间，通过<code>scrollBy()</code>方法来辅助视图的滑动，如果要添加手指离开屏幕的粘性回弹效果，可以通过<code>Scroller</code>类来进行对应的控制。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="八-事件拦截机制">八、事件拦截机制</h1>
+<blockquote>
+<p>当Android系统捕获到用户的各种输入事件后，如何准确地传递给真正需要这个事件的控件呢？<br>
+Android给我们提供了一套完整的事件传递、处理机制来帮助开发者完成准确的事件分配与处理。</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>什么是触摸事件</strong><br>
+触摸事件就是捕获触摸屏幕后产生的事件。<br>
+当点击一个按钮时，通常就会产生两个或者三个事件——按下，滑动，抬起。</p>
+</li>
+<li>
+<p><strong>MotionEvent(运动事件)</strong><br>
+Android为触摸事件封装了一个类——<code>MotionEvent</code>，如果重写<code>onTouchEvent()</code>方法，你就会发现该方法的参数就是一个<code>MotionEvent</code>对象。<br>
+MotionEvent类里面封装了需要事件相关的东西，如触摸点的坐标，可以通过<code>event.getX()</code>方法和<code>event.getRawX()</code>方法取出坐标点；再比如获取点击事件的类型，可以通过不同的<code>Action(如：MotionEvent.ACTION_DOWN，MotionEvent.ACTION_MOVE，MotionEvent.ACTION_UP)</code>来进行区分，并实现不同的逻辑。</p>
+</li>
+<li>
+<p><strong>触摸事件的拦截</strong></p>
+</li>
+</ul>
+<blockquote>
+<p>dispatchTouchEvent--派遣 / 调度触摸事件<br>
+onInterceptToucheEvent 拦截 / 截获触摸事件<br>
+onTouchEvnet 触摸事件响应<br>
+方法的执行顺序：假设从上到下有ViewGroup_A，ViewGroup_B，View_C方法，那么在事件传递时的调用顺序：<code>ViewGroup_A#dispatchTouchEvent()-&gt;ViewGroup_A#onInterceptToucheEvent()-&gt;ViewGroup_B#dispatchTouchEvent()-&gt;ViewGroup_B#onInterceptToucheEvent()-&gt;View_C#dispatchTouchEvent()</code>；<br>
+在事件响应时的调用顺序：<code>View_C#onTouchEvent()-&gt;ViewGroup_B#onTouchEvent()-&gt;ViewGroup_A#onTouchEvent()</code>。<br>
+Android中的View是以<strong>树形结构</strong>分布的，事件传递是自上而下（从最外层的ViewGroup传递到最下层的View）的，事件的响应处理顺序是自下而上（最下层的子View响应，然后通过<code>onTouchEvent()</code>方法逐级传递至最外层的ViewGroup），<strong>一个触摸事件的处理，是先自上而下进行事件传递，然后再自下而上进行事件处理（自上而下逐步下发指令，上级可直接拦截指令，自下而上逐步上报处理结果，下级可选择跳过不处理交给上级进行事件的处理）。</strong><br>
+- 事件传递<br>
+事件从最外层的ViewGroup传递到最下层的View逐步进行传递，这时会触发<code>dispatchTouchEvent()</code>方法与<code>onInterceptToucheEvent()</code>方法，ViewGroup相对View，多了<code>onInterceptToucheEvent()</code>方法，它是时间拦截的核心方法。<br>
+事件传递的过程中，我们一般通过<code>onInterceptToucheEvent()</code>方法来来接事件的传递，如果返回值是true，则表示当前View / ViewGroup拦截了触摸事件并将它消费掉了，不需要下面的子View / ViewGroup进行特殊的处理；如果返回值是false，则表示当前的View / ViewGroup不拦截消费触摸事件，事件将逐级传递给下面的View。<br>
+- 事件处理<br>
+事件从自下而上从View到最外层的ViewGroup逐步进行对应的响应处理，这时会触发<code>onTouchEvent()</code>方法，该方法返回true时表示事件已经被处理，不需要上级进行审核处理了；如果返回false，则表示当前View不对事件进行任何处理，交给上一层进行处理。</p>
+</blockquote>
+<hr>
+<h1 id="九-listview-recyclerview的优化技巧">九、ListView / RecyclerView的优化技巧</h1>
+<ul>
+<li>
+<p><strong>ViewHolder模式</strong><br>
+ViewHodler模式是提高视图列表效率的一个很重要的方法，它充分利用了试图列表的视图缓存机制，避免了每次在调用<code>getView()</code>时都去通过<code>findViewById()</code>来实例化控件，使用ViewHolder模式能够提高50%以上的效率，同时该缓存复用机制能够有效的降低因不断新建控件对象导致的内存开销。</p>
+</li>
+<li>
+<p><strong>ListView空处理</strong><br>
+当我们展示的数据内容为空时，ListView不会展示任何数据或者提示，如果我们需要在这种情况下完善用户需求，在数据为空时进行相应地提示，可以通过ListView提供的一个方法——<code>setEmptyView()</code>来设置空数据情况下的提示内容。</p>
+</li>
+<li>
+<p><strong>ListView的滑动监听</strong></p>
+<ul>
+<li>OnTouchListener</li>
+<li>OnScrollListener<br>
+OnScrollListener是AbsListView中提供的监听事件，它相对OnTouchListener更为灵活，有两个回调方法——<code>onScrollStateChanged()和onScroll()</code>（该方法在滚动时会一直调用）。</li>
+</ul>
+</li>
+<li>
+<p><strong>ListView弹性效果</strong><br>
+通过重写<code>overScrollBy()</code>方法，修改对应的返回值，如：将maxOverScrollY修改为非0值即可看到效果，数值越大越明显。（maxOverScrollY的默认值是0）</p>
+</li>
+</ul>
+<hr>
+<h1 id="十-scroll分析">十、Scroll分析</h1>
+<ul>
+<li>
+<p><strong>滑动效果是如何产生的</strong><br>
+滑动一个View，本质上就是移动一个View，它的原理与动画效果差不多——都是通过不断改变View的坐标来实现这一效果。因此，要实现View的滑动，必须先监听用户的触摸事件，并且根据事件传入的坐标动态且不断的变更View的坐标，从而实现View跟随用户触摸的滑动而滑动。</p>
+<p>Android坐标的原点，以屏幕左上角的位置为（0，0）开始。</p>
+</li>
+<li>
+<p><strong>发生滑动效果的原因</strong></p>
+</li>
+<li>
+<p><strong>如何处理、实现滑动效果</strong></p>
+<ul>
+<li>layout<br>
+通过<code>onTouchEvent()</code>获取用户触摸事件，在该方法内可以通过MotionEvent类获取对应的事件模式、获取对应的坐标，然后通过重写<code>layout()</code>方法调整View的left,top,right,bottom的偏移量来不断的改变子View的位置。</li>
+<li>offsetLeftAndRight()与offsetTopAndBottom()<br>
+也可以通过<code>offsetLeftAndRight()</code>与<code>offsetTopAndBottom()</code>方法来进行View的移动，这两个方法相当于系统提供给我们一个对左右、上下移动的API封装，当计算出对应的偏移量时，调用该方法即可完成对View的重新布局，效果与上面使用<code>layout()</code>方法是一样的。</li>
+<li>LayoutParams<br>
+LayoutParams保存了一个View的布局参数，因此可以通过改变LayoutParams来动态修改一个View的布局位置参数，从而达到改变View位置的效果。</li>
+<li>scrollTo与scrollBy<br>
+scrollTo(x,y)表示移动到一个具体的坐标点(x,y)；scrollBy(dx,dy)表示移动到增量的dx,dy。<br>
+<strong>scrollTo与scrollBy的移动只是移动了View的content——即只是移动了View内部包含的内容，并没有移动View本身；如果我们在ViewGorup调用该方法，会移动所有子View；如果在View中使用，那么移动的就是View的内容。通过设置偏移量的相反值即可达到移动效果。</strong></li>
+<li>scroller</li>
+<li>属性动画</li>
+<li>ViewDragHelper</li>
+</ul>
 </li>
 </ul>
 <hr>

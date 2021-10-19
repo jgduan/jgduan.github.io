@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Android】应用设置为Launcher时主Activity的onCreate启动了两次 | Zihao&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jgduan.github.io//favicon.ico?v=1634655270452">
+<link rel="stylesheet" href="https://jgduan.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="问题
+新项目的需求是把App设置为Launcher使用，每当首次在设备上安装应用启动后点击Home按键，都会弹出设置应用为主屏幕应用的弹窗，这是选择确认后发现主Activity又重新onCreate了一次（在这之前它会onDestory一次..." />
+    <meta name="keywords" content="Launcher,Android" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jgduan.github.io/">
+        <img src="https://jgduan.github.io//images/avatar.png?v=1634655270452" class="site-logo">
+        <h1 class="site-title">Zihao&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jgduan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Android】应用设置为Launcher时主Activity的onCreate启动了两次</h2>
+            <div class="post-date">2021-10-19</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="问题">问题</h1>
+<p>新项目的需求是把App设置为Launcher使用，每当首次在设备上安装应用启动后点击Home按键，都会弹出设置应用为主屏幕应用的弹窗，这是选择确认后发现主Activity又重新onCreate了一次（在这之前它会onDestory一次）。</p>
+<hr>
+<h1 id="解决办法">解决办法</h1>
+<p><strong>先说最终解决方法：这里是在AndroidManifest中设置主Activity的<code>android:configChanges=&quot;mcc|mnc&quot;</code>来解决的。</strong></p>
+<p>起初在遇到问题是，怀疑可能是以下几点导致的主Activity重建：</p>
+<ol>
+<li>因没有指定屏幕方向，在设置为Launcher时，屏幕发生翻转导致的；</li>
+<li>由于是定制机，考虑是否是ROM问题导致的多次创建；</li>
+<li>MCC MNC等Configuration改变引起的 MCC(移动国家码)和 MNC(移动网络码)。</li>
+</ol>
+<p>关于第一点，在Launcher设置为横屏后，这个问题就应该能解决掉，测试发现并没有；<br>
+在排查玩第二点后，这个问题仍然没能够解决，然后在网上找到了<a href="https://blog.csdn.net/qhs1573/article/details/42913475"><strong>Android应用设置为Launcher时onCreate启动俩次的问题</strong></a>这篇文章，才发现正确的解决方法。</p>
+<p>文章主要排查问题如下：<br>
+对于Configuration改变系统会发一个<code>android.intent.action.CONFIGURATION_CHANGED</code>的广播<br>
+于是就做了一个广播接收器去检测是不是由于Configuration改变引起的（后来发现Launcher本身有监听这个广播），果然发现<em>MCC值由0（未定义）变为460（中国）</em><br>
+原因已经初步确定了，那么怎么样才能让activity不再重启呢？<br>
+既然是activity重启，那就先去看一下activity有什么属性可以防止重启....<br>
+运气实在是好，刚好有这么个属性：<br>
+<code>android:configChanges=[&quot;mcc&quot;, &quot;mnc&quot;, &quot;locale&quot;, &quot;touchscreen&quot;, &quot;keyboard&quot;, &quot;keyboardHidden&quot;, &quot;navigation&quot;, &quot;screenLayout&quot;, &quot;fontScale&quot;, &quot;uiMode&quot;, &quot;orientation&quot;, &quot;screenSize&quot;, &quot;smallestScreenSize&quot;]</code></p>
+<p>官方的解释是这样的：</p>
+<blockquote>
+<p>Lists configuration changes that the activity will handle itself. When a configuration change occurs at runtime, the activity is shut down and restarted by default, but declaring a configuration with this attribute will prevent the activity from being restarted. Instead, the activity remains running and itsonConfigurationChanged() method is called.<br>
+大致意思也就是说：<br>
+那些被列举的属性configuration改变时activity是否保存自己的状态。当应用发生了configuration改变，默认情况下activity将关闭并重启自身，但是如果定义了这个属性，activity将不必重启，它将保持运行状态同时调用onConfigurationChanged()方法。也就是说当不配置android:configChanges=&quot;mcc|mnc&quot;时，当mcc或mnc的值发生改变的时候，会重启activity，并且onConfigurationChanged()不会被调用</p>
+</blockquote>
+<p>果然配置了这个属性后Launcher Activity就不会在开机时候启动两次了。<br>
+以上方法我测试过是可行的。</p>
+<hr>
+<h1 id="拓展阅读">拓展阅读</h1>
+<ul>
+<li><a href="https://blog.csdn.net/qian520ao/article/details/78156214">Android Launcher 启动 Activity 的工作过程</a></li>
+<li><a href="https://blog.csdn.net/qhs1573/article/details/42913475">主要解决参考-Android应用设置为Launcher时onCreate启动俩次的问题</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jgduan.github.io/tag/RuCTOneq4/" class="tag">
+                    Launcher
+                  </a>
+                
+                  <a href="https://jgduan.github.io/tag/oVzCF7QXF/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jgduan.github.io/post/android-da-bao-apk-sheng-cheng-wen-jian-mu-lu-bu-zai-outputs-mu-lu-xia/">
+                  <h3 class="post-title">
+                    【Android】打包Apk生成文件目录不在outputs目录下
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

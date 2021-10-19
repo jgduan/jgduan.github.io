@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jgduan.github.io/</id>
     <title>Zihao&apos;s blog</title>
-    <updated>2021-08-04T14:43:01.006Z</updated>
+    <updated>2021-10-19T14:29:16.077Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jgduan.github.io/"/>
     <link rel="self" href="https://jgduan.github.io/atom.xml"/>
@@ -10,6 +10,21 @@
     <logo>https://jgduan.github.io/images/avatar.png</logo>
     <icon>https://jgduan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zihao&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Android】打包Apk生成文件目录不在outputs目录下]]></title>
+        <id>https://jgduan.github.io/post/android-da-bao-apk-sheng-cheng-wen-jian-mu-lu-bu-zai-outputs-mu-lu-xia/</id>
+        <link href="https://jgduan.github.io/post/android-da-bao-apk-sheng-cheng-wen-jian-mu-lu-bu-zai-outputs-mu-lu-xia/">
+        </link>
+        <updated>2021-10-19T14:20:43.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="问题">问题</h1>
+<p>在打包Android apk时，发现生成的apk的目录不在默认的<code>Project/app/build/outputs</code>目录下。</p>
+<hr>
+<h1 id="解决方法">解决方法</h1>
+<p>在打包apk时，切换<code>Destination Folder（文件生成目标文件夹）</code>为<code>Project/app/build/outputs</code>即可。<br>
+<img src="https://jgduan.github.io//post-images/1634653552046.png" alt="" loading="lazy"></p>
+<hr>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【InterView】Android基础知识回顾]]></title>
         <id>https://jgduan.github.io/post/interview-android-ji-chu-zhi-shi-hui-gu/</id>
@@ -229,6 +244,10 @@ scrollTo(x,y)表示移动到一个具体的坐标点(x,y)；scrollBy(dx,dy)表�
 </ul>
 </li>
 </ul>
+<hr>
+<h1 id="十一-activity与activity调用栈分析">十一、Activity与Activity调用栈分析</h1>
+<h2 id="1-activity">1. Activity</h2>
+<h2 id="2activity调用栈分析">2.Activity调用栈分析</h2>
 <hr>
 ]]></content>
     </entry>
@@ -964,387 +983,6 @@ fun FragmentActivity/*(or Fragment)*/.constructSystemAlertWindowPermissionReques
     onPermissionDenied: Func? = null,
     requiresPermission: Func): PermissionsRequester
 </code></pre>
-<hr>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【转】打造 Material 颜色主题 | 实现篇]]></title>
-        <id>https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-shi-xian-pian/</id>
-        <link href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-shi-xian-pian/">
-        </link>
-        <updated>2021-07-04T15:57:00.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>本文转自<a href="https://blog.csdn.net/jILRvRTrc/article/details/109567406">CSDN-谷歌开发者 打造 Material 颜色主题 | 实现篇</a><br>
-<em>作者 / Nick Rout, Material Developer Advocate</em></p>
-</blockquote>
-<p>使用 Material 主题自定义 Material 组件，目的是让组件观感与品牌保持一致。Material 主题包括颜色、字体和形状参数，您可以对这些参数进行调整来获得近乎无限的组件变体，同时保持其核心结构和易用性。</p>
-<ul>
-<li>
-<p>Material 主题<br>
-https://material.io/design/material-theming/overview.html#material-theming</p>
-</li>
-<li>
-<p>Material 组件<br>
-https://material.io/components</p>
-</li>
-<li>
-<p>Material 颜色<br>
-https://material.io/design/color/</p>
-</li>
-<li>
-<p>Material 字体<br>
-https://material.io/design/typography/</p>
-</li>
-<li>
-<p>Material 形状<br>
-https://material.io/design/shape/<br>
-<img src="https://jgduan.github.io//post-images/1625414383767.gif" alt="" loading="lazy"></p>
-</li>
-</ul>
-<p>在 Android 上可使用 1.1.0 版本及以上的 Material 组件 (Material Design Components, MDC) 库来实现 Material 主题。如果您希望从 Design Support Library 或 MDC 1.0.0 迁移到新版本的 MDC，请参阅我们的迁移指南。</p>
-<ul>
-<li>
-<p>Material 组件<br>
-https://github.com/material-components/material-components-android</p>
-</li>
-<li>
-<p>迁移指南<br>
-https://medium.com/androiddevelopers/migrating-to-material-components-for-android-ec6757795351</p>
-</li>
-</ul>
-<p>继上次我们发布<a href="https://jgduan.github.io/post/zhuan-da-zao-material-yan-se-zhu-ti-or-she-ji-pian/">《打造 Material 颜色主题 | 设计篇》</a>之后，本文为大家介绍如何实现颜色主题。</p>
-<hr>
-<h2 id="颜色属性">颜色属性</h2>
-<p>Material Design 提供可供填充的 12 个颜色 &quot;槽 (slots)&quot;，这些色值构成应用的整体调色板。每个 &quot;槽&quot; 都有一个设计术语 (如 Primary)，该术语则对应一个可在应用主题中覆盖的颜色属性 (如 Primary 这个术语对应 colorPrimary 这个颜色属性)。这些是您的浅色和深色主题默认的基准色值。</p>
-<p><img src="https://jgduan.github.io//post-images/1625414532132.png" alt="" loading="lazy"><br>
-△ 浅色主题的基准 MDC 颜色属性</p>
-<p><img src="https://jgduan.github.io//post-images/1625414555733.png" alt="" loading="lazy"><br>
-△ 深色主题的基准 MDC 颜色属性</p>
-<p>Material 组件使用这些颜色属性为各个 widget 着色。<br>
-<img src="https://jgduan.github.io//post-images/1625414580741.png" alt="" loading="lazy"><br>
-△ 一个按钮中用到的颜色属性</p>
-<p>例如，将颜色属性用于布局和 widget 样式中，写法如下所示:<br>
-<code>app:backgroundTint=”?attr/colorSecondary”</code><br>
-您可能会认得下表中的一些颜色属性，如 colorPrimary。这些因为一些颜色属性继承自 AppCompat 和平台本身，而其余属性则来由 MDC。每个颜色属性的完整来源见下表。<br>
-<img src="https://jgduan.github.io//post-images/1625414617487.png" alt="" loading="lazy"></p>
-<hr>
-<h2 id="挑选颜色">挑选颜色</h2>
-<p>主题里每个颜色槽应该使用的具体颜色值由设计师负责给出，或是取自您的产品品牌。但是，了解每个颜色的作用、颜色之间的关系以及如何满足无障碍功能要求仍非常有用:</p>
-<ul>
-<li>
-<p>colorPrimary 和 colorSecondary 是用于呈现品牌的颜色</p>
-</li>
-<li>
-<p>colorPrimaryVariant 和 colorSecondaryVariant 是品牌颜色较浅或较深的阴影色</p>
-</li>
-<li>
-<p>colorSurface 用于表单或表面 (如卡片颜色和应用的底部弹出菜单颜色)</p>
-</li>
-<li>
-<p>android:colorBackground 是应用的窗口背景颜色</p>
-</li>
-<li>
-<p>顾名思义，colorError 用于错误和警告</p>
-</li>
-<li>
-<p>各种各样的 &quot;On&quot; 颜色 (colorOnPrimary、colorOnSecondary、colorOnSurface 等) 用于<br>
-为显示在其他颜色上方的前景内容 (如文本和图标) 进行着色。这些颜色需要满足无障碍功能要求并与所在表面的颜色有足够的对比度。</p>
-</li>
-</ul>
-<hr>
-<h2 id="颜色工具">颜色工具</h2>
-<p>Material Design 为大家提供了丰富的工具，用于预览颜色、确定合适的变体颜色以及 &quot;On&quot; 颜色:</p>
-<ul>
-<li>
-<p>Material 颜色工具: 获得主色和辅色的浅色/深色变体以及合适的 &quot;On&quot; 颜色。并能在示例界面中预览这些颜色的效果。<br>
-https://material.io/resources/color/</p>
-</li>
-<li>
-<p>Material 调色板生成器: 生成完整的色调调色板 (即包含 Material 色值编号 50 - 900)。另外您还能获得互补色、近似色和三等分配色的建议。<br>
-https://material.io/design/color/the-color-system.html#tools-for-picking-colors</p>
-</li>
-</ul>
-<p><img src="https://jgduan.github.io//post-images/1625414775321.png" alt="" loading="lazy"><br>
-△ Material 颜色工具 (左) 和 Material 调色板生成器 (右)</p>
-<hr>
-<h2 id="注意事项">注意事项</h2>
-<ul>
-<li>除非您的品牌恰巧使用和基准 Material 主题色完全相同的紫色和蓝绿色，否则请您务必覆盖 colorPrimary、colorSecondary 及其变体色。</li>
-<li>您无需覆盖所有颜色。一些颜色 (如 colorSurface) 默认使用的就是中性颜色，因此使用默认值不会有什么问题。</li>
-<li>如果您的品牌没有定义任何种类的辅色或强调色，那么可以将一种颜色同时用于 colorPrimary 和 colorSecondary。变体色也可以和主色相同 (即 colorPrimary 和 colorPrimaryVariant 可以相同)。</li>
-<li>一个颜色和其变体颜色以及 &quot;On&quot; 颜色尽管是三个单独的颜色属性 (如 colorPrimary、colorPrimaryVariant 和 colorOnPrimary)，但它们之间依然存在紧密的联系。因此如果您覆盖了其中一个，请检查其他颜色属性，以查看是否可行且满足无障碍功能要求。</li>
-</ul>
-<hr>
-<h2 id="其他颜色槽">其他颜色槽</h2>
-<p>除 Material 主题指定的 12 个颜色槽以外，您的设计系统可能还会用到其他颜色槽。幸运的是，在 Android 上声明颜色属性的操作很简单:</p>
-<pre><code class="language-java">&lt;!-- In res/values/attrs.xml --&gt;
-&lt;attr name=&quot;colorCustom&quot; format=&quot;color&quot; /&gt;
- 
-&lt;!-- In res/values/themes.xml --&gt;
-&lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.MaterialComponents.*&quot;&gt;
-    ...
-    &lt;item name=&quot;colorCustom&quot;&gt;@color/...&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
-<hr>
-<h2 id="颜色资源">颜色资源</h2>
-<p>颜色值会被定义为 <code>&lt;color&gt;</code> 资源。对于自定义颜色，我们建议使用以下两种方法，以帮助区分关注点，并在应用中为颜色主题中的色值创建单一来源:</p>
-<ul>
-<li>将浅色和深色主题用到的全部<code>&lt;color&gt;</code>存储在一个 res/values/colors.xml 文件中</li>
-<li><code>&lt;color&gt;</code>色值使用字面名称命名 (而不是基于使用方式命名):
-<ul>
-<li>如此一来，便可以在使用颜色时更自然地用到 ?attr/ 语法。支持深色主题时也推荐采用此种方法</li>
-<li>使用 green_500 或 brand_name_yellow 等名称</li>
-<li>避免使用语义名称，如 color_primary<pre><code class="language-java">&lt;!-- In res/values/colors.xml --&gt;
-&lt;color name=&quot;navy_500&quot;&gt;#64869B&lt;/color&gt;
-&lt;color name=&quot;navy_700&quot;&gt;#37596D&lt;/color&gt;
-&lt;color name=&quot;navy_900&quot;&gt;#073042&lt;/color&gt;
-&lt;color name=&quot;green_300&quot;&gt;#3DDC84&lt;/color&gt;
-&lt;color name=&quot;green_500&quot;&gt;#00A956&lt;/color&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="覆盖应用主题中的颜色">覆盖应用主题中的颜色</h2>
-<p>让我们了解一下如何通过覆盖相关属性将您自己的调色板应用到主题中。</p>
-<p>首先，您的主题需要在妥善处理浅色和深色调色板的同时减少与基础主题的重复。有关这方面的更多信息，请参阅 Chris Banes 关于深色主题的文章以及 Chris Banes 和 Nick Butcher 的 &quot;如何正确开发外观样式&quot; 演讲。</p>
-<p>设置好主题后，覆盖您希望在浅色和深色主题中更改的颜色属性即可:</p>
-<pre><code class="language-java">&lt;!-- In res/values/themes.xml --&gt;
-&lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.App.Base&quot;&gt;
-    ...
-    &lt;item name=&quot;colorPrimary&quot;&gt;@color/navy_700&lt;/item&gt;
-    &lt;item name=&quot;colorPrimaryVariant&quot;&gt;@color/navy_900&lt;/item&gt;
-    &lt;item name=&quot;colorSecondary&quot;&gt;@color/green_300&lt;/item&gt;
-    &lt;item name=&quot;colorSecondaryVariant&quot;&gt;@color/green_900&lt;/item&gt;
-    &lt;!-- Using default values for colorOnPrimary, colorSurface, colorError, etc. --&gt;
-&lt;/style&gt;
- 
- 
-&lt;!-- In res/values-night/themes.xml --&gt;
-&lt;style name=&quot;Theme.App&quot; parent=&quot;Theme.App.Base&quot;&gt;
-    ...
-    &lt;item name=&quot;colorPrimary&quot;&gt;@color/navy_500&lt;/item&gt;
-    &lt;item name=&quot;colorPrimaryVariant&quot;&gt;@color/navy_900&lt;/item&gt;
-    &lt;item name=&quot;colorSecondary&quot;&gt;@color/green_300&lt;/item&gt;
-    &lt;item name=&quot;colorSecondaryVariant&quot;&gt;@color/green_300&lt;/item&gt;
-    &lt;!-- Using default values for colorOnPrimary, colorSurface, colorError, etc. --&gt;
-&lt;/style&gt;
-</code></pre>
-<p>Material 组件将根据主题全局应用您覆盖好的颜色:<br>
-<img src="https://jgduan.github.io//post-images/1625415001473.gif" alt="" loading="lazy"></p>
-<hr>
-<h2 id="颜色复用性和最佳实践">颜色复用性和最佳实践</h2>
-<p>在许多情况下，都要在布局、可绘制对象、样式和其他位置使用颜色。我们将介绍一些可尽量复用代码的方法，而且不会影响您在应用主题中指定的色值。</p>
-<hr>
-<h2 id="首选属性">首选属性</h2>
-<p>我们强烈建议使用 ?attr/ 语法来设置颜色。在创建可复用的布局和支持多个模式 (如浅色/深色) 的默认样式时，尤其推荐使用这种语法。</p>
-<pre><code class="language-java">&lt;Button
-    ...
--    app:backgroundTint=&quot;@color/green_300&quot;
-+    app:backgroundTint=&quot;?attr/colorPrimary&quot;
--    android:textColor=&quot;@color/black&quot;
-+    android:textColor=&quot;?attr/colorOnPrimary&quot;
-/&gt;
-</code></pre>
-<p>请参阅 Nick Butcher 的<a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808ce90bb7fb601dd9e144ae796eb466a2ed805bf14dbc0906543509d95c24733b05bd7fc12c&amp;idx=2&amp;mid=2652064078&amp;scene=21&amp;sn=884a85bfa4f9e19ec531b8245dca6314#wechat_redirect">《Android 样式系统 | 主题背景属性》</a>，以了解更多说明和此规则的一些例外情况。</p>
-<hr>
-<h2 id="带有-alpha-的颜色">带有 alpha 的颜色</h2>
-<p>有时，您可能希望使用 MDC 主题中的一种颜色，但带上 alpha 值 (例如 60% 的 colorPrimary)。例如，触发点击时的波纹动画和项目被选中的状态。</p>
-<p>Android<code>&lt;color&gt;</code>资源支持 alpha 通道:</p>
-<pre><code class="language-java">&lt;!-- 60% alpha = 99 --&gt;
- 
- 
-&lt;color name=”navy_700_alpha_60”&gt;#9937596D&lt;/color&gt;
-</code></pre>
-<p>但是，在使用此方法时，我们需要将每个带 alpha 的色值视作颜色资源。这也意味着我们不能用 ?attr/ 来使用这些颜色资源，因为这种做法违背了上文提及的唯一来源准则。</p>
-<p>因此，我们建议使用 res/color 目录中存储的 ColorStateList (CSL)。CSL 里的项目可以包含一个颜色引用和 alpha 值，这非常适合我们的用例:</p>
-<pre><code class="language-java">&lt;!-- In res/color/primary_60.xml --&gt;
-&lt;selector ...&gt;
-    &lt;item android:alpha=&quot;0.6&quot; android:color=&quot;?attr/colorPrimary&quot; /&gt;
-&lt;/selector&gt;
-</code></pre>
-<p>使用这些 CSL (通过 @color/primary_60 语法进行引用) 可能会让您感到惊讶，但考虑到 CSL 本身也使用 ?attr/ 来引用底层的主题颜色，因此这样做不会有什么问题。</p>
-<hr>
-<h2 id="每种状态的颜色和主题叠加">每种状态的颜色和主题叠加</h2>
-<p>更为常见的情况是根据视图状态使用 ColorStateList 切换颜色 (和 alpha 值)。MDC widget 大量将其用于禁用状态、悬停状态和按压状态等。比如下面是一个 MDC 按钮的背景色源代码:</p>
-<pre><code class="language-java">&lt;!-- In button/res/color/mtrl_btn_bg_color_selector.xml --&gt;
-&lt;selector ...&gt;
-    &lt;item android:color=&quot;?attr/colorPrimary&quot; android:state_enabled=&quot;true&quot; /&gt;
-    &lt;item android:alpha=&quot;0.12&quot; android:color=&quot;?attr/colorOnSurface&quot; /&gt;
-&lt;/selector&gt;
-</code></pre>
-<ul>
-<li>完整源代码<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/res/color/mtrl_btn_bg_color_selector.xml</li>
-</ul>
-<p>和上面这个按钮的示例类似，假设您希望将主背景色从主色改为辅色:<br>
-<img src="https://jgduan.github.io//post-images/1625415175159.png" alt="" loading="lazy"><br>
-△ 主色按钮 (左) 和辅色按钮 (右)</p>
-<p>您当然可以将以上源文件复制一份，然后将 colorPrimary 改为 colorSecondary，但如果源代码恰巧发生更改，那么此操作会很繁琐且会出现问题。</p>
-<p>一种更好的方式是使用主题叠加。Nick Butcher 在他的<a href="http://mp.weixin.qq.com/s?__biz=MzAwODY4OTk2Mg%3D%3D&amp;chksm=808cf83fb7fb71294558ac5b10882278fb1f53ed3fd7038013c19d2554ff85e20b014fe9ac4b&amp;idx=1&amp;mid=2652067962&amp;scene=21&amp;sn=71a1bc1726c40ccda245f366ae4a51bb#wechat_redirect">《Android 样式系统 | 主题背景覆盖》</a>一文中对此有详细的介绍。基本上，我们可以替换 View 或 ViewGroup 的主题属性值 (在我们例子中为 colorPrimary) 以及所有依赖它的项目 (在我们的例子中为按钮)。</p>
-<p>下面是一个主题叠加的简单例子。请注意 parent 为空，其作用是确保我们仅覆盖希望更改的属性:</p>
-<pre><code class="language-java">&lt;!-- In res/values/themes.xml --&gt;
-&lt;style name=&quot;ThemeOverlay.App.PrimarySecondary&quot; parent=&quot;&quot;&gt;
-    &lt;item name=&quot;colorPrimary&quot;&gt;?attr/colorSecondary&lt;/item&gt;
-    &lt;item name=&quot;colorOnPrimary&quot;&gt;?attr/colorOnSecondary&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
-<p>在 XML 中应用主题叠加时，应考虑两个选项:</p>
-<ul>
-<li>android:theme - 用于所有 widget，不会以默认样式工作</li>
-<li>app:materialThemeOverlay - 仅用于 MDC widget，以默认样式工作</li>
-</ul>
-<pre><code class="language-java">&lt;Button
-    ...
-    &lt;!-- Alternatively apply with android:theme --&gt;
-+    app:materialThemeOverlay=&quot;@style/ThemeOverlay.App.PrimarySecondary&quot;
-/&gt;
-</code></pre>
-<hr>
-<h2 id="api-兼容性">API 兼容性</h2>
-<p>平台是在 API 23 才开始在 CSL 等处增加对 ?attr/ 语法的支持。如果您的 minSdk 是更早的版本，也不要担心: 有兼容性类！事实上，MDC 和 AppCompat widget 都有在底层使用这些兼容性类，因此在使用时无需其他操作。</p>
-<p>对于需要以编程方式使用 CSL 的场景，请使用 AppCompatResources:</p>
-<pre><code class="language-java">val primary60 = AppCompatResources#getColorStateList(
-    context, R.color.primary60
-)
-</code></pre>
-<ul>
-<li>AppCompatResources<br>
-https://developer.android.google.cn/reference/androidx/appcompat/content/res/AppCompatResources</li>
-</ul>
-<hr>
-<h2 id="mdc-widget-中的颜色">MDC widget 中的颜色</h2>
-<p>之前我们曾说过，MDC widget 会响应主题级别的颜色属性覆盖。但是，您是如何知道按钮会将 colorPrimary 用作其背景着色并将 colorOnPrimary 用于其图标和文本呢？让我们来看一下几个选项。</p>
-<hr>
-<h2 id="构建-material-主题">构建 Material 主题</h2>
-<p>构建 Material 主题是一个交互式 Android 项目，支持您通过自定义颜色、字体和形状来创建自己的 Material 主题。项目还包含所有主题中用到的参数和组件的目录。可通过执行以下操作确定哪些 widget 会对主题颜色属性的更改作出响应:</p>
-<ul>
-<li>
-<p>复制这个项目并在 Android Studio 中运行应用</p>
-</li>
-<li>
-<p>调整 res/values/color.xml 以及 res/values/themes.xml 和 res/values-night/themes.xml 中的色值</p>
-</li>
-<li>
-<p>重新运行应用，观察视觉变化</p>
-</li>
-<li>
-<p>构建 Material 主题<br>
-https://material.io/resources/build-a-material-theme</p>
-</li>
-<li>
-<p>项目源代码<br>
-https://github.com/material-components/material-components-android-examples/tree/develop/MaterialThemeBuilder</p>
-</li>
-</ul>
-<p><img src="https://jgduan.github.io//post-images/1625415351635.png" alt="" loading="lazy"><br>
-△ 构建 Material 主题中的色值变化</p>
-<hr>
-<h2 id="mdc-开发者文档">MDC 开发者文档</h2>
-<p>最近我们更新了 MDC 开发者文档。在本次更新中，我们加入了属性表，涵盖了开发库中所使用的设计术语和默认值。例如下面是更新的按钮文档的 &quot;Anatomy and key properties&quot; (详解和关键属性) 部分。<br>
-<img src="https://jgduan.github.io//post-images/1625415378990.png" alt="" loading="lazy"><br>
-△ MDC 按钮开发文档的属性表中提供了默认色值</p>
-<ul>
-<li>按钮文档<br>
-https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md</li>
-</ul>
-<hr>
-<h2 id="源代码">源代码</h2>
-<ul>
-<li>
-<p>MaterialButton 样式<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/res/values/styles.xml</p>
-</li>
-<li>
-<p>MaterialButton 属性<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/res/values/attrs.xml</p>
-</li>
-<li>
-<p>MaterialButton 源文件<br>
-https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/button/MaterialButton.java</p>
-</li>
-</ul>
-<p><img src="https://jgduan.github.io//post-images/1625415449219.png" alt="" loading="lazy"><br>
-△ MDC 按钮的默认样式和色值</p>
-<hr>
-<h2 id="自定义视图中的颜色">自定义视图中的颜色</h2>
-<p>您的应用可能包含您自己构建或从现有库中获得的自定义 widget。在和 MDC 一起使用时，使这些视图对 Material 主题作出响应非常必要。让我们看一看在将颜色主题用于自定义 widget 时需要牢记的事项。</p>
-<p>在<code>&lt;declare-styleable&gt;</code>和默认样式中使用 MDC 属性</p>
-<p>为自定义视图设置样式需要使用<code>&lt;declare-styleable&gt;</code>。在保持一致性方面，复用 MDC 中的属性名称非常有用。使用<code>&lt;declare-styleable&gt;</code>的默认样式还可以使用 MDC 主题颜色属性:</p>
-<pre><code class="language-java">&lt;!-- In res/values/attrs.xml --&gt;
-&lt;declare-styleable name=&quot;AppCustomView&quot;&gt;
-    &lt;attr name=&quot;backgroundTint&quot; /&gt;
-    &lt;attr name=&quot;titleTextColor&quot; /&gt;
-    ...
-&lt;/declare-styleable&gt;
- 
- 
-&lt;!-- In res/values/styles.xml --&gt;
-&lt;style name=&quot;Widget.App.CustomView&quot; parent=&quot;android:Widget&quot;&gt;
-    &lt;item name=&quot;backgroundTint&quot;&gt;?attr/colorSurface&lt;/item&gt;
-    &lt;item name=&quot;titleTextColor&quot;&gt;
-        @color/material_on_surface_emphasis_high_type
-    &lt;/item&gt;
-    ...
-&lt;/style&gt;
-</code></pre>
-<hr>
-<h2 id="materialcolors-实用程序类">MaterialColors 实用程序类</h2>
-<p>可以通过便利的新 MDC 类 (MaterialColors) 以编程方式处理主题的颜色属性，这对于自定义视图也非常有用:</p>
-<pre><code class="language-java">// Resolve color from theme attr
-val primaryColor = MaterialColors.getColor(
-    view, R.attr.colorPrimary
-)
- 
- 
-// Layer background color with overlay color + alpha
-val overlayedColor = MaterialColors.layer(
-    view, R.attr.colorSurface, R.attr.colorPrimary, 0.38f
-)
-</code></pre>
-<hr>
-<h2 id="下一步">下一步</h2>
-<p>现在，我们已经在 Android 应用中使用 MDC 实现了颜色主题。有关 Material 主题的其他课题，请阅读我们相关的介绍文章。</p>
-<ul>
-<li>
-<p>为什么推荐使用 MDC<br>
-https://medium.com/androiddevelopers/we-recommend-material-design-components-81e6d165c2dd</p>
-</li>
-<li>
-<p>字体主题<br>
-https://material.io/blog/android-material-theme-type</p>
-</li>
-<li>
-<p>形状主题<br>
-https://material.io/blog/android-material-theme-shape</p>
-</li>
-<li>
-<p>深色主题<br>
-https://medium.com/androiddevelopers/dark-theme-with-mdc-4c6fc357d956</p>
-</li>
-<li>
-<p>动效系统<br>
-https://material.io/blog/android-material-motion</p>
-</li>
-</ul>
-<p>我们一如既往地期待您在 GitHub 上提交错误报告和功能需求。另外，请务必查看 Android 组件示例应用。</p>
-<ul>
-<li>
-<p>提交错误报告<br>
-https://github.com/material-components/material-components-android/issues/new?assignees=&amp;labels=bug&amp;template=bug_report.md&amp;title=%5BComponent+name%5D+Short+description+of+issue</p>
-</li>
-<li>
-<p>提交功能需求<br>
-https://github.com/material-components/material-components-android/issues/new?assignees=&amp;labels=feature+request&amp;template=feature_request.md&amp;title=%5BComponent+name%5D+Short+description+of+request</p>
-</li>
-<li>
-<p>Android 组件示例应用<br>
-https://github.com/material-components/material-components-android-examples</p>
-</li>
-</ul>
-<p>如果您已成功实现颜色主题或您在实现期间遇到问题，欢迎在下方评论区和我们分享。</p>
 <hr>
 ]]></content>
     </entry>
